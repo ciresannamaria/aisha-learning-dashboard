@@ -182,10 +182,10 @@ function School() {
       <div className="timetable-grid">
         {week.map((day,dayIndex) => <div className="timetable-day" key={day.day}><h3><span>{day.icon}</span>{day.day}</h3>
           {day.lessons.map((lesson,lessonIndex) => <React.Fragment key={lessonIndex}>
-            {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
             <div className={`lesson-card ${lesson[1] ? "" : "lesson-empty"}`}><small>{lessonTimes[lessonIndex]}</small>
               {editing ? <><input aria-label={day.day+" lesson "+(lessonIndex+1)} value={lesson[1]} placeholder="Lesson / activity" onChange={e => updateLesson(dayIndex,lessonIndex,1,e.target.value)} /><input aria-label="Teacher" value={lesson[2]} placeholder="Teacher (optional)" onChange={e => updateLesson(dayIndex,lessonIndex,2,e.target.value)} /></> : <><b>{lesson[1] || "—"}</b>{lesson[2] && <span>{lesson[2]}</span>}</>}
             </div>
+            {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
           </React.Fragment>)}
           <div className="after-school"><b>🌟 After school</b>{editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" after school"} /> : <span>{day.after || "No activity added"}</span>}</div>
         </div>)}
