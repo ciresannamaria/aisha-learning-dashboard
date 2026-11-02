@@ -164,6 +164,7 @@ const initialWeek = [
 ];
 const breakTimes = [{ after:1, label:"🍎 Snack & play · 9:45–10:15" },{ after:3, label:"🍎 Snack & play · 11:50–12:05" }];
 function School() {
+  const [schoolTab,setSchoolTab] = useState("timetable");
   const [week,setWeek] = useState(() => { try { return JSON.parse(localStorage.getItem("aisha-week-schedule")) || initialWeek; } catch { return initialWeek; } });
   const [sunday,setSunday] = useState(() => { try { return JSON.parse(localStorage.getItem("aisha-sunday-schedule")) || [["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]; } catch { return [["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]; } });
   const [editing,setEditing] = useState(false);
@@ -176,7 +177,12 @@ function School() {
   function resetSchedule() { if (window.confirm("Reset the timetable to the original school schedule?")) { setWeek(initialWeek); setSunday([["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]); localStorage.removeItem("aisha-week-schedule"); localStorage.removeItem("aisha-sunday-schedule"); setEditing(false); } }
   const lessonTimes = ["8:10–8:55","9:00–9:45","10:15–11:00","11:05–11:50","12:05–12:50","12:50–13:35"];
   return <>
-    <PageHeading eyebrow="MY SCHOOL & ACTIVITIES" title="My week" subtitle="School, clubs and little adventures." emoji="🎒" />
+    <PageHeading eyebrow="MY SCHOOL & ACTIVITIES" title="My school" subtitle="Your timetable and lunch menu." emoji="🎒" />
+    <div className="school-tabs" role="tablist" aria-label="School information">
+      <button className={schoolTab === "timetable" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("timetable")}>📅 My timetable</button>
+      <button className={schoolTab === "lunch" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("lunch")}>🍽️ School lunches</button>
+    </div>
+    {schoolTab === "timetable" && <>
     <div className="schedule-toolbar"><span>{editing ? "✏️ Change any lesson or activity below." : "A little plan for every day."}</span><div>{editing ? <><button className="secondary-button" onClick={() => setEditing(false)}>Cancel</button><button className="primary-button" onClick={saveSchedule}>Save changes ✓</button></> : <button className="secondary-button" onClick={() => setEditing(true)}>✎ Edit my week</button>}</div></div>
     <section className="panel timetable-panel"><div className="panel-heading"><h2>📅 Monday to Friday</h2><span className="small-tag">SCHOOL TIMETABLE</span></div>
       <div className="timetable-grid">
@@ -195,6 +201,13 @@ function School() {
     <section className="panel"><div className="panel-heading"><h2>🎒 Before I leave</h2><span className="small-tag">MY CHECKLIST</span></div><div className="checklist">{["School bag","Water bottle","Lunch or snack","Pencil case"].map(item => <label key={item}><input type="checkbox" /> <span>{item}</span></label>)}</div></section>
     <p className="gentle-note">Changes are saved in this browser on this device. Mum can edit the timetable any time.</p>
     {editing && <button className="reset-schedule" onClick={resetSchedule}>Reset to original timetable</button>}
+    </>}
+    {schoolTab === "lunch" && <section className="panel lunch-menu-panel">
+      <div className="panel-heading"><h2>🍽️ This week's lunch</h2><span className="small-tag">2–6 NOVEMBER 2026</span></div>
+      <p className="lunch-menu-copy">Here is the latest menu from school. Open it to see what is being served each day.</p>
+      <a className="primary-button lunch-menu-link" href="http://www.grundschule-albert-schweitzer.de/wp-content/uploads/2026/11/Speiseplan-Mensa-02.11-06.11.26.pdf" target="_blank" rel="noreferrer">Open this week's menu <span>↗</span></a>
+      <p className="gentle-note">Mum updates this link when the school publishes a new weekly menu.</p>
+    </section>}
   </>;
 }
 
