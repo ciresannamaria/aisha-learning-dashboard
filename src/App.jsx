@@ -117,7 +117,6 @@ function App() {
               <span>{section.icon}</span>{section.label}
             </button>
           ))}
-          <div className="sidebar-note"><span>💡</span><strong>You can do amazing things!</strong><small>Try, learn, and have fun.</small></div>
         </aside>
 
         <main className="main-content">
