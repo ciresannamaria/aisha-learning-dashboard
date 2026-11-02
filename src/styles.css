@@ -20,10 +20,6 @@ button{cursor:pointer}
 .nav-button span{font-size:19px}
 .nav-button:hover{background:#faf4ed}
 .nav-button.active{background:#f0eafa;color:#72569b}
-.sidebar-note{margin-top:48px;padding:17px 14px;border-radius:16px;background:#fff3df;display:flex;flex-direction:column;gap:6px;color:#806343;font-size:12px}
-.sidebar-note span{font-size:24px}
-.sidebar-note strong{font-size:13px}
-.sidebar-note small{color:#9a8062}
 .main-content{padding:38px clamp(20px,5vw,65px) 20px;max-width:1120px;width:100%;margin:0 auto}
 .welcome-card{min-height:190px;border-radius:26px;padding:26px 32px;background:linear-gradient(115deg,#f0e9ff,#fceafa 55%,#fff0df);display:flex;justify-content:space-between;align-items:center;overflow:hidden;position:relative}
 .welcome-copy{max-width:500px;z-index:1}
