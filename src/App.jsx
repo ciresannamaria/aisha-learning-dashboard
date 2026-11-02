@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 const sections = [
   { id: "home", label: "Home", icon: "🏡" },
@@ -155,13 +155,46 @@ function Home({ setActive, stars }) {
   </>;
 }
 
+const initialWeek = [
+  { day:"Monday", icon:"🌼", lessons:[["8:10–8:55","",""],["9:00–9:45","Deutsch","Frau Thülig"],["10:15–11:00","Mathematik","Frau Thülig"],["11:05–11:50","Kunst","Frau Thülig"],["12:05–12:50","Kunst","Frau Thülig"],["12:50–13:35","",""]], after:"OGS · Dance Club 15:00–16:00" },
+  { day:"Tuesday", icon:"🌻", lessons:[["8:10–8:55","Sachunterricht","Frau Wood"],["9:00–9:45","Mathematik","Frau Thülig"],["10:15–11:00","Deutsch","Frau Thülig"],["11:05–11:50","Deutsch","Frau Thülig"],["12:05–12:50","Ev. Religion","Frau Heppner"],["12:50–13:35","",""]], after:"OGS · Recorder 13:30–14:15 · Frau Bierhaus" },
+  { day:"Wednesday", icon:"🌷", lessons:[["8:10–8:55","Sport","Herr Schrader"],["9:00–9:45","Geometrie","Frau Grünewald"],["10:15–11:00","Musik","Frau Grünewald"],["11:05–11:50","Deutsch","Frau Ulpke"],["12:05–12:50","",""],["12:50–13:35","",""]], after:"OGS · Ensemble 14:00–14:45 · Herr Pottmeier" },
+  { day:"Thursday", icon:"🌸", lessons:[["8:10–8:55","Ev./kath. Religion",""],["9:00–9:45","Deutsch","Frau Thülig"],["10:15–11:00","Mathematik","Frau Thülig"],["11:05–11:50","Kunst","Frau Thülig"],["12:05–12:50","Schwimmen","Frau Thülig & Herr Schrader"],["12:50–13:35","Schwimmen","Frau Thülig & Herr Schrader"]], after:"OGS · Bastel Club 15:00–16:00" },
+  { day:"Friday", icon:"🌈", lessons:[["8:10–8:55","Kath. Religion","Frau Friemel"],["9:00–9:45","Mathematik","Frau Thülig"],["10:15–11:00","Deutsch","Frau Thülig"],["11:05–11:50","Sachunterricht","Frau Wood"],["12:05–12:50","Sachunterricht","Frau Wood"],["12:50–13:35","",""]], after:"OGS" }
+];
+const breakTimes = [{ after:1, label:"🍎 Snack & play · 9:45–10:15" },{ after:3, label:"🍎 Snack & play · 11:50–12:05" }];
 function School() {
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const [week,setWeek] = useState(() => { try { return JSON.parse(localStorage.getItem("aisha-week-schedule")) || initialWeek; } catch { return initialWeek; } });
+  const [sunday,setSunday] = useState(() => { try { return JSON.parse(localStorage.getItem("aisha-sunday-schedule")) || [["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]; } catch { return [["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]; } });
+  const [editing,setEditing] = useState(false);
+  function updateLesson(dayIndex,lessonIndex,field,value) {
+    setWeek(old => old.map((day,i) => i !== dayIndex ? day : {...day,lessons:day.lessons.map((lesson,j) => j !== lessonIndex ? lesson : lesson.map((v,k) => k === field ? value : v))}));
+  }
+  function updateAfter(dayIndex,value) { setWeek(old => old.map((day,i) => i === dayIndex ? {...day,after:value} : day)); }
+  function updateSunday(index,field,value) { setSunday(old => old.map((item,i) => i === index ? item.map((v,k) => k === field ? value : v) : item)); }
+  function saveSchedule() { localStorage.setItem("aisha-week-schedule",JSON.stringify(week)); localStorage.setItem("aisha-sunday-schedule",JSON.stringify(sunday)); setEditing(false); }
+  function resetSchedule() { if (window.confirm("Reset the timetable to the original school schedule?")) { setWeek(initialWeek); setSunday([["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]); localStorage.removeItem("aisha-week-schedule"); localStorage.removeItem("aisha-sunday-schedule"); setEditing(false); } }
+  const lessonTimes = ["8:10–8:55","9:00–9:45","10:15–11:00","11:05–11:50","12:05–12:50","12:50–13:35"];
   return <>
-    <PageHeading eyebrow="MY SCHOOL" title="My school day" subtitle="Everything you need for a happy school day." emoji="🎒" />
-    <div className="notice-card"><span>✏️</span><div><strong>Let's add your real timetable!</strong><p>This is a starter timetable. Mum can help fill in your lessons and activities.</p></div></div>
-    <section className="panel"><div className="panel-heading"><h2>📅 My week</h2><span className="small-tag">MY TIMETABLE</span></div><div className="week-list">{days.map((day, index) => <div className="day-row" key={day}><span className="day-dot">{["🌼", "🌻", "🌷", "🌸", "🌈"][index]}</span><strong>{day}</strong><span className="empty-schedule">Lessons to be added</span><span className="edit-pencil">✎</span></div>)}</div></section>
-    <section className="panel"><div className="panel-heading"><h2>🎒 Before I leave</h2><span className="small-tag">MY CHECKLIST</span></div><div className="checklist">{["School bag", "Water bottle", "Lunch or snack", "Pencil case"].map((item) => <label key={item}><input type="checkbox" /> <span>{item}</span></label>)}</div></section>
+    <PageHeading eyebrow="MY SCHOOL & ACTIVITIES" title="My week" subtitle="School, clubs and little adventures." emoji="🎒" />
+    <div className="schedule-toolbar"><span>{editing ? "✏️ Change any lesson or activity below." : "A little plan for every day."}</span><div>{editing ? <><button className="secondary-button" onClick={() => setEditing(false)}>Cancel</button><button className="primary-button" onClick={saveSchedule}>Save changes ✓</button></> : <button className="secondary-button" onClick={() => setEditing(true)}>✎ Edit my week</button>}</div></div>
+    <section className="panel timetable-panel"><div className="panel-heading"><h2>📅 Monday to Friday</h2><span className="small-tag">SCHOOL TIMETABLE</span></div>
+      <div className="timetable-grid">
+        {week.map((day,dayIndex) => <div className="timetable-day" key={day.day}><h3><span>{day.icon}</span>{day.day}</h3>
+          {day.lessons.map((lesson,lessonIndex) => <React.Fragment key={lessonIndex}>
+            {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
+            <div className={`lesson-card ${lesson[1] ? "" : "lesson-empty"}`}><small>{lessonTimes[lessonIndex]}</small>
+              {editing ? <><input aria-label={day.day+" lesson "+(lessonIndex+1)} value={lesson[1]} placeholder="Lesson / activity" onChange={e => updateLesson(dayIndex,lessonIndex,1,e.target.value)} /><input aria-label="Teacher" value={lesson[2]} placeholder="Teacher (optional)" onChange={e => updateLesson(dayIndex,lessonIndex,2,e.target.value)} /></> : <><b>{lesson[1] || "—"}</b>{lesson[2] && <span>{lesson[2]}</span>}</>}
+            </div>
+          </React.Fragment>)}
+          <div className="after-school"><b>🌟 After school</b>{editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" after school"} /> : <span>{day.after || "No activity added"}</span>}</div>
+        </div>)}
+      </div>
+    </section>
+    <section className="panel sunday-panel"><div className="panel-heading"><h2>☀️ Sunday · Optional activities</h2><span className="small-tag">WEEKEND</span></div><div className="sunday-activities">{sunday.map((item,index) => <div className="sunday-item" key={index}>{editing ? <><input value={item[0]} aria-label="Sunday activity" onChange={e => updateSunday(index,0,e.target.value)} /><input value={item[1]} aria-label="Activity time" onChange={e => updateSunday(index,1,e.target.value)} /></> : <><b>{item[0]}</b><span>{item[1]}</span></>}</div>)}</div></section>
+    <section className="panel"><div className="panel-heading"><h2>🎒 Before I leave</h2><span className="small-tag">MY CHECKLIST</span></div><div className="checklist">{["School bag","Water bottle","Lunch or snack","Pencil case"].map(item => <label key={item}><input type="checkbox" /> <span>{item}</span></label>)}</div></section>
+    <p className="gentle-note">Changes are saved in this browser on this device. Mum can edit the timetable any time.</p>
+    {editing && <button className="reset-schedule" onClick={resetSchedule}>Reset to original timetable</button>}
   </>;
 }
 
