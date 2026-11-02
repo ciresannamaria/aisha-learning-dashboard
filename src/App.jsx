@@ -21,7 +21,7 @@ const questions = [
 
 const codingLinks = [
   { name: "Scratch", detail: "Make your own stories, animations and games.", url: "https://scratch.mit.edu/", icon: "🐱", level: "Create" },
-  { name: "Code.org", detail: "Try beginner-friendly coding puzzles and lessons.", url: "https://studio.code.org/courses/express-2025/units/1?viewAs=Instructor", icon: "💻", level: "Learn" },
+  { name: "Code.org", detail: "Try beginner-friendly coding puzzles and lessons.", url: "https://studio.code.org/courses/coursec-2025/units/1", icon: "💻", level: "Learn" },
   { name: "Blockly Games", detail: "Learn how to give computers step-by-step instructions.", url: "https://blockly.games/", icon: "🧱", level: "Play" },
 ];
 
