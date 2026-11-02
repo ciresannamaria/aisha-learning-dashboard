@@ -147,7 +147,7 @@ function Home({ setActive, stars }) {
   ];
   return <>
     <section className="welcome-card">
-      <div className="welcome-copy"><span className="hello-label">HELLO, SUPER LEARNER!</span><h1>Hi, Aisha! <span>✨</span></h1><p>Ready for a little adventure? Pick something fun to explore today.</p><button className="primary-button" onClick={() => setActive("math")}>Play a math game <span>→</span></button></div>
+      <div className="welcome-copy"><h1>Hi, Aisha! <span>✨</span></h1><p>What would you like to explore today?</p><button className="primary-button" onClick={() => setActive("math")}>Play a math game <span>→</span></button></div>
       <div className="welcome-art" aria-hidden="true"><div className="sun">☀️</div><div className="rainbow">🌈</div><div className="cloud">☁️</div><div className="star-float">⭐</div></div>
     </section>
     <div className="section-title-row"><div><p className="eyebrow">CHOOSE YOUR ADVENTURE</p><h2>Where shall we go?</h2></div><span className="star-counter">⭐ {stars} stars</span></div>
