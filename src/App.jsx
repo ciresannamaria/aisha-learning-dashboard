@@ -122,7 +122,7 @@ function App() {
         <main className="main-content">
           {active === "home" && <Home setActive={setActive} stars={progress.stars} />}
           {active === "school" && <School />}
-          {active === "food" && <Food answer={foodAnswer} setAnswer={setFoodAnswer} markCompleted={markCompleted} />}
+          {active === "food" && <Food markCompleted={markCompleted} />}
           {active === "coding" && <Coding markCompleted={markCompleted} />}
           {active === "math" && <MathGames question={question} questionIndex={questionIndex} answer={answer} chooseAnswer={chooseAnswer} nextQuestion={nextQuestion} roundScore={roundScore} roundFinished={roundFinished} restartMath={restartMath} earnedToday={earnedToday} />}
           {active === "stars" && <Achievements stars={progress.stars} badges={badges} />}
@@ -165,13 +165,52 @@ function School() {
   </>;
 }
 
-function Food({ answer, setAnswer, markCompleted }) {
-  const correct = answer === "water";
+const foodQuestions = [{"q":"Which food belongs in the vegetables and fruit part of the plate?","o":["Carrot","Chicken","Rice","Cheese"],"a":0,"e":"Carrots are vegetables. They add color, fiber and vitamins to meals."},{"q":"Which food is a source of protein?","o":["Egg","Apple","Bread","Cucumber"],"a":0,"e":"Eggs contain protein, which helps the body grow and repair itself."},{"q":"Which food is a grain food?","o":["Pasta","Strawberry","Yogurt","Peas"],"a":0,"e":"Pasta is usually made from wheat, a grain."},{"q":"Which drink is a good everyday choice?","o":["Water","Lemonade","Cola","Sweet iced tea"],"a":0,"e":"Water helps your body work well and is a great drink throughout the day."},{"q":"Which of these is a fruit?","o":["Pear","Potato","Lentil","Oatmeal"],"a":0,"e":"A pear is a fruit. Fruit and vegetables bring lots of variety to meals."},{"q":"Which food is made from milk and can provide calcium and protein?","o":["Yogurt","Carrot","Rice","Olive oil"],"a":0,"e":"Yogurt is a dairy food that can provide calcium and protein."},{"q":"Which food is a plant-based source of protein?","o":["Lentils","Grapes","Pasta","Lettuce"],"a":0,"e":"Lentils are beans/legumes and contain plant protein and fiber."},{"q":"Which food is a whole grain?","o":["Oatmeal","Candy","Butter","Chicken"],"a":0,"e":"Oats are whole grains and provide energy and fiber."},{"q":"Which meal has a good mix of food groups?","o":["Rice, beans and broccoli","Only a bowl of sweets","Only plain pasta","Only cucumber"],"a":0,"e":"Rice gives energy, beans provide protein, and broccoli adds vegetables."},{"q":"What can vegetables and fruit help provide?","o":["Vitamins and fiber","Only protein","Only sugar","No nutrients"],"a":0,"e":"Different fruits and vegetables provide vitamins, minerals and fiber."},{"q":"Which food belongs to the protein group?","o":["Fish","Banana","Bread","Tomato"],"a":0,"e":"Fish is a protein food."},{"q":"Which is a starchy food that gives the body energy?","o":["Potato","Blueberry","Egg","Spinach"],"a":0,"e":"Potatoes contain carbohydrates that the body can use for energy."},{"q":"Which snack includes fruit and protein?","o":["Apple with yogurt","Only jelly sweets","Only crisps","Only a lollipop"],"a":0,"e":"The apple gives fruit and fiber; yogurt adds protein and calcium."},{"q":"Which of these is a vegetable?","o":["Broccoli","Peach","Cheese","Oats"],"a":0,"e":"Broccoli is a green vegetable."},{"q":"Why is it helpful to eat different colored vegetables and fruits?","o":["They offer different nutrients","They all taste exactly the same","They replace the need for water","They contain no nutrients"],"a":0,"e":"Different colors often come with different vitamins and helpful plant compounds."},{"q":"Which food is a legume?","o":["Chickpeas","Orange","Bread","Cheddar"],"a":0,"e":"Chickpeas are legumes. They provide plant protein and fiber."},{"q":"Which is a grain food often used to make porridge?","o":["Oats","Eggs","Carrots","Salmon"],"a":0,"e":"Oats are grains and are often cooked into porridge."},{"q":"What is one reason our bodies need protein?","o":["To grow and repair the body","To make us never thirsty","To replace sleep","To make vegetables unnecessary"],"a":0,"e":"Protein helps the body grow and repair muscles and other tissues."},{"q":"Which lunch has vegetables, grains and protein?","o":["Chicken, bulgur and salad","Only a banana","Only bread","Only yogurt"],"a":0,"e":"Chicken provides protein, bulgur is a grain, and salad adds vegetables."},{"q":"What is a sensible way to build a balanced meal?","o":["Include different food groups","Eat only one food every day","Avoid all grains","Drink soda instead of water"],"a":0,"e":"A balanced meal can include vegetables or fruit, grains or potatoes, and protein foods."}];
+
+function Food({ markCompleted }) {
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const question = foodQuestions[questionIndex];
+  const correct = selected === question?.a;
+
+  function choose(index) {
+    if (selected !== null) return;
+    setSelected(index);
+    if (index === question.a) setScore((value) => value + 1);
+  }
+
+  function next() {
+    if (questionIndex === foodQuestions.length - 1) {
+      setFinished(true);
+      markCompleted("food");
+    } else {
+      setQuestionIndex((value) => value + 1);
+      setSelected(null);
+    }
+  }
+
+  function restart() {
+    setQuestionIndex(0);
+    setSelected(null);
+    setScore(0);
+    setFinished(false);
+  }
+
   return <>
-    <PageHeading eyebrow="HEALTHY ME" title="Eat a rainbow!" subtitle="Food gives your body energy to learn, play and grow." emoji="🥑" />
+    <PageHeading eyebrow="HEALTHY ME" title="Eat a rainbow!" subtitle="Discover foods that help you grow." emoji="🥑" />
     <section className="plate-panel"><div className="plate-illustration"><div className="plate-half"><span>🥦</span><span>🥕</span><span>🍓</span><span>🥬</span></div><div className="plate-quarter"><span>🍚</span><span>🍞</span></div><div className="plate-quarter protein"><span>🥚</span><span>🫘</span></div></div><div className="plate-copy"><p className="eyebrow">THE HEALTHY PLATE</p><h2>A little bit of everything!</h2><p>A helpful guide for a balanced main meal:</p><ul><li><b>½ plate</b> vegetables and fruit</li><li><b>¼ plate</b> grains or potatoes</li><li><b>¼ plate</b> protein foods</li></ul><p className="gentle-note">Different meals can look different. This is a guide, not a strict rule.</p></div></section>
     <div className="food-groups"><div className="food-group green"><span>🥦</span><b>Vegetables & fruit</b><small>Help your body stay healthy.</small></div><div className="food-group yellow"><span>🍞</span><b>Grains & potatoes</b><small>Give you energy to play.</small></div><div className="food-group pink"><span>🥚</span><b>Protein foods</b><small>Help your body grow.</small></div><div className="food-group blue"><span>💧</span><b>Water</b><small>Helps your body work well.</small></div></div>
-    <section className="quiz-panel"><p className="eyebrow">TINY FOOD QUIZ</p><h2>Which drink is a great everyday choice?</h2><div className="quiz-options"><button className={answer === "water" ? "chosen correct" : ""} onClick={() => setAnswer("water")}>💧 Water</button><button className={answer === "soda" ? "chosen wrong" : ""} onClick={() => setAnswer("soda")}>🥤 Fizzy soda</button></div>{answer && <div className={`feedback ${correct ? "good" : "try-again"}`}>{correct ? "Yes! Water is a great everyday drink. 🌟" : "Good try! Water is the best everyday choice. Sugary drinks are treats to enjoy sometimes."}</div>}{correct && <button className="secondary-button" onClick={() => markCompleted("food")}>I finished my food mission ⭐</button>}</section>
+    <section className="quiz-panel food-quiz">
+      <div className="food-quiz-top"><p className="eyebrow">FOOD EXPLORER QUIZ</p><span className="small-tag">{finished ? "COMPLETE" : `QUESTION ${questionIndex + 1} OF ${foodQuestions.length}`}</span></div>
+      {!finished ? <>
+        <div className="progress-track"><span style={{width:`${((questionIndex + 1) / foodQuestions.length) * 100}%`}} /></div>
+        <h2>{question.q}</h2>
+        <div className="food-answer-grid">{question.o.map((option,index) => <button key={option} disabled={selected !== null} className={selected === index ? (correct ? "food-answer correct" : "food-answer incorrect") : selected !== null && index === question.a ? "food-answer reveal-correct" : "food-answer"} onClick={() => choose(index)}>{option}</button>)}</div>
+        {selected !== null && <><div className={`feedback ${correct ? "good" : "try-again"}`}>{correct ? "That's right! 🌟 " : "Good try! "} {question.e}</div><button className="primary-button next-button" onClick={next}>{questionIndex === foodQuestions.length - 1 ? "See my score" : "Next question →"}</button></>}
+      </> : <div className="result-panel"><div className="result-emoji">🌟</div><h2>Food explorer complete!</h2><p className="result-score">{score} / {foodQuestions.length}</p><p>{score === foodQuestions.length ? "Fantastic! You know so much about food groups!" : "Well done for learning! Every question helps you discover something new."}</p><button className="primary-button" onClick={restart}>Play again ↻</button></div>}
+    </section>
   </>;
 }
 
