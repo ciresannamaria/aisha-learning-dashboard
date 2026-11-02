@@ -25,16 +25,16 @@ button{cursor:pointer}
 .sidebar-note strong{font-size:13px}
 .sidebar-note small{color:#9a8062}
 .main-content{padding:38px clamp(20px,5vw,65px) 20px;max-width:1120px;width:100%;margin:0 auto}
-.welcome-card{min-height:250px;border-radius:26px;padding:34px 40px;background:linear-gradient(115deg,#f0e9ff,#fceafa 55%,#fff0df);display:flex;justify-content:space-between;align-items:center;overflow:hidden;position:relative}
+.welcome-card{min-height:190px;border-radius:26px;padding:26px 32px;background:linear-gradient(115deg,#f0e9ff,#fceafa 55%,#fff0df);display:flex;justify-content:space-between;align-items:center;overflow:hidden;position:relative}
 .welcome-copy{max-width:500px;z-index:1}
 .hello-label{font-size:10px;letter-spacing:1.7px;font-weight:900;color:#967ab1}
-.welcome-card h1{font-size:clamp(34px,5vw,48px);margin:10px 0 8px;letter-spacing:-1.5px;color:#51416f}
-.welcome-card h1 span{font-size:30px}
-.welcome-card p{color:#756a83;max-width:390px;line-height:1.6;margin:0 0 20px}
+.welcome-card h1{font-size:24px;margin:0 0 8px;letter-spacing:-.4px;color:#51416f}
+.welcome-card h1 span{font-size:18px}
+.welcome-card p{color:#756a83;max-width:320px;font-size:14px;line-height:1.5;margin:0 0 14px}
 .primary-button{border:0;border-radius:12px;padding:12px 18px;background:#8065a8;color:white;font-size:13px;font-weight:900;box-shadow:0 5px 12px #8065a833}
 .primary-button:hover{background:#6e5596;transform:translateY(-1px)}
 .primary-button span{padding-left:12px}
-.welcome-art{position:relative;width:270px;height:190px;flex-shrink:0}
+.welcome-art{position:relative;width:210px;height:145px;flex-shrink:0;transform:scale(.82);transform-origin:center right}
 .welcome-art .rainbow{position:absolute;font-size:120px;right:50px;top:28px;transform:rotate(-12deg)}
 .welcome-art .sun{position:absolute;right:12px;top:0;font-size:48px}
 .welcome-art .cloud{position:absolute;left:4px;bottom:12px;font-size:52px}
@@ -155,5 +155,5 @@ button{cursor:pointer}
 .footer{text-align:center;color:#b1a9b3;font-size:10px;padding:34px 0 12px}
 .footer span{color:#e78c9b}
 @media(max-width:900px){.adventure-grid{grid-template-columns:repeat(2,1fr)}.plate-panel{gap:18px}.food-groups{grid-template-columns:repeat(2,1fr)}.badge-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:650px){.topbar{height:auto;min-height:68px;padding:12px 16px}.brand{font-size:12px}.brand-icon{font-size:23px}.today-pill{display:none}.layout{display:block}.sidebar{position:sticky;top:0;z-index:5;display:flex;overflow-x:auto;gap:4px;padding:8px 10px;border-right:0;border-bottom:1px solid #f0e9e1}.nav-caption,.sidebar-note{display:none}.nav-button{white-space:nowrap;width:auto;margin:0;padding:9px 12px;font-size:11px;gap:6px}.nav-button span{font-size:16px}.main-content{padding:23px 16px}.welcome-card{padding:25px 23px;min-height:220px}.welcome-art{width:115px;transform:scale(.75);transform-origin:center right;margin-left:-30px}.welcome-card h1{font-size:34px}.welcome-card p{font-size:12px}.adventure-grid{gap:10px}.adventure-card{min-height:170px;padding:14px}.card-title{font-size:13px}.card-text{font-size:10px}.section-title-row h2{font-size:18px}.plate-panel{grid-template-columns:1fr;padding:20px}.plate-illustration{width:210px}.plate-copy h2{font-size:19px}.food-groups{gap:8px}.food-group{padding:12px}.quiz-options{flex-direction:column}.coding-intro{padding:17px;gap:12px}.robot-face{font-size:45px}.resource-card{gap:10px;padding:12px}.resource-level{display:none}.math-card{padding:18px}.math-question{font-size:27px}.answer-button{padding:14px 5px}.page-heading h1{font-size:29px}.checklist{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.topbar{height:auto;min-height:68px;padding:12px 16px}.brand{font-size:12px}.brand-icon{font-size:23px}.today-pill{display:none}.layout{display:block}.sidebar{position:sticky;top:0;z-index:5;display:flex;overflow-x:auto;gap:4px;padding:8px 10px;border-right:0;border-bottom:1px solid #f0e9e1}.nav-caption,.sidebar-note{display:none}.nav-button{white-space:nowrap;width:auto;margin:0;padding:9px 12px;font-size:11px;gap:6px}.nav-button span{font-size:16px}.main-content{padding:23px 16px}.welcome-card{padding:22px 20px;min-height:170px}.welcome-art{width:115px;transform:scale(.75);transform-origin:center right;margin-left:-30px}.welcome-card h1{font-size:22px}.welcome-card p{font-size:12px}.adventure-grid{gap:10px}.adventure-card{min-height:170px;padding:14px}.card-title{font-size:13px}.card-text{font-size:10px}.section-title-row h2{font-size:18px}.plate-panel{grid-template-columns:1fr;padding:20px}.plate-illustration{width:210px}.plate-copy h2{font-size:19px}.food-groups{gap:8px}.food-group{padding:12px}.quiz-options{flex-direction:column}.coding-intro{padding:17px;gap:12px}.robot-face{font-size:45px}.resource-card{gap:10px;padding:12px}.resource-level{display:none}.math-card{padding:18px}.math-question{font-size:27px}.answer-button{padding:14px 5px}.page-heading h1{font-size:29px}.checklist{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
