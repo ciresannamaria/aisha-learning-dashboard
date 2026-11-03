@@ -260,3 +260,9 @@ button{cursor:pointer}
 .star-history-item b{font-size:12px;color:#514b60}
 .star-history-item small{font-size:10px;color:#9992a0}
 .star-history-item>strong{font-size:12px;color:#94732c;background:#fff4d5;border-radius:12px;padding:6px 9px}
+
+/* Lunch and homework details in the school timetable */
+.day-routine{display:flex;flex-direction:column;gap:6px;margin-top:7px;padding:9px 7px;background:#eef5ff;border:1px solid #e1ebf8;border-radius:9px}
+.day-routine>div{display:flex;flex-direction:column;gap:2px}
+.day-routine b{font-size:10px;color:#5f7390}
+.day-routine span{font-size:10px;line-height:1.45;color:#596579;overflow-wrap:anywhere}
