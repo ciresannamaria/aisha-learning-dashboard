@@ -221,17 +221,18 @@ function School() {
             const lastLessonIndex = day.lessons.reduce((last, lesson, index) => lesson[1].trim() ? index : last, -1);
             const ogsIndex = lastLessonIndex + 1;
             const ogsStart = ogsIndex < lessonTimes.length ? lessonTimes[ogsIndex].split("–")[0] : null;
-            return day.lessons.map((lesson,lessonIndex) => {
-              const isOgsCard = lastLessonIndex >= 0 && lessonIndex === ogsIndex;
+            return <>
+              {day.lessons.map((lesson,lessonIndex) => {
+              const isOgsCard = lastLessonIndex >= 0 && lastLessonIndex < lessonTimes.length - 1 && lessonIndex === ogsIndex;
               const isAfterLastLesson = lastLessonIndex >= 0 && lessonIndex > lastLessonIndex;
               if (isAfterLastLesson && !isOgsCard) return <React.Fragment key={lessonIndex}>
                 {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
               </React.Fragment>;
               return <React.Fragment key={lessonIndex}>
                 <div className={`lesson-card ${lesson[1] || isOgsCard ? "" : "lesson-empty"} ${isOgsCard ? "ogs-lesson-card" : ""}`}>
-                  <small>{isOgsCard ? `${ogsStart} onwards · After lessons` : `${lessonTimes[lessonIndex]} · Lesson ${lessonIndex+1}`}</small>
+                  <small>{isOgsCard ? `${ogsStart} onwards` : `${lessonTimes[lessonIndex]} · Lesson ${lessonIndex+1}`}</small>
                   {editing ? <><input aria-label={day.day+" lesson "+(lessonIndex+1)} value={lesson[1]} placeholder={isOgsCard ? "OGS / activity" : "Lesson / activity"} onChange={e => updateLesson(dayIndex,lessonIndex,1,e.target.value)} /><input aria-label="Teacher" value={lesson[2]} placeholder="Teacher (optional)" onChange={e => updateLesson(dayIndex,lessonIndex,2,e.target.value)} />{isOgsCard && <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" OGS activities"} />}</> : <>
-                    <b>{isOgsCard ? "🌟 OGS · After-school care" : lesson[1] || "—"}</b>
+                    <b>{isOgsCard ? "🌟 OGS" : lesson[1] || "—"}</b>
                     {lesson[2] && <span>{lesson[2]}</span>}
                     {isOgsCard && (afterSchoolActivities[day.day] || []).map(activity => <div className="ogs-activity" key={activity.name}>
                       <strong>{activity.time}</strong><span>{activity.name}{activity.detail ? ` · ${activity.detail}` : ""}</span>
@@ -242,7 +243,19 @@ function School() {
                 </div>
                 {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
               </React.Fragment>;
-            });
+              })}
+              {lastLessonIndex === lessonTimes.length - 1 && <div className="lesson-card ogs-lesson-card">
+                <small>13:35 onwards</small>
+                {editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" OGS activities"} /> : <>
+                  <b>🌟 OGS</b>
+                  {(afterSchoolActivities[day.day] || []).map(activity => <div className="ogs-activity" key={activity.name}>
+                    <strong>{activity.time}</strong><span>{activity.name}{activity.detail ? ` · ${activity.detail}` : ""}</span>
+                    {activity.chess && <><button className="chess-dates-toggle" onClick={() => setShowChessDates(value => !value)}>{showChessDates ? "Hide dates ▲" : "Show chess club dates ▼"}</button>{showChessDates && <ol className="chess-dates-list">{chessClubDates.map(date => <li key={date}>{date}</li>)}</ol>}</>}
+                  </div>)}
+                  {!(afterSchoolActivities[day.day] || []).length && <span>No extra club scheduled.</span>}
+                </>}
+              </div>}
+            </>;
           })()}
           
         </div>)}
