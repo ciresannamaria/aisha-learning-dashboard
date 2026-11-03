@@ -266,3 +266,11 @@ button{cursor:pointer}
 .day-routine>div{display:flex;flex-direction:column;gap:2px}
 .day-routine b{font-size:10px;color:#5f7390}
 .day-routine span{font-size:10px;line-height:1.45;color:#596579;overflow-wrap:anywhere}
+
+
+/* Keep the OGS cards consistent across weekdays */
+.ogs-lesson-card{min-height:124px;height:124px;overflow-y:auto;}
+.ogs-lesson-card .ogs-activity{display:flex;flex-direction:column;gap:2px;margin-top:4px;}
+.ogs-lesson-card .ogs-activity strong{font-size:10px;color:#665b70;}
+.ogs-lesson-card .ogs-activity span{font-size:9px;line-height:1.35;}
+.ogs-lesson-card>span{font-size:9px;}
