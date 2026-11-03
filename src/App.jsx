@@ -223,22 +223,29 @@ function FutureWorld() {
   const [likes,setLikes] = useState([]);
   const qualities=["I enjoy helping people learn.","I like explaining things.","I enjoy being creative.","I like working with children."];
   return <>
-    <PageHeading eyebrow="EXPLORE THE WORLD OF WORK" title="My future world" subtitle="Discover what people do and what you might enjoy." emoji="🌍" />
-    {!open ? <div className="future-gallery"><button className="future-job-card" onClick={()=>setOpen(true)}>
-      <div className="teacher-art" role="img" aria-label="Teacher in a classroom"><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></div>
-      <span className="future-card-title">Teacher</span><span className="future-card-category">Education</span><span className="future-card-open">Discover this profession ↗</span>
-    </button></div> : <section className="panel future-detail">
-      <button className="secondary-button future-back" onClick={()=>setOpen(false)}>← All professions</button>
-      <div className="teacher-art teacher-art-large" role="img" aria-label="Teacher in a classroom"><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></div>
-      <div className="future-detail-heading"><div><p className="eyebrow">EDUCATION</p><h2>👩‍🏫 Teacher</h2></div><span className="small-tag">PROFESSION 01</span></div>
-      <div className="future-info-block"><h3>What does a teacher do?</h3><p>A teacher helps children learn new things. Teachers explain ideas, plan lessons, answer questions, prepare activities and encourage every child to grow.</p></div>
-      <div className="future-info-block"><h3>How can you become a teacher in Germany?</h3><ol><li>Finish school and earn the qualification needed to study at university.</li><li>Study teaching at a university and learn about school subjects and how children learn.</li><li>Train in a real school with support from experienced teachers. This is called <b>Referendariat</b> in Germany.</li><li>Complete the required final examinations.</li></ol><p className="future-small-note">The exact route depends on the type of school and the German state. In North Rhine-Westphalia, teacher education includes university study and practical school training. <a href="https://www.uni-koeln.de/en/teacher-education/degree-programmes/the-teaching-profession" target="_blank" rel="noreferrer">Learn more about teacher training in NRW ↗</a></p></div>
-      <div className="future-info-block"><h3>What skills can help?</h3><ul><li>Patience and kindness</li><li>Enjoying explaining and sharing ideas</li><li>Listening and communicating</li><li>Being organized and creative</li></ul></div>
-      <div className="future-info-block"><h3>What is a teacher's day like?</h3><p>Teachers teach lessons, help children, prepare materials, check work, meet colleagues and sometimes talk with families. Every day can be different.</p></div>
-      <div className="future-fact"><b>☀️ What about school holidays?</b><p>Teachers usually have school holidays too, but some of that time may be used for planning lessons, preparing classrooms, training or other school work.</p></div>
-      <div className="future-info-block"><h3>Would you enjoy being a teacher?</h3><p>Choose the things that sound fun to you. There are no right or wrong answers!</p><div className="future-checklist">{qualities.map(item=><label key={item}><input type="checkbox" checked={likes.includes(item)} onChange={e=>setLikes(old=>e.target.checked?[...old,item]:old.filter(x=>x!==item))}/><span>{item}</span></label>)}</div><p className="future-small-note">{likes.length ? "You chose "+likes.length+" things you might enjoy about teaching. Keep discovering!" : "You can choose any number of ideas."}</p></div>
-      <div className="future-try"><h3>🎨 Try it yourself!</h3><p>Imagine you are the teacher today. Pick something you know well and teach it to a teddy bear, a family member or a friend. Can you explain it in three simple steps?</p></div>
-    </section>}
+    <PageHeading eyebrow="EXPLORE THE WORLD OF WORK" title="My future world" subtitle="Discover jobs and what you might enjoy." emoji="🌍" />
+    <div className={open ? "future-flip-card is-flipped" : "future-flip-card"}>
+      <div className="future-flip-inner">
+        <div className="future-card-face future-card-front">
+          <button className="future-job-card" onClick={()=>setOpen(true)} aria-label="Turn over the Teacher card">
+            <div className="teacher-art" role="img" aria-label="Teacher in a classroom"><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></div>
+            <span className="future-card-title">Teacher</span><span className="future-card-category">Education</span><span className="future-card-open">Tap to turn the card ↻</span>
+          </button>
+        </div>
+        <div className="future-card-face future-card-back">
+          <div className="future-back-content">
+            <button className="secondary-button future-back" onClick={()=>setOpen(false)}>↶ Turn card back</button>
+            <div className="future-back-title"><span>👩‍🏫</span><div><p className="eyebrow">EDUCATION</p><h2>Teacher</h2></div></div>
+            <div className="future-info-block"><h3>What does a teacher do?</h3><p>Teachers help people learn. They explain ideas, plan lessons, answer questions and encourage their students.</p></div>
+            <div className="future-info-block"><h3>Where can teachers work?</h3><ul><li>Primary and secondary schools</li><li>Special education and language schools</li><li>Vocational colleges and adult education</li><li>International schools</li></ul><p>An <b>international teacher</b> teaches in a school where children may come from many countries. Lessons are often taught in English.</p></div>
+            <div className="future-info-block"><h3>How do you become a teacher?</h3><p>In Germany, the usual route is to study teaching at university and then complete practical teacher training called <b>Referendariat</b>. The exact route depends on the school and German state.</p></div>
+            <div className="future-info-block"><h3>What skills can help?</h3><p>Patience · Kindness · Creativity · Good communication · Enjoying learning and sharing ideas</p></div>
+            <div className="future-info-block"><h3>Would you enjoy being a teacher?</h3><p>Choose anything that sounds like you. There are no right or wrong answers!</p><div className="future-checklist">{qualities.map(item=><label key={item}><input type="checkbox" checked={likes.includes(item)} onChange={e=>setLikes(old=>e.target.checked?[...old,item]:old.filter(x=>x!==item))}/><span>{item}</span></label>)}</div><p className="future-small-note">{likes.length ? "You picked "+likes.length+" things you might enjoy!" : "Pick the things you like."}</p></div>
+            <div className="future-try"><h3>🎨 Try it yourself!</h3><p>Choose something you know and teach it to a teddy bear, friend or family member. Can you explain it in three steps?</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </>;
 }
 
