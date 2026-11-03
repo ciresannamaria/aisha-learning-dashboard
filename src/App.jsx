@@ -180,12 +180,12 @@ const initialWeek = [
   { day:"Friday", icon:"🌈", lessons:[["8:10–8:55","Kath. Religion","Frau Friemel"],["9:00–9:45","Mathematik","Frau Thülig"],["10:15–11:00","Deutsch","Frau Thülig"],["11:05–11:50","Sachunterricht","Frau Wood"],["12:05–12:50","Sachunterricht","Frau Wood"],["12:50–13:35","",""]], after:"OGS" }
 ];
 const breakTimes = [{ after:1, label:"🍎 Snack & play · 9:45–10:15" },{ after:3, label:"🍎 Snack & play · 11:50–12:05" }];
-const dayRoutine = {
-  Monday: { lunch:"13:00", homework:"13:14" },
-  Tuesday: { lunch:"13:00 · 45 minutes", homework:"12:15" },
-  Wednesday: { lunch:"13:00", homework:"12:05" },
-  Thursday: { lunch:"Approx. 13:40–13:50 · after swimming (school lists 12:45)", homework:"14:45" },
-  Friday: { lunch:"13:00", homework:"13:45" },
+const afterSchoolActivities = {
+  Monday: [{ time:"15:00–16:00", name:"Chess Club", detail:"Every two weeks", chess:true }],
+  Tuesday: [{ time:"13:30–14:15", name:"Recorder", detail:"Frau Bierhaus" }],
+  Wednesday: [{ time:"14:00–14:45", name:"Ensemble", detail:"Herr Pottmeier" }],
+  Thursday: [{ time:"15:00–16:00", name:"Bastel Club" }],
+  Friday: [],
 };
 function School() {
   const [schoolTab,setSchoolTab] = useState("timetable");
