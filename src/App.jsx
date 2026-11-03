@@ -34,9 +34,9 @@ const mathLinks = [
 
 function readSaved() {
   try {
-    return JSON.parse(localStorage.getItem("aisha-dashboard-progress")) || { stars: 0, completed: [] };
+    return JSON.parse(localStorage.getItem("aisha-dashboard-progress")) || { stars: 0, completed: [], history: [] };
   } catch {
-    return { stars: 0, completed: [] };
+    return { stars: 0, completed: [], history: [] };
   }
 }
 
@@ -47,7 +47,7 @@ function App() {
   const [answer, setAnswer] = useState("");
   const [roundScore, setRoundScore] = useState(0);
   const [roundFinished, setRoundFinished] = useState(false);
-  const [foodAnswer, setFoodAnswer] = useState("");
+
 
   useEffect(() => {
     localStorage.setItem("aisha-dashboard-progress", JSON.stringify(progress));
@@ -62,6 +62,7 @@ function App() {
         ...old,
         stars: old.stars + roundScore,
         completed: [...old.completed, "math-starter"],
+        history: [...(old.history || []), ...Array.from({ length: roundScore }, () => ({ id: crypto.randomUUID(), label: "Math Games · correct answer", date: new Date().toISOString(), stars: 1 }))],
       }));
     }
     setRoundFinished(true);
@@ -97,7 +98,13 @@ function App() {
   ], [earnedToday, progress.completed]);
 
   function markCompleted(id) {
-    setProgress((old) => old.completed.includes(id) ? old : { ...old, completed: [...old.completed, id], stars: old.stars + 1 });
+    const labels = { "profession-teacher": "My Future World · explored Teacher", "coding-Scratch": "Coding Lab · opened Scratch", "coding-Code.org": "Coding Lab · opened Code.org", "coding-Blockly Games": "Coding Lab · opened Blockly Games" };
+    setProgress((old) => old.completed.includes(id) ? old : {
+      ...old,
+      completed: [...old.completed, id],
+      stars: old.stars + 1,
+      history: [...(old.history || []), { id: crypto.randomUUID(), label: labels[id] || "Learning activity", date: new Date().toISOString(), stars: 1 }],
+    });
   }
 
   function awardFoodQuizStars(score) {
@@ -106,6 +113,7 @@ function App() {
       ...old,
       completed: old.completed.includes("food") ? old.completed : [...old.completed, "food"],
       stars: old.stars + earned,
+      history: [...(old.history || []), ...Array.from({ length: earned }, (_, index) => ({ id: crypto.randomUUID(), label: "Healthy Me · 3 correct quiz answers", date: new Date().toISOString(), stars: 1 }))],
     }));
   }
 
@@ -116,7 +124,7 @@ function App() {
           <span className="brand-icon">🌈</span>
           <span>Aisha's <strong>Little Learning World</strong></span>
         </a>
-        <div className="top-stats"><span>⭐ {progress.stars} stars</span><span className="today-pill">A little learning every day</span></div>
+        <div className="top-stats"><button className="star-history-button" onClick={() => setActive("stars")} aria-label="View star history">⭐ {progress.stars}</button></div>
       </header>
 
       <div className="layout">
@@ -136,7 +144,7 @@ function App() {
           {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
           {active === "coding" && <Coding markCompleted={markCompleted} />}
           {active === "math" && <MathGames question={question} questionIndex={questionIndex} answer={answer} chooseAnswer={chooseAnswer} nextQuestion={nextQuestion} roundScore={roundScore} roundFinished={roundFinished} restartMath={restartMath} earnedToday={earnedToday} />}
-          {active === "stars" && <Achievements stars={progress.stars} badges={badges} />}
+          {active === "stars" && <Achievements stars={progress.stars} badges={badges} history={progress.history || []} />}
           <footer className="footer">Made with <span>♥</span> for Aisha · Your learning adventure</footer>
         </main>
       </div>
@@ -157,14 +165,10 @@ function Home({ setActive, stars }) {
     { id: "math", icon: "🧩", title: "Math games", text: "Solve puzzles and become a math star.", color: "peach" },
   ];
   return <>
-    <section className="welcome-card">
-      <div className="welcome-copy"><h1>Hi, Aisha! <span>✨</span></h1><p>What would you like to explore today?</p><button className="primary-button" onClick={() => setActive("math")}>Play a math game <span>→</span></button></div>
-      <div className="welcome-art" aria-hidden="true"><div className="sun">☀️</div><div className="rainbow">🌈</div><div className="cloud">☁️</div><div className="star-float">⭐</div></div>
-    </section>
+
     <div className="section-title-row"><div><p className="eyebrow">CHOOSE YOUR ADVENTURE</p><h2>Where shall we go?</h2></div><span className="star-counter">⭐ {stars} stars</span></div>
     <div className="adventure-grid">{cards.map((card) => <button key={card.id} className={`adventure-card ${card.color}`} onClick={() => setActive(card.id)}><span className="card-emoji">{card.icon}</span><span className="card-title">{card.title}</span><span className="card-text">{card.text}</span><span className="card-arrow">Let's go <b>↗</b></span></button>)}</div>
-    <section className="mission-card"><div className="mission-icon">🎯</div><div><p className="eyebrow">YOUR STAR GOAL</p><h3>Collect 50 stars!</h3><p>When you reach 50 stars, you can choose a special treat with Mum. Every little adventure brings you closer!</p></div><span className="mission-sparkle">🎁</span></section>
-    <section className="mission-card"><div className="mission-icon">🎯</div><div><p className="eyebrow">TODAY'S LITTLE MISSION</p><h3>Try one new thing!</h3><p>Answer a maths question, explore a new food, or try a coding puzzle.</p></div><span className="mission-sparkle">✦</span></section>
+    <section className="mission-card star-goal-card"><div className="mission-icon">⭐</div><div><p className="eyebrow">YOUR STAR GOAL</p><h3>Collect 50 stars!</h3><p>When you reach 50 stars, choose a special treat with Mum.</p><p className="star-encouragement">✨ Try one new thing today. Every little step counts!</p></div><span className="mission-sparkle">🎁</span></section>
   </>;
 }
 
@@ -340,10 +344,18 @@ function MathGames({ question, questionIndex, answer, chooseAnswer, nextQuestion
   </>;
 }
 
-function Achievements({ stars, badges }) {
+function Achievements({ stars, badges, history }) {
+  const thisMonth = new Date().toISOString().slice(0, 7);
+  const monthlyHistory = history.filter(item => item.date?.slice(0, 7) === thisMonth).sort((a,b) => b.date.localeCompare(a.date));
+  const olderStars = Math.max(0, stars - history.reduce((sum,item) => sum + (item.stars || 1), 0));
   return <>
     <PageHeading eyebrow="MY PROGRESS" title="Look at you go!" subtitle="Every little step is something to celebrate." emoji="🏆" />
     <section className="stars-hero"><span>⭐</span><div><strong>{stars}</strong><p>stars collected</p><p className="treat-goal">🎁 At 50 stars, choose a special treat with Mum!</p></div><span>✨</span></section>
+    <div className="section-title-row compact"><div><p className="eyebrow">STAR NOTIFICATIONS</p><h2>This month's stars</h2></div></div>
+    <section className="star-history-list">
+      {monthlyHistory.length ? monthlyHistory.map(item => <div className="star-history-item" key={item.id}><span>⭐</span><div><b>{item.label}</b><small>{new Date(item.date).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}</small></div><strong>+{item.stars || 1}</strong></div>) : <p className="gentle-note">No stars collected this month yet. Try an activity to get started!</p>}
+      {olderStars > 0 && <p className="gentle-note">{olderStars} earlier {olderStars === 1 ? "star was" : "stars were"} collected before star notifications were added.</p>}
+    </section>
     <div className="section-title-row compact"><div><p className="eyebrow">YOUR BADGE COLLECTION</p><h2>Little achievements</h2></div></div>
     <div className="badge-grid">{badges.map((badge) => <div className={`badge-card ${badge.unlocked ? "unlocked" : "locked"}`} key={badge.title}><span>{badge.unlocked ? badge.icon : "🔒"}</span><b>{badge.title}</b><small>{badge.unlocked ? badge.description : "Keep exploring to unlock this badge!"}</small></div>)}</div>
     <p className="gentle-note">Your stars and completed missions are saved in this browser on this device.</p>
