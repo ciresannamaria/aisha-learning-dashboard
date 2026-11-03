@@ -245,3 +245,18 @@ button{cursor:pointer}
 .chess-dates-toggle{align-self:flex-start;border:1px solid #e4d7ee;background:#fff;border-radius:8px;padding:6px 8px;color:#765b9c;font-size:9px;font-weight:900;cursor:pointer}
 .chess-dates-list{margin:2px 0 0;padding:8px 8px 8px 22px;background:#fff;border-radius:8px;color:#746d78;font-size:9px;line-height:1.8;max-height:170px;overflow-y:auto}
 .chess-dates-list li{padding-left:2px}
+
+
+/* Compact star goal and clickable star notifications */
+.star-history-button{border:0;background:#fff2ce;color:#8d6d28;border-radius:22px;padding:9px 14px;font-size:13px;font-weight:900;cursor:pointer}
+.star-history-button:hover{background:#ffe8a8;transform:translateY(-1px)}
+.star-goal-card{margin-top:4px;margin-bottom:24px}
+.star-goal-card .star-encouragement{margin-top:8px!important;font-weight:800;color:#8065a3!important}
+.star-history-list{background:#fff;border:1px solid #f0eae4;border-radius:18px;padding:8px 18px;margin:12px 0 25px}
+.star-history-item{display:flex;align-items:center;gap:12px;padding:13px 2px;border-bottom:1px solid #f3eef3}
+.star-history-item:last-of-type{border-bottom:0}
+.star-history-item>span{font-size:23px}
+.star-history-item>div{display:flex;flex-direction:column;gap:4px;flex:1}
+.star-history-item b{font-size:12px;color:#514b60}
+.star-history-item small{font-size:10px;color:#9992a0}
+.star-history-item>strong{font-size:12px;color:#94732c;background:#fff4d5;border-radius:12px;padding:6px 9px}
