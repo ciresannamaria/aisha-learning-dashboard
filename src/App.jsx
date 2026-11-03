@@ -5,6 +5,7 @@ const sections = [
   { id: "school", label: "My school", icon: "🎒" },
   { id: "future", label: "My future world", icon: "🌍" },
   { id: "food", label: "Healthy me", icon: "🥑" },
+  { id: "feelings", label: "My feelings", icon: "🌈" },
   { id: "coding", label: "Coding lab", icon: "🤖" },
   { id: "math", label: "Math games", icon: "🧩" },
   { id: "stars", label: "My stars", icon: "⭐" },
@@ -142,6 +143,7 @@ function App() {
           {active === "school" && <School />}
           {active === "future" && <FutureWorld markCompleted={markCompleted} />}
           {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
+          {active === "feelings" && <MyFeelings />}
           {active === "coding" && <Coding markCompleted={markCompleted} />}
           {active === "math" && <MathGames question={question} questionIndex={questionIndex} answer={answer} chooseAnswer={chooseAnswer} nextQuestion={nextQuestion} roundScore={roundScore} roundFinished={roundFinished} restartMath={restartMath} earnedToday={earnedToday} />}
           {active === "stars" && <Achievements stars={progress.stars} badges={badges} history={progress.history || []} />}
@@ -161,6 +163,7 @@ function Home({ setActive, stars }) {
     { id: "school", icon: "🎒", title: "My school day", text: "Timetable, school things and reminders.", color: "blue" },
     { id: "future", icon: "🌍", title: "My future world", text: "Explore interesting jobs and professions.", color: "purple" },
     { id: "food", icon: "🥑", title: "Healthy me", text: "Discover food that helps you grow.", color: "green" },
+    { id: "feelings", icon: "🌈", title: "My feelings", text: "Explore emotions and understand yourself.", color: "peach" },
     { id: "coding", icon: "🤖", title: "Coding lab", text: "Give instructions and create things.", color: "purple" },
     { id: "math", icon: "🧩", title: "Math games", text: "Solve puzzles and become a math star.", color: "peach" },
   ];
@@ -306,6 +309,45 @@ function FutureWorld({ markCompleted }) {
         </div>
       </div>
     </div>
+  </>;
+}
+
+
+const emotionCards = [
+  { id:"happy", emoji:"😊", en:"Happy", de:"Glücklich", meaning:"You might feel happy when something lovely happens or you enjoy time with someone.", clue:"You may smile, laugh, feel warm, or have lots of energy.", body:"A smile, relaxed face, light feeling, or excited energy.", example:"Your friend invites you to play. You might feel happy!" },
+  { id:"sad", emoji:"😢", en:"Sad", de:"Traurig", meaning:"You might feel sad when you miss someone, lose something, or something does not go as you hoped.", clue:"You may want to be quiet, cry, or have a cuddle.", body:"Tears, a heavy feeling, a lump in your throat, or low energy.", example:"Your favorite toy breaks. You might feel sad." },
+  { id:"angry", emoji:"😠", en:"Angry", de:"Wütend", meaning:"You might feel angry when something seems unfair or someone crosses a boundary.", clue:"Your face may feel hot, your muscles may tighten, or your voice may get louder.", body:"Hot cheeks, tight fists, a fast heartbeat, or tense shoulders.", example:"Someone takes your turn. You might feel angry." },
+  { id:"scared", emoji:"😨", en:"Scared", de:"Ängstlich", meaning:"You might feel scared when something seems unsafe, uncertain, or unfamiliar.", clue:"You may want to hide, hold someone's hand, or move closer to a trusted person.", body:"A tummy flutter, fast heartbeat, shaky legs, or tense muscles.", example:"You hear a strange noise at night. You might feel scared." },
+  { id:"surprised", emoji:"😲", en:"Surprised", de:"Überrascht", meaning:"You might feel surprised when something unexpected happens.", clue:"Your eyes may open wide and your mouth may make an O shape.", body:"A sudden jump, wide eyes, or a quick change in energy.", example:"A friend gives you an unexpected present. You might feel surprised." },
+  { id:"calm", emoji:"😌", en:"Calm", de:"Ruhig", meaning:"You might feel calm when your body and mind feel settled and safe.", clue:"Your breathing may be slow and your muscles relaxed.", body:"Soft shoulders, steady breathing, and a peaceful feeling.", example:"You are reading quietly in a cozy place. You might feel calm." },
+];
+const feelingScenarios = [
+  { story:"You practiced a lot, and your tower finally stays standing!", choices:["😊 Happy","😢 Sad","😨 Scared"], answer:0, why:"You worked hard and reached your goal. You might feel proud or happy." },
+  { story:"You cannot find your favorite book, and you really wanted to read it.", choices:["😢 Sad","😲 Surprised","😌 Calm"], answer:0, why:"You might feel sad or disappointed. It is okay to ask someone to help you look." },
+  { story:"Someone pushes ahead of you in a game and it feels unfair.", choices:["😠 Angry","😌 Calm","😲 Surprised"], answer:0, why:"You might feel angry because it seems unfair. You can use words to explain what happened." },
+];
+function MyFeelings() {
+  const [step,setStep] = useState(0);
+  const [selectedEmotion,setSelectedEmotion] = useState("");
+  const [scenarioIndex,setScenarioIndex] = useState(0);
+  const [scenarioChoice,setScenarioChoice] = useState(null);
+  const [feelingToday,setFeelingToday] = useState(() => { try { return JSON.parse(localStorage.getItem("aisha-feeling-checkin")) || { emotion:"", intensity:2, reason:"" }; } catch { return { emotion:"", intensity:2, reason:"" }; } });
+  const [saved,setSaved] = useState(false);
+  const scenario=feelingScenarios[scenarioIndex];
+  const selectedCard=emotionCards.find(item=>item.id===selectedEmotion);
+  function updateFeeling(field,value) { setFeelingToday(old=>({...old,[field]:value})); setSaved(false); }
+  function saveFeeling() { localStorage.setItem("aisha-feeling-checkin",JSON.stringify({...feelingToday,date:new Date().toISOString()})); setSaved(true); }
+  const stepNames=["Meet emotions","Body clues","Little stories","What can help?","My check-in"];
+  return <>
+    <PageHeading eyebrow="EMOTIONS & ME" title="My feelings" subtitle="All feelings are welcome. Let's learn to notice and understand them." emoji="🌈" />
+    <div className="feelings-intro"><span>💛</span><div><b>There are no bad feelings.</b><p>Feelings give us clues about what is happening inside us. Everyone feels them!</p><small>Jedes Gefühl ist okay. Gefühle zeigen uns, was in uns passiert.</small></div></div>
+    <div className="feelings-progress" aria-label={"Step "+(step+1)+" of 5"}><div className="feelings-progress-track"><span style={{width:((step+1)/5*100)+"%"}}/></div><div className="feelings-step-label">STEP {step+1} OF 5 · {stepNames[step]}</div></div>
+    {step===0 && <section className="feelings-panel"><p className="eyebrow">1 · MEET THE EMOTIONS</p><h2>Every feeling has a name</h2><p className="feelings-copy">Tap a card to learn about each emotion. Lies auf die Karten und entdecke die Gefühle.</p><div className="emotion-grid">{emotionCards.map(item=><button key={item.id} className={"emotion-card "+(selectedEmotion===item.id?"selected":"")} onClick={()=>setSelectedEmotion(selectedEmotion===item.id?"":item.id)} aria-pressed={selectedEmotion===item.id}><span>{item.emoji}</span><b>{item.en}</b><small>{item.de}</small></button>)}</div>{selectedCard&&<div className="emotion-detail"><h3>{selectedCard.emoji} {selectedCard.en} · {selectedCard.de}</h3><p>{selectedCard.meaning}</p><p><b>For example:</b> {selectedCard.example}</p><small>{selectedCard.clue}</small></div>}</section>}
+    {step===1 && <section className="feelings-panel"><p className="eyebrow">2 · LISTEN TO YOUR BODY</p><h2>Your body gives you clues</h2><p className="feelings-copy">Sometimes we notice a feeling in our body before we find the words for it.</p><div className="body-clue-list">{emotionCards.map(item=><div className="body-clue" key={item.id}><span>{item.emoji}</span><div><b>{item.en} · {item.de}</b><p>{item.body}</p></div></div>)}</div><p className="feelings-gentle-note">These are clues, not rules. People can feel emotions in different ways.</p></section>}
+    {step===2 && <section className="feelings-panel"><p className="eyebrow">3 · LITTLE STORIES</p><h2>What might this child feel?</h2><p className="feelings-copy">Read the story and choose an emotion. Different answers can make sense, too!</p><div className="scenario-card"><span className="scenario-number">STORY {scenarioIndex+1} OF {feelingScenarios.length}</span><div className="scenario-art">📖</div><h3>{scenario.story}</h3><div className="scenario-choices">{scenario.choices.map((choice,index)=><button key={choice} className={scenarioChoice===index?"chosen":""} onClick={()=>setScenarioChoice(index)}>{choice}</button>)}</div>{scenarioChoice!==null&&<div className="scenario-feedback"><b>{scenarioChoice===scenario.answer?"That could be it! 🌟":"That is possible, too! 💛"}</b><p>{scenario.why} People can feel differently in the same situation.</p></div>}<button className="secondary-button" onClick={()=>{setScenarioIndex((scenarioIndex+1)%feelingScenarios.length);setScenarioChoice(null)}}>{scenarioIndex===feelingScenarios.length-1?"Try the stories again":"Next story →"}</button></div></section>}
+    {step===3 && <section className="feelings-panel"><p className="eyebrow">4 · MY CALM TOOLBOX</p><h2>What can help me?</h2><p className="feelings-copy">We cannot always choose what we feel, but we can choose a kind way to care for ourselves.</p><div className="calm-tools">{[{e:"🌬️",t:"Take five slow breaths",d:"Breathe in gently, then breathe out slowly."},{e:"🧸",t:"Hug a teddy or cushion",d:"A soft cuddle can help you feel safe."},{e:"🎨",t:"Draw your feeling",d:"Use colors and shapes to show what is inside."},{e:"💬",t:"Talk to someone you trust",d:"Tell Mum, a teacher, or another trusted grown-up."},{e:"🌿",t:"Take a quiet break",d:"Find a calm place and give yourself a little time."}].map(tool=><div className="calm-tool" key={tool.t}><span>{tool.e}</span><div><b>{tool.t}</b><p>{tool.d}</p></div></div>)}</div><div className="feelings-reminder">You do not have to make a feeling disappear. It is enough to notice it and get support when you need it.</div></section>}
+    {step===4 && <section className="feelings-panel"><p className="eyebrow">5 · MY FEELING CHECK-IN</p><h2>How am I feeling right now?</h2><p className="feelings-copy">Choose the feeling that fits best. You can choose more than one? For now, pick the closest one—or choose “I'm not sure.”</p><div className="emotion-grid checkin-grid">{emotionCards.map(item=><button key={item.id} className={"emotion-card "+(feelingToday.emotion===item.id?"selected":"")} onClick={()=>updateFeeling("emotion",item.id)} aria-pressed={feelingToday.emotion===item.id}><span>{item.emoji}</span><b>{item.en}</b><small>{item.de}</small></button>)}<button className={"emotion-card unsure-card "+(feelingToday.emotion==="unsure"?"selected":"")} onClick={()=>updateFeeling("emotion","unsure")} aria-pressed={feelingToday.emotion==="unsure"}><span>💭</span><b>Not sure</b><small>Nicht sicher</small></button></div><div className="feeling-intensity"><label htmlFor="feeling-intensity">How strong is the feeling? · Wie stark ist das Gefühl?</label><div className="intensity-options">{["A little · Ein bisschen","In the middle · Mittel","A lot · Sehr stark"].map((label,index)=><button key={label} className={feelingToday.intensity===index?"selected":""} onClick={()=>updateFeeling("intensity",index)}>{label}</button>)}</div></div><label className="feeling-reason-label" htmlFor="feeling-reason">Would you like to say why? · Möchtest du erzählen, warum?</label><textarea id="feeling-reason" className="feeling-reason" value={feelingToday.reason} onChange={e=>updateFeeling("reason",e.target.value)} placeholder="You can write a few words, or leave this empty. · Du kannst etwas schreiben oder das Feld leer lassen."/><button className="primary-button save-feeling" disabled={!feelingToday.emotion} onClick={saveFeeling}>Save my check-in · Speichern ✓</button>{saved&&<p className="saved-feeling-note">Thank you for checking in. Your feelings matter. 💛</p>}<p className="feelings-gentle-note">You can keep this private or talk about it with Mum. No stars, scores, or right answers here.</p></section>}
+    <div className="feelings-navigation"><button className="secondary-button" disabled={step===0} onClick={()=>setStep(value=>value-1)}>← Back</button><span>{step+1} / 5</span><button className="primary-button" disabled={step===4} onClick={()=>setStep(value=>value+1)}>Next step →</button></div>
   </>;
 }
 
