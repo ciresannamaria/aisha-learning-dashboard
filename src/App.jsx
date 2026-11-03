@@ -180,6 +180,13 @@ const initialWeek = [
   { day:"Friday", icon:"🌈", lessons:[["8:10–8:55","Kath. Religion","Frau Friemel"],["9:00–9:45","Mathematik","Frau Thülig"],["10:15–11:00","Deutsch","Frau Thülig"],["11:05–11:50","Sachunterricht","Frau Wood"],["12:05–12:50","Sachunterricht","Frau Wood"],["12:50–13:35","",""]], after:"OGS" }
 ];
 const breakTimes = [{ after:1, label:"🍎 Snack & play · 9:45–10:15" },{ after:3, label:"🍎 Snack & play · 11:50–12:05" }];
+const dayRoutine = {
+  Monday: { lunch:"13:00", homework:"13:14" },
+  Tuesday: { lunch:"13:00 · 45 minutes", homework:"12:15" },
+  Wednesday: { lunch:"13:00", homework:"12:05" },
+  Thursday: { lunch:"Approx. 13:40–13:50 · after swimming (school lists 12:45)", homework:"14:45" },
+  Friday: { lunch:"13:00", homework:"13:45" },
+};
 function School() {
   const [schoolTab,setSchoolTab] = useState("timetable");
   const [week,setWeek] = useState(() => { try { const saved = JSON.parse(localStorage.getItem("aisha-week-schedule")); return saved ? saved.map(day => day.day === "Monday" && day.after?.includes("Dance Club") ? {...day,after:"OGS · Chess Club (every two weeks)"} : day) : initialWeek; } catch { return initialWeek; } });
@@ -211,12 +218,13 @@ function School() {
       <div className="timetable-grid">
         {week.map((day,dayIndex) => <div className="timetable-day" key={day.day}><h3><span>{day.icon}</span>{day.day}</h3>
           {day.lessons.map((lesson,lessonIndex) => <React.Fragment key={lessonIndex}>
-            <div className={`lesson-card ${lesson[1] ? "" : "lesson-empty"}`}><small>{lessonTimes[lessonIndex]}</small>
-              {editing ? <><input aria-label={day.day+" lesson "+(lessonIndex+1)} value={lesson[1]} placeholder="Lesson / activity" onChange={e => updateLesson(dayIndex,lessonIndex,1,e.target.value)} /><input aria-label="Teacher" value={lesson[2]} placeholder="Teacher (optional)" onChange={e => updateLesson(dayIndex,lessonIndex,2,e.target.value)} /></> : <><b>{lesson[1] || "—"}</b>{lesson[2] && <span>{lesson[2]}</span>}</>}
+            <div className={`lesson-card ${lesson[1] ? "" : "lesson-empty"}`}><small>{lessonTimes[lessonIndex]} · Lesson {lessonIndex+1}</small>
+              {editing ? <><input aria-label={day.day+" lesson "+(lessonIndex+1)} value={lesson[1]} placeholder="Lesson / activity" onChange={e => updateLesson(dayIndex,lessonIndex,1,e.target.value)} /><input aria-label="Teacher" value={lesson[2]} placeholder="Teacher (optional)" onChange={e => updateLesson(dayIndex,lessonIndex,2,e.target.value)} /></> : <><b>{lesson[1] || (lessonIndex >= 4 && day.day !== "Thursday" ? "OGS · After-school care" : "—")}</b>{lesson[2] && <span>{lesson[2]}</span>}</>}
             </div>
             {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
           </React.Fragment>)}
-          <div className="after-school"><b>🌟 After school</b>{editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" after school"} /> : dayIndex === 0 && day.after.includes("Chess Club") ? <><span>OGS · Chess Club (every two weeks)</span><button className="chess-dates-toggle" onClick={() => setShowChessDates(value => !value)}>{showChessDates ? "Hide dates ▲" : "Show chess club dates ▼"}</button>{showChessDates && <ol className="chess-dates-list">{chessClubDates.map(date => <li key={date}>{date}</li>)}</ol>}</> : <span>{day.after || "No activity added"}</span>}</div>
+          <div className="after-school"><b>🌟 After school</b>{editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" after school"} /> : dayIndex === 0 && day.after.includes("Chess Club") ? <><span>OGS · Chess Club · 15:00–16:00 (every two weeks)</span><button className="chess-dates-toggle" onClick={() => setShowChessDates(value => !value)}>{showChessDates ? "Hide dates ▲" : "Show chess club dates ▼"}</button>{showChessDates && <ol className="chess-dates-list">{chessClubDates.map(date => <li key={date}>{date}</li>)}</ol>}</> : <span>{day.after || "No activity added"}</span>}</div>
+          <div className="day-routine"><div><b>🍽️ Lunch</b><span>{dayRoutine[day.day].lunch}</span></div><div><b>📚 Homework</b><span>{dayRoutine[day.day].homework}</span></div></div>
         </div>)}
       </div>
     </section>
