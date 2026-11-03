@@ -180,3 +180,37 @@ button{cursor:pointer}
 .lunch-menu-copy{font-size:13px;line-height:1.6;color:#777386;margin:4px 0 18px}
 .lunch-menu-link{display:inline-flex;align-items:center;gap:9px;text-decoration:none}
 .lunch-menu-panel .gentle-note{margin-top:15px}
+
+
+/* My Future World */
+.future-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.future-job-card{display:flex;flex-direction:column;text-align:left;gap:7px;padding:10px;border:1px solid #eee7f1;border-radius:18px;background:#fff;color:#514b60;cursor:pointer;transition:transform .15s,border-color .15s}
+.future-job-card:hover{transform:translateY(-2px);border-color:#cbb8df}
+.teacher-art{height:170px;border-radius:13px;background:linear-gradient(145deg,#eaf3ff,#f4eafa);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.teacher-art>span:first-child{font-size:86px;z-index:1}
+.teacher-board{position:absolute;left:12px;top:15px;background:#456f69;color:#fff8dc;border:7px solid #b9d8c5;border-radius:8px;padding:9px 12px;font-size:14px;line-height:1.5;font-weight:900;text-align:center;transform:rotate(-3deg)}
+.teacher-plant{position:absolute;right:13px;bottom:8px;font-size:33px}
+.teacher-art-large{height:245px;margin-bottom:16px}
+.teacher-art-large>span:first-child{font-size:120px}
+.future-card-title{font-size:17px;font-weight:900;padding:3px 5px 0}
+.future-card-category{font-size:11px;color:#8a7b99;padding:0 5px}
+.future-card-open{font-size:11px;color:#8065a3;font-weight:800;padding:5px}
+.future-detail{max-width:760px;padding:20px}
+.future-back{margin-bottom:14px}
+.future-detail-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:8px 0 18px}
+.future-detail-heading h2{font-size:25px;margin:0;color:#514b60}
+.future-info-block{border-top:1px solid #f0eaf3;padding:15px 0}
+.future-info-block h3,.future-try h3{font-size:15px;margin:0 0 8px;color:#625276}
+.future-info-block p,.future-info-block li,.future-fact p,.future-try p{font-size:12px;line-height:1.7;color:#777386}
+.future-info-block ul,.future-info-block ol{padding-left:20px;margin:8px 0}
+.future-small-note{font-size:10px!important;color:#9992a0!important}
+.future-small-note a{color:#8065a3}
+.future-fact,.future-try{background:#fff7e7;border-radius:13px;padding:14px;margin:10px 0}
+.future-fact b{font-size:12px;color:#987b48}
+.future-fact p,.future-try p{margin:7px 0 0}
+.future-try{background:#eef5ff}
+.future-try h3{color:#5d7596}
+.future-checklist{display:grid;gap:10px;margin:12px 0}
+.future-checklist label{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:#655f70}
+.future-checklist input{accent-color:#9175b2;margin-top:2px}
+@media(max-width:650px){.future-detail{padding:14px}.future-detail-heading h2{font-size:21px}.future-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
