@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 const sections = [
   { id: "home", label: "Home", icon: "🏡" },
   { id: "school", label: "My school", icon: "🎒" },
+  { id: "future", label: "My future world", icon: "🌍" },
   { id: "food", label: "Healthy me", icon: "🥑" },
   { id: "coding", label: "Coding lab", icon: "🤖" },
   { id: "math", label: "Math games", icon: "🧩" },
@@ -122,6 +123,7 @@ function App() {
         <main className="main-content">
           {active === "home" && <Home setActive={setActive} stars={progress.stars} />}
           {active === "school" && <School />}
+          {active === "future" && <FutureWorld />}
           {active === "food" && <Food markCompleted={markCompleted} />}
           {active === "coding" && <Coding markCompleted={markCompleted} />}
           {active === "math" && <MathGames question={question} questionIndex={questionIndex} answer={answer} chooseAnswer={chooseAnswer} nextQuestion={nextQuestion} roundScore={roundScore} roundFinished={roundFinished} restartMath={restartMath} earnedToday={earnedToday} />}
@@ -140,6 +142,7 @@ function PageHeading({ eyebrow, title, subtitle, emoji }) {
 function Home({ setActive, stars }) {
   const cards = [
     { id: "school", icon: "🎒", title: "My school day", text: "Timetable, school things and reminders.", color: "blue" },
+    { id: "future", icon: "🌍", title: "My future world", text: "Explore interesting jobs and professions.", color: "purple" },
     { id: "food", icon: "🥑", title: "Healthy me", text: "Discover food that helps you grow.", color: "green" },
     { id: "coding", icon: "🤖", title: "Coding lab", text: "Give instructions and create things.", color: "purple" },
     { id: "math", icon: "🧩", title: "Math games", text: "Solve puzzles and become a math star.", color: "peach" },
@@ -181,7 +184,7 @@ function School() {
     <div className="school-tabs" role="tablist" aria-label="School information">
       <button className={schoolTab === "timetable" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("timetable")}>📅 My timetable</button>
       <button className={schoolTab === "lunch" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("lunch")}>🍽️ School lunches</button>
-      <a className="school-tab school-system-link" href="https://ggsass.de/iserv/auth/login" target="_blank" rel="noreferrer">🔐 Aisha's school system ↗</a>
+      <a className="school-tab school-system-link" href="https://ggsass.de/iserv/auth/login" target="_blank" rel="noreferrer">🔐 School System ↗</a>
     </div>
     {schoolTab === "timetable" && <>
     <div className="schedule-toolbar"><span>{editing ? "✏️ Change any lesson or activity below." : "A little plan for every day."}</span><div>{editing ? <><button className="secondary-button" onClick={() => setEditing(false)}>Cancel</button><button className="primary-button" onClick={saveSchedule}>Save changes ✓</button></> : <button className="secondary-button" onClick={() => setEditing(true)}>✎ Edit my week</button>}</div></div>
