@@ -223,7 +223,7 @@ function School() {
             </div>
             {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
           </React.Fragment>)}
-          <div className="after-school"><b>🌟 After school</b>{editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" after school"} /> : dayIndex === 0 && day.after.includes("Chess Club") ? <><span>OGS · Chess Club · 15:00–16:00 (every two weeks)</span><button className="chess-dates-toggle" onClick={() => setShowChessDates(value => !value)}>{showChessDates ? "Hide dates ▲" : "Show chess club dates ▼"}</button>{showChessDates && <ol className="chess-dates-list">{chessClubDates.map(date => <li key={date}>{date}</li>)}</ol>}</> : <span>{day.after || "No activity added"}</span>}</div>
+          <div className="after-school"><b>🌟 After school</b>{editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" after school"} /> : dayIndex === 0 ? <><span>{day.after.includes("Dance Club") ? day.after : "OGS"}</span><span>♟ Chess Club · 15:00–16:00 (every two weeks)</span><button className="chess-dates-toggle" onClick={() => setShowChessDates(value => !value)}>{showChessDates ? "Hide dates ▲" : "Show chess club dates ▼"}</button>{showChessDates && <ol className="chess-dates-list">{chessClubDates.map(date => <li key={date}>{date}</li>)}</ol>}</> : <span>{day.after || "No activity added"}</span>}</div>
           <div className="day-routine"><div><b>🍽️ Lunch</b><span>{dayRoutine[day.day].lunch}</span></div><div><b>📚 Homework</b><span>{dayRoutine[day.day].homework}</span></div></div>
         </div>)}
       </div>
