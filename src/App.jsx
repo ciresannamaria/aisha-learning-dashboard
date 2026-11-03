@@ -169,7 +169,7 @@ function Home({ setActive, stars }) {
 }
 
 const initialWeek = [
-  { day:"Monday", icon:"🌼", lessons:[["8:10–8:55","",""],["9:00–9:45","Deutsch","Frau Thülig"],["10:15–11:00","Mathematik","Frau Thülig"],["11:05–11:50","Kunst","Frau Thülig"],["12:05–12:50","Kunst","Frau Thülig"],["12:50–13:35","",""]], after:"OGS · Dance Club 15:00–16:00" },
+  { day:"Monday", icon:"🌼", lessons:[["8:10–8:55","",""],["9:00–9:45","Deutsch","Frau Thülig"],["10:15–11:00","Mathematik","Frau Thülig"],["11:05–11:50","Kunst","Frau Thülig"],["12:05–12:50","Kunst","Frau Thülig"],["12:50–13:35","",""]], after:"OGS · Chess Club (every two weeks)" },
   { day:"Tuesday", icon:"🌻", lessons:[["8:10–8:55","Sachunterricht","Frau Wood"],["9:00–9:45","Mathematik","Frau Thülig"],["10:15–11:00","Deutsch","Frau Thülig"],["11:05–11:50","Deutsch","Frau Thülig"],["12:05–12:50","Ev. Religion","Frau Heppner"],["12:50–13:35","",""]], after:"OGS · Recorder 13:30–14:15 · Frau Bierhaus" },
   { day:"Wednesday", icon:"🌷", lessons:[["8:10–8:55","Sport","Herr Schrader"],["9:00–9:45","Geometrie","Frau Grünewald"],["10:15–11:00","Musik","Frau Grünewald"],["11:05–11:50","Deutsch","Frau Ulpke"],["12:05–12:50","",""],["12:50–13:35","",""]], after:"OGS · Ensemble 14:00–14:45 · Herr Pottmeier" },
   { day:"Thursday", icon:"🌸", lessons:[["8:10–8:55","Ev./kath. Religion",""],["9:00–9:45","Deutsch","Frau Thülig"],["10:15–11:00","Mathematik","Frau Thülig"],["11:05–11:50","Kunst","Frau Thülig"],["12:05–12:50","Schwimmen","Frau Thülig & Herr Schrader"],["12:50–13:35","Schwimmen","Frau Thülig & Herr Schrader"]], after:"OGS · Bastel Club 15:00–16:00" },
@@ -178,7 +178,12 @@ const initialWeek = [
 const breakTimes = [{ after:1, label:"🍎 Snack & play · 9:45–10:15" },{ after:3, label:"🍎 Snack & play · 11:50–12:05" }];
 function School() {
   const [schoolTab,setSchoolTab] = useState("timetable");
-  const [week,setWeek] = useState(() => { try { return JSON.parse(localStorage.getItem("aisha-week-schedule")) || initialWeek; } catch { return initialWeek; } });
+  const [week,setWeek] = useState(() => { try { const saved = JSON.parse(localStorage.getItem("aisha-week-schedule")); return saved ? saved.map(day => day.day === "Monday" && day.after?.includes("Dance Club") ? {...day,after:"OGS · Chess Club (every two weeks)"} : day) : initialWeek; } catch { return initialWeek; } });
+  const [showChessDates,setShowChessDates] = useState(false);
+  const chessClubDates = [];
+  for (let date = new Date(Date.UTC(2026,10,2)); date <= new Date(Date.UTC(2027,6,16)); date.setUTCDate(date.getUTCDate()+14)) {
+    chessClubDates.push(new Date(date).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric",timeZone:"UTC"}));
+  }
   const [sunday,setSunday] = useState(() => { try { return JSON.parse(localStorage.getItem("aisha-sunday-schedule")) || [["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]; } catch { return [["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]; } });
   const [editing,setEditing] = useState(false);
   function updateLesson(dayIndex,lessonIndex,field,value) {
@@ -207,7 +212,7 @@ function School() {
             </div>
             {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
           </React.Fragment>)}
-          <div className="after-school"><b>🌟 After school</b>{editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" after school"} /> : <span>{day.after || "No activity added"}</span>}</div>
+          <div className="after-school"><b>🌟 After school</b>{editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" after school"} /> : dayIndex === 0 && day.after.includes("Chess Club") ? <><span>OGS · Chess Club (every two weeks)</span><button className="chess-dates-toggle" onClick={() => setShowChessDates(value => !value)}>{showChessDates ? "Hide dates ▲" : "Show chess club dates ▼"}</button>{showChessDates && <ol className="chess-dates-list">{chessClubDates.map(date => <li key={date}>{date}</li>)}</ol>}</> : <span>{day.after || "No activity added"}</span>}</div>
         </div>)}
       </div>
     </section>
