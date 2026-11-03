@@ -92,12 +92,21 @@ function App() {
   const badges = useMemo(() => [
     { icon: "🌈", title: "Curious learner", description: "You opened your learning world!", unlocked: true },
     { icon: "🔢", title: "Math explorer", description: "Finish your first maths challenge.", unlocked: earnedToday },
-    { icon: "🤖", title: "Coding explorer", description: "Visit a coding activity.", unlocked: progress.completed.includes("coding") },
+    { icon: "🤖", title: "Coding explorer", description: "Visit a coding activity.", unlocked: progress.completed.some((item) => item.startsWith("coding-")) },
     { icon: "🥦", title: "Food detective", description: "Try the healthy plate quiz.", unlocked: progress.completed.includes("food") },
   ], [earnedToday, progress.completed]);
 
   function markCompleted(id) {
     setProgress((old) => old.completed.includes(id) ? old : { ...old, completed: [...old.completed, id], stars: old.stars + 1 });
+  }
+
+  function awardFoodQuizStars(score) {
+    const earned = Math.floor(score / 3);
+    setProgress((old) => ({
+      ...old,
+      completed: old.completed.includes("food") ? old.completed : [...old.completed, "food"],
+      stars: old.stars + earned,
+    }));
   }
 
   return (
@@ -123,8 +132,8 @@ function App() {
         <main className="main-content">
           {active === "home" && <Home setActive={setActive} stars={progress.stars} />}
           {active === "school" && <School />}
-          {active === "future" && <FutureWorld />}
-          {active === "food" && <Food markCompleted={markCompleted} />}
+          {active === "future" && <FutureWorld markCompleted={markCompleted} />}
+          {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
           {active === "coding" && <Coding markCompleted={markCompleted} />}
           {active === "math" && <MathGames question={question} questionIndex={questionIndex} answer={answer} chooseAnswer={chooseAnswer} nextQuestion={nextQuestion} roundScore={roundScore} roundFinished={roundFinished} restartMath={restartMath} earnedToday={earnedToday} />}
           {active === "stars" && <Achievements stars={progress.stars} badges={badges} />}
@@ -154,6 +163,7 @@ function Home({ setActive, stars }) {
     </section>
     <div className="section-title-row"><div><p className="eyebrow">CHOOSE YOUR ADVENTURE</p><h2>Where shall we go?</h2></div><span className="star-counter">⭐ {stars} stars</span></div>
     <div className="adventure-grid">{cards.map((card) => <button key={card.id} className={`adventure-card ${card.color}`} onClick={() => setActive(card.id)}><span className="card-emoji">{card.icon}</span><span className="card-title">{card.title}</span><span className="card-text">{card.text}</span><span className="card-arrow">Let's go <b>↗</b></span></button>)}</div>
+    <section className="mission-card"><div className="mission-icon">🎯</div><div><p className="eyebrow">YOUR STAR GOAL</p><h3>Collect 50 stars!</h3><p>When you reach 50 stars, you can choose a special treat with Mum. Every little adventure brings you closer!</p></div><span className="mission-sparkle">🎁</span></section>
     <section className="mission-card"><div className="mission-icon">🎯</div><div><p className="eyebrow">TODAY'S LITTLE MISSION</p><h3>Try one new thing!</h3><p>Answer a maths question, explore a new food, or try a coding puzzle.</p></div><span className="mission-sparkle">✦</span></section>
   </>;
 }
@@ -218,7 +228,7 @@ function School() {
 const foodQuestions = [{"q":"Which food belongs in the vegetables and fruit part of the plate?","o":["Carrot","Chicken","Rice","Cheese"],"a":0,"e":"Carrots are vegetables. They add color, fiber and vitamins to meals."},{"q":"Which food is a source of protein?","o":["Egg","Apple","Bread","Cucumber"],"a":0,"e":"Eggs contain protein, which helps the body grow and repair itself."},{"q":"Which food is a grain food?","o":["Pasta","Strawberry","Yogurt","Peas"],"a":0,"e":"Pasta is usually made from wheat, a grain."},{"q":"Which drink is a good everyday choice?","o":["Water","Lemonade","Cola","Sweet iced tea"],"a":0,"e":"Water helps your body work well and is a great drink throughout the day."},{"q":"Which of these is a fruit?","o":["Pear","Potato","Lentil","Oatmeal"],"a":0,"e":"A pear is a fruit. Fruit and vegetables bring lots of variety to meals."},{"q":"Which food is made from milk and can provide calcium and protein?","o":["Yogurt","Carrot","Rice","Olive oil"],"a":0,"e":"Yogurt is a dairy food that can provide calcium and protein."},{"q":"Which food is a plant-based source of protein?","o":["Lentils","Grapes","Pasta","Lettuce"],"a":0,"e":"Lentils are beans/legumes and contain plant protein and fiber."},{"q":"Which food is a whole grain?","o":["Oatmeal","Candy","Butter","Chicken"],"a":0,"e":"Oats are whole grains and provide energy and fiber."},{"q":"Which meal has a good mix of food groups?","o":["Rice, beans and broccoli","Only a bowl of sweets","Only plain pasta","Only cucumber"],"a":0,"e":"Rice gives energy, beans provide protein, and broccoli adds vegetables."},{"q":"What can vegetables and fruit help provide?","o":["Vitamins and fiber","Only protein","Only sugar","No nutrients"],"a":0,"e":"Different fruits and vegetables provide vitamins, minerals and fiber."},{"q":"Which food belongs to the protein group?","o":["Fish","Banana","Bread","Tomato"],"a":0,"e":"Fish is a protein food."},{"q":"Which is a starchy food that gives the body energy?","o":["Potato","Blueberry","Egg","Spinach"],"a":0,"e":"Potatoes contain carbohydrates that the body can use for energy."},{"q":"Which snack includes fruit and protein?","o":["Apple with yogurt","Only jelly sweets","Only crisps","Only a lollipop"],"a":0,"e":"The apple gives fruit and fiber; yogurt adds protein and calcium."},{"q":"Which of these is a vegetable?","o":["Broccoli","Peach","Cheese","Oats"],"a":0,"e":"Broccoli is a green vegetable."},{"q":"Why is it helpful to eat different colored vegetables and fruits?","o":["They offer different nutrients","They all taste exactly the same","They replace the need for water","They contain no nutrients"],"a":0,"e":"Different colors often come with different vitamins and helpful plant compounds."},{"q":"Which food is a legume?","o":["Chickpeas","Orange","Bread","Cheddar"],"a":0,"e":"Chickpeas are legumes. They provide plant protein and fiber."},{"q":"Which is a grain food often used to make porridge?","o":["Oats","Eggs","Carrots","Salmon"],"a":0,"e":"Oats are grains and are often cooked into porridge."},{"q":"What is one reason our bodies need protein?","o":["To grow and repair the body","To make us never thirsty","To replace sleep","To make vegetables unnecessary"],"a":0,"e":"Protein helps the body grow and repair muscles and other tissues."},{"q":"Which lunch has vegetables, grains and protein?","o":["Chicken, bulgur and salad","Only a banana","Only bread","Only yogurt"],"a":0,"e":"Chicken provides protein, bulgur is a grain, and salad adds vegetables."},{"q":"What is a sensible way to build a balanced meal?","o":["Include different food groups","Eat only one food every day","Avoid all grains","Drink soda instead of water"],"a":0,"e":"A balanced meal can include vegetables or fruit, grains or potatoes, and protein foods."}];
 
 
-function FutureWorld() {
+function FutureWorld({ markCompleted }) {
   const [open,setOpen] = useState(false);
   const [likes,setLikes] = useState([]);
   const qualities=["I enjoy helping people learn.","I like explaining things.","I enjoy being creative.","I like working with children."];
@@ -227,7 +237,7 @@ function FutureWorld() {
     <div className={open ? "future-flip-card is-flipped" : "future-flip-card"}>
       <div className="future-flip-inner">
         <div className="future-card-face future-card-front">
-          <button className="future-job-card" onClick={()=>setOpen(true)} aria-label="Turn over the Teacher card">
+          <button className="future-job-card" onClick={()=>{setOpen(true);markCompleted("profession-teacher");}} aria-label="Turn over the Teacher card">
             <div className="teacher-art" role="img" aria-label="Teacher in a classroom"><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></div>
             <span className="future-card-title">Teacher</span><span className="future-card-category">Education</span><span className="future-card-open">Tap to turn the card ↻</span>
           </button>
@@ -249,7 +259,7 @@ function FutureWorld() {
   </>;
 }
 
-function Food({ markCompleted }) {
+function Food({ markCompleted, awardFoodQuizStars }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
@@ -266,7 +276,7 @@ function Food({ markCompleted }) {
   function next() {
     if (questionIndex === foodQuestions.length - 1) {
       setFinished(true);
-      markCompleted("food");
+      awardFoodQuizStars(score);
     } else {
       setQuestionIndex((value) => value + 1);
       setSelected(null);
@@ -301,7 +311,7 @@ function Coding({ markCompleted }) {
     <PageHeading eyebrow="CODING LAB" title="Hello, little coder!" subtitle="Computers follow instructions. You can teach them what to do!" emoji="🤖" />
     <section className="coding-intro"><div className="robot-face">🤖</div><div><h2>Think like a computer scientist</h2><p>Break a big problem into small steps. Give clear instructions. Test your idea and try again!</p></div></section>
     <div className="section-title-row compact"><div><p className="eyebrow">PICK A CODING ADVENTURE</p><h2>Choose where to explore</h2></div></div>
-    <div className="resource-list">{codingLinks.map((link) => <a className="resource-card" href={link.url} target="_blank" rel="noreferrer" key={link.name} onClick={() => markCompleted("coding")}><span className="resource-icon">{link.icon}</span><span className="resource-info"><b>{link.name}</b><small>{link.detail}</small></span><span className="resource-level">{link.level}</span><span className="external-arrow">↗</span></a>)}</div>
+    <div className="resource-list">{codingLinks.map((link) => <a className="resource-card" href={link.url} target="_blank" rel="noreferrer" key={link.name} onClick={() => markCompleted("coding-" + link.name)}><span className="resource-icon">{link.icon}</span><span className="resource-info"><b>{link.name}</b><small>{link.detail}</small></span><span className="resource-level">{link.level}</span><span className="external-arrow">↗</span></a>)}</div>
     <section className="mission-card"><div className="mission-icon">🧭</div><div><p className="eyebrow">UNPLUGGED CHALLENGE</p><h3>Be a robot's teacher!</h3><p>Write 4 steps to help a robot walk from the door to a chair. Are your instructions clear?</p></div></section>
   </>;
 }
@@ -328,7 +338,7 @@ function MathGames({ question, questionIndex, answer, chooseAnswer, nextQuestion
 function Achievements({ stars, badges }) {
   return <>
     <PageHeading eyebrow="MY PROGRESS" title="Look at you go!" subtitle="Every little step is something to celebrate." emoji="🏆" />
-    <section className="stars-hero"><span>⭐</span><div><strong>{stars}</strong><p>stars collected</p></div><span>✨</span></section>
+    <section className="stars-hero"><span>⭐</span><div><strong>{stars}</strong><p>stars collected</p><p className="treat-goal">🎁 At 50 stars, choose a special treat with Mum!</p></div><span>✨</span></section>
     <div className="section-title-row compact"><div><p className="eyebrow">YOUR BADGE COLLECTION</p><h2>Little achievements</h2></div></div>
     <div className="badge-grid">{badges.map((badge) => <div className={`badge-card ${badge.unlocked ? "unlocked" : "locked"}`} key={badge.title}><span>{badge.unlocked ? badge.icon : "🔒"}</span><b>{badge.title}</b><small>{badge.unlocked ? badge.description : "Keep exploring to unlock this badge!"}</small></div>)}</div>
     <p className="gentle-note">Your stars and completed missions are saved in this browser on this device.</p>
