@@ -5,7 +5,7 @@ const sections = [
   { id: "school", label: "My school", icon: "🎒" },
   { id: "future", label: "My future world", icon: "🌍" },
   { id: "food", label: "Healthy me", icon: "🥑" },
-  { id: "feelings", label: "My feelings", icon: "🌈" },
+  { id: "feelings", label: "Emotions", icon: "😊" },
   { id: "coding", label: "Coding lab", icon: "🤖" },
   { id: "math", label: "Math games", icon: "🧩" },
   { id: "stars", label: "My stars", icon: "⭐" },
@@ -163,7 +163,7 @@ function Home({ setActive, stars }) {
     { id: "school", icon: "🎒", title: "My school day", text: "Timetable, school things and reminders.", color: "blue" },
     { id: "future", icon: "🌍", title: "My future world", text: "Explore interesting jobs and professions.", color: "purple" },
     { id: "food", icon: "🥑", title: "Healthy me", text: "Discover food that helps you grow.", color: "green" },
-    { id: "feelings", icon: "🌈", title: "My feelings", text: "Explore emotions and understand yourself.", color: "peach" },
+    { id: "feelings", icon: "😊", title: "Emotions", text: "Explore emotions and understand yourself.", color: "peach" },
     { id: "coding", icon: "🤖", title: "Coding lab", text: "Give instructions and create things.", color: "purple" },
     { id: "math", icon: "🧩", title: "Math games", text: "Solve puzzles and become a math star.", color: "peach" },
   ];
@@ -359,7 +359,7 @@ function MyFeelings({ markCompleted }) {
     setChecked(false);
   }
   return <>
-    <PageHeading eyebrow="EMOTIONS & ME" title="My feelings" subtitle="Let's learn about one feeling at a time." emoji="🌈" />
+    <PageHeading eyebrow="EMOTIONS & ME" title="Emotions" subtitle="Let's learn about one feeling at a time." emoji="😊" />
     <div className="feelings-intro"><span>💛</span><div><b>Every feeling is okay.</b><p>We can learn what feelings are and how they might feel inside our body.</p></div></div>
     <section className="feelings-panel feelings-lessons-panel">
       <p className="eyebrow">FEELING OF THE DAY</p>
