@@ -4,7 +4,7 @@ const sections = [
   { id: "home", label: "Home", icon: "🏡" },
   { id: "school", label: "My school", icon: "🎒" },
   { id: "future", label: "My future world", icon: "🌍" },
-  { id: "food", label: "Healthy me", icon: "🥑" },
+  { id: "food", label: "Food", icon: "🍎" },
   { id: "feelings", label: "Emotions", icon: "😊" },
   { id: "coding", label: "Coding lab", icon: "🤖" },
   { id: "math", label: "Math games", icon: "🧩" },
@@ -162,7 +162,7 @@ function Home({ setActive, stars }) {
   const cards = [
     { id: "school", icon: "🎒", title: "My school day", text: "Timetable, school things and reminders.", color: "blue" },
     { id: "future", icon: "🌍", title: "My future world", text: "Explore interesting jobs and professions.", color: "purple" },
-    { id: "food", icon: "🥑", title: "Healthy me", text: "Discover food that helps you grow.", color: "green" },
+    { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" },
     { id: "feelings", icon: "😊", title: "Emotions", text: "Explore emotions and understand yourself.", color: "peach" },
     { id: "coding", icon: "🤖", title: "Coding lab", text: "Give instructions and create things.", color: "purple" },
     { id: "math", icon: "🧩", title: "Math games", text: "Solve puzzles and become a math star.", color: "peach" },
@@ -405,49 +405,36 @@ function MyFeelings({ markCompleted }) {
   </>;
 }
 
-function Food({ markCompleted, awardFoodQuizStars }) {
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [score, setScore] = useState(0);
-  const [finished, setFinished] = useState(false);
-  const question = foodQuestions[questionIndex];
-  const correct = selected === question?.a;
-
-  function choose(index) {
-    if (selected !== null) return;
-    setSelected(index);
-    if (index === question.a) setScore((value) => value + 1);
-  }
-
-  function next() {
-    if (questionIndex === foodQuestions.length - 1) {
-      setFinished(true);
-      awardFoodQuizStars(score);
-    } else {
-      setQuestionIndex((value) => value + 1);
-      setSelected(null);
-    }
-  }
-
-  function restart() {
-    setQuestionIndex(0);
-    setSelected(null);
-    setScore(0);
-    setFinished(false);
-  }
-
+function Food() {
   return <>
-    <PageHeading eyebrow="HEALTHY ME" title="Eat a rainbow!" subtitle="Discover foods that help you grow." emoji="🥑" />
-    <section className="plate-panel"><div className="plate-illustration"><div className="plate-half"><span>🥦</span><span>🥕</span><span>🍓</span><span>🥬</span></div><div className="plate-quarter"><span>🍚</span><span>🍞</span></div><div className="plate-quarter protein"><span>🥚</span><span>🫘</span></div></div><div className="plate-copy"><p className="eyebrow">THE HEALTHY PLATE</p><h2>A little bit of everything!</h2><p>A helpful guide for a balanced main meal:</p><ul><li><b>½ plate</b> vegetables and fruit</li><li><b>¼ plate</b> grains or potatoes</li><li><b>¼ plate</b> protein foods</li></ul><p className="gentle-note">Different meals can look different. This is a guide, not a strict rule.</p></div></section>
-    <div className="food-groups"><div className="food-group green"><span>🥦</span><b>Vegetables & fruit</b><small>Help your body stay healthy.</small></div><div className="food-group yellow"><span>🍞</span><b>Grains & potatoes</b><small>Give you energy to play.</small></div><div className="food-group pink"><span>🥚</span><b>Protein foods</b><small>Help your body grow.</small></div><div className="food-group blue"><span>💧</span><b>Water</b><small>Helps your body work well.</small></div></div>
-    <section className="quiz-panel food-quiz">
-      <div className="food-quiz-top"><p className="eyebrow">FOOD EXPLORER QUIZ</p><span className="small-tag">{finished ? "COMPLETE" : `QUESTION ${questionIndex + 1} OF ${foodQuestions.length}`}</span></div>
-      {!finished ? <>
-        <div className="progress-track"><span style={{width:`${((questionIndex + 1) / foodQuestions.length) * 100}%`}} /></div>
-        <h2>{question.q}</h2>
-        <div className="food-answer-grid">{question.o.map((option,index) => <button key={option} disabled={selected !== null} className={selected === index ? (correct ? "food-answer correct" : "food-answer incorrect") : selected !== null && index === question.a ? "food-answer reveal-correct" : "food-answer"} onClick={() => choose(index)}>{option}</button>)}</div>
-        {selected !== null && <><div className={`feedback ${correct ? "good" : "try-again"}`}>{correct ? "That's right! 🌟 " : "Good try! "} {question.e}</div><button className="primary-button next-button" onClick={next}>{questionIndex === foodQuestions.length - 1 ? "See my score" : "Next question →"}</button></>}
-      </> : <div className="result-panel"><div className="result-emoji">🌟</div><h2>Food explorer complete!</h2><p className="result-score">{score} / {foodQuestions.length}</p><p>{score === foodQuestions.length ? "Fantastic! You know so much about food groups!" : "Well done for learning! Every question helps you discover something new."}</p><button className="primary-button" onClick={restart}>Play again ↻</button></div>}
+    <PageHeading eyebrow="FOOD" title="Eat a rainbow!" subtitle="Discover the foods that help you grow, feel strong and have energy." emoji="🌈" />
+    <section className="balanced-food-layout">
+      <div className="balanced-plate-visual" role="img" aria-label="A balanced plate with vegetables, fruit, chicken, rice and potatoes">
+        <div className="balanced-plate">
+          <div className="plate-food plate-vegetables"><span>🥦</span><span>🥕</span><span>🥬</span><span>🍅</span><span>🥒</span></div>
+          <div className="plate-food plate-fruit"><span>🍓</span><span>🫐</span><span>🍊</span></div>
+          <div className="plate-food plate-carbs"><span>🍚</span><span>🥔</span></div>
+          <div className="plate-food plate-protein"><span>🍗</span><span>🥚</span></div>
+        </div>
+        <p className="plate-caption">A colorful, balanced meal</p>
+      </div>
+      <div className="balanced-food-guide">
+        <p className="eyebrow">A BALANCED PLATE</p>
+        <h2>Three helpful food groups</h2>
+        <div className="balanced-food-group food-fiber">
+          <span className="balanced-food-icon">🥦🍓</span>
+          <div><h3>Vegetables & fruits</h3><b>Fiber</b><p>Help digestion and keep our bodies healthy.</p></div>
+        </div>
+        <div className="balanced-food-group food-carbs">
+          <span className="balanced-food-icon">🍞🥔</span>
+          <div><h3>Grains & potatoes</h3><b>Carbohydrates</b><p>Give us energy to learn, play and move.</p></div>
+        </div>
+        <div className="balanced-food-group food-protein">
+          <span className="balanced-food-icon">🍗🥚</span>
+          <div><h3>Meat & other protein foods</h3><b>Protein</b><p>Help our bodies grow and repair.</p></div>
+        </div>
+        <p className="balanced-food-note">A balanced meal includes foods from all three groups. The foods can be different every day!</p>
+      </div>
     </section>
   </>;
 }
