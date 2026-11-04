@@ -342,3 +342,25 @@ button{cursor:pointer}
 @keyframes feeling-card-arrive{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(prefers-reduced-motion:reduce){.feeling-flip-inner{transition:none}.feeling-flip-wrap{animation:none}}
 @media(max-width:650px){.feeling-flip-wrap{max-width:100%;height:220px}.feeling-flip-back-content{padding:13px 15px}}
+
+
+/* Food: simple balanced plate introduction */
+.balanced-food-layout{display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,1.05fr);gap:22px;align-items:center;margin:8px 0 28px}
+.balanced-plate-visual{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:390px;padding:18px;background:linear-gradient(145deg,#f1f8e9,#fff8e9);border:1px solid #e7efd9;border-radius:22px}
+.balanced-plate{width:min(100%,350px);aspect-ratio:1;border:12px solid #fff;border-radius:50%;background:#fff;box-shadow:0 8px 24px rgba(72,90,56,.13);padding:13px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:7px;transform:rotate(-5deg)}
+.plate-food{display:flex;align-items:center;justify-content:center;gap:3px;flex-wrap:wrap;border:2px solid #fff;border-radius:100% 10% 10% 10%;font-size:36px;min-width:0}
+.plate-vegetables{background:#e4f2d9;grid-row:1/3;border-radius:100% 12% 12% 100%;flex-direction:column}
+.plate-fruit{background:#fff0e7;border-radius:12% 100% 12% 12%;font-size:29px}
+.plate-carbs{background:#fff3ce;border-radius:12% 12% 12% 12%;font-size:32px}
+.plate-protein{background:#f9e5e2;border-radius:12% 12% 100% 12%;font-size:32px}
+.plate-caption{font-size:12px;font-weight:800;color:#7c8b68;margin:16px 0 0}
+.balanced-food-guide{padding:20px;background:#fff;border:1px solid #eee9e2;border-radius:22px;box-shadow:0 5px 20px #4b3b2410}
+.balanced-food-guide h2{font-size:22px;color:#514b60;margin:2px 0 15px}
+.balanced-food-group{display:flex;align-items:center;gap:13px;padding:13px;margin:10px 0;border-radius:14px}
+.balanced-food-icon{font-size:32px;min-width:62px;text-align:center}
+.balanced-food-group h3{font-size:14px;margin:0 0 3px;color:#514b60}
+.balanced-food-group b{font-size:11px;color:#6d805b}
+.balanced-food-group p{font-size:11px;line-height:1.5;color:#777386;margin:4px 0 0}
+.food-fiber{background:#edf6e8}.food-carbs{background:#fff5db}.food-protein{background:#fcefeb}
+.balanced-food-note{font-size:11px;line-height:1.55;color:#8a8290;margin:14px 2px 0}
+@media(max-width:760px){.balanced-food-layout{grid-template-columns:1fr;gap:14px}.balanced-plate-visual{min-height:320px}.balanced-plate{max-width:290px}.balanced-food-guide{padding:16px}}
