@@ -318,3 +318,27 @@ button{cursor:pointer}
 .feeling-check-button:disabled{opacity:.45;cursor:not-allowed}
 .feeling-quiz-result{font-size:12px;font-weight:900;color:#5f8967;margin:12px 0 0}
 @media(max-width:650px){.feeling-lesson-button{padding:12px}.feeling-lesson-emoji{font-size:28px}.feeling-lesson-action{font-size:9px}}
+
+
+/* Compact 3D flip card for each feeling */
+.feeling-flip-list{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.feeling-flip-wrap{width:100%;max-width:330px;height:214px;perspective:1000px;animation:feeling-card-arrive .45s ease both}
+.feeling-flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.2,.75,.25,1)}
+.feeling-flip-inner.is-flipped{transform:rotateY(180deg)}
+.feeling-flip-face{position:absolute;inset:0;overflow:hidden;border-radius:18px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 7px 20px rgba(75,58,91,.10)}
+.feeling-flip-front{background:linear-gradient(145deg,#fff8e8,#f2eafa 70%,#eaf3ff)}
+.feeling-flip-front-button{width:100%;height:100%;border:1px solid #eee4f2;border-radius:18px;background:transparent;color:#514b60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer}
+.feeling-flip-emoji{font-size:48px;line-height:1.1;transition:transform .35s}
+.feeling-flip-front-button:hover .feeling-flip-emoji{transform:scale(1.13) rotate(-7deg)}
+.feeling-flip-name{font-size:20px;font-weight:900}
+.feeling-flip-front-button>small{font-size:10px;color:#a49aaa}
+.feeling-flip-hint{margin-top:9px;font-size:10px;font-weight:800;color:#8065a3}
+.feeling-flip-back{transform:rotateY(180deg);background:#fff8ef;border:1px solid #f0e3d5}
+.feeling-flip-back-content{height:100%;padding:15px 17px;display:flex;flex-direction:column;justify-content:center;gap:5px;overflow-y:auto}
+.feeling-flip-back-content h3{font-size:15px;color:#66517f;margin:0 0 2px}
+.feeling-flip-back-content p{font-size:10px;line-height:1.45;color:#716a78;margin:2px 0}
+.feeling-flip-back-content p b{color:#66517f}
+.feeling-flip-back-button{align-self:flex-start;margin-top:5px;border:1px solid #e7d9ec;background:#fff;border-radius:9px;padding:6px 9px;color:#8065a3;font-size:9px;font-weight:900;cursor:pointer}
+@keyframes feeling-card-arrive{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.feeling-flip-inner{transition:none}.feeling-flip-wrap{animation:none}}
+@media(max-width:650px){.feeling-flip-wrap{max-width:100%;height:220px}.feeling-flip-back-content{padding:13px 15px}}
