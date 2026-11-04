@@ -288,3 +288,33 @@ button{cursor:pointer}
 .feelings-reminder{margin-top:15px;background:#eef6ef;border-radius:12px;padding:13px;color:#5d7860;font-size:11px;line-height:1.6}.feelings-navigation{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:15px 0}.feelings-navigation>span{font-size:11px;color:#978d9d;font-weight:800}.feelings-navigation button:disabled{opacity:.4;cursor:not-allowed}
 .feeling-intensity{margin:18px 0}.feeling-intensity label,.feeling-reason-label{display:block;font-size:11px;font-weight:900;color:#655b70;margin-bottom:9px}.intensity-options{display:flex;gap:8px;flex-wrap:wrap}.intensity-options button{flex:1;min-width:130px}.feeling-reason{display:block;width:100%;min-height:76px;resize:vertical;border:1px solid #e8dfed;border-radius:12px;padding:11px;font:inherit;font-size:11px;color:#514b60;background:#fffdfd}.save-feeling{margin-top:13px}.save-feeling:disabled{opacity:.45;cursor:not-allowed}.saved-feeling-note{font-size:12px;color:#5f8967;font-weight:800;margin:10px 0}
 @media(max-width:650px){.feelings-panel{padding:16px}.emotion-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.emotion-card{min-height:102px}.feelings-intro{padding:13px}.feelings-navigation button{padding:9px 11px}.intensity-options{flex-direction:column}.intensity-options button{width:100%}}
+
+
+/* Simple one-feeling-at-a-time learning cards */
+.feeling-lesson-list{display:grid;gap:11px}
+.feeling-lesson{border:1px solid #eee7f1;border-radius:14px;overflow:hidden;background:#fff}
+.feeling-lesson-button{width:100%;display:flex;align-items:center;gap:12px;padding:13px 15px;border:0;background:#fcfaff;color:#514b60;text-align:left;cursor:pointer}
+.feeling-lesson-button.selected{background:#f4eefb}
+.feeling-lesson-emoji{font-size:32px}
+.feeling-lesson-title{display:flex;flex-direction:column;gap:3px;flex:1}
+.feeling-lesson-title b{font-size:14px}
+.feeling-lesson-title small{font-size:9px;color:#a49aaa}
+.feeling-lesson-action{font-size:10px;font-weight:900;color:#8065a3}
+.feeling-lesson-detail{padding:15px 17px;background:#fff;border-top:1px solid #f0eaf3}
+.feeling-lesson-detail h3{font-size:15px;color:#5c5268;margin:0 0 8px}
+.feeling-lesson-detail h4{font-size:11px;color:#8065a3;margin:13px 0 4px}
+.feeling-lesson-detail p{font-size:12px;line-height:1.65;color:#777386;margin:5px 0}
+.feeling-lesson-german{font-size:9px!important;color:#aaa0ad!important}
+.feeling-quiz-panel{margin-top:20px}
+.feeling-question{padding:13px 0;border-top:1px solid #f1ecf2}
+.feeling-question h3{font-size:13px;color:#5c5268;margin:0 0 10px}
+.feeling-answer-list{display:grid;gap:7px}
+.feeling-answer{border:1px solid #eee5f0;border-radius:10px;padding:10px 12px;background:#fcfaff;color:#5d5669;text-align:left;font-size:11px;cursor:pointer}
+.feeling-answer.chosen{border-color:#bba4d5;background:#f4eefb}
+.feeling-answer.correct{border-color:#9dcea3;background:#eaf6e9;color:#46754b}
+.feeling-answer.incorrect{border-color:#e8b99e;background:#fff0e6;color:#a66c4b}
+.feeling-answer-explanation{font-size:10px;line-height:1.5;color:#6f8b72;margin:7px 0 0}
+.feeling-check-button{margin-top:12px}
+.feeling-check-button:disabled{opacity:.45;cursor:not-allowed}
+.feeling-quiz-result{font-size:12px;font-weight:900;color:#5f8967;margin:12px 0 0}
+@media(max-width:650px){.feeling-lesson-button{padding:12px}.feeling-lesson-emoji{font-size:28px}.feeling-lesson-action{font-size:9px}}
