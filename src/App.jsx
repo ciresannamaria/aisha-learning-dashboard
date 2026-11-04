@@ -365,20 +365,27 @@ function MyFeelings({ markCompleted }) {
       <p className="eyebrow">FEELING OF THE DAY</p>
       <h2>Let's learn about a feeling</h2>
       <p className="feelings-copy">Choose the card to discover today's feeling.</p>
-      <div className="feeling-lesson-list">
-        {lessons.map(item=><div className="feeling-lesson" key={item.id}>
-          <button className={"feeling-lesson-button "+(openFeeling===item.id?"selected":"")} onClick={()=>openCard(item)} aria-expanded={openFeeling===item.id}>
-            <span className="feeling-lesson-emoji">{item.emoji}</span>
-            <span className="feeling-lesson-title"><b>{item.name}</b><small>{item.german}</small></span>
-            <span className="feeling-lesson-action">{openFeeling===item.id?"Close ▲":"Open card ▼"}</span>
-          </button>
-          {openFeeling===item.id&&<div className="feeling-lesson-detail">
-            <h3>{item.emoji} What is {item.name.toLowerCase()}?</h3>
-            <p>{item.intro}</p>
-            <h4>How might it feel?</h4><p>{item.clues}</p>
-            <h4>A little example</h4><p>{item.example}</p>
-            <p className="feeling-lesson-german">{item.german}</p>
-          </div>}
+      <div className="feeling-flip-list">
+        {lessons.map(item=><div className="feeling-flip-wrap" key={item.id}>
+          <div className={"feeling-flip-inner "+(openFeeling===item.id?"is-flipped":"")}>
+            <div className="feeling-flip-face feeling-flip-front">
+              <button className="feeling-flip-front-button" onClick={()=>openCard(item)} aria-label={"Turn over the "+item.name+" card"}>
+                <span className="feeling-flip-emoji">{item.emoji}</span>
+                <span className="feeling-flip-name">{item.name}</span>
+                <small>{item.german}</small>
+                <span className="feeling-flip-hint">Tap to turn the card ↻</span>
+              </button>
+            </div>
+            <div className="feeling-flip-face feeling-flip-back">
+              <div className="feeling-flip-back-content">
+                <h3>{item.emoji} {item.name}</h3>
+                <p>{item.intro}</p>
+                <p><b>How might it feel?</b> {item.clues}</p>
+                <p><b>Example:</b> {item.example}</p>
+                <button className="feeling-flip-back-button" onClick={()=>setOpenFeeling("")}>Turn card back ↶</button>
+              </div>
+            </div>
+          </div>
         </div>)}
       </div>
     </section>
