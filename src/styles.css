@@ -386,6 +386,7 @@ button{cursor:pointer}
 .calendar-toolbar{display:flex;align-items:center;gap:10px;margin:5px 0 15px;flex-wrap:wrap}
 .calendar-toolbar h2{font-size:20px;color:#514b60;margin:0 auto 0 4px;min-width:145px}
 .calendar-toolbar>.secondary-button{min-width:34px;padding:7px 11px;font-size:18px}
+.calendar-today-button{border:1px solid #d9cde5;background:#fff;color:#70568f;border-radius:9px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}.calendar-today-button:hover{background:#f7f2fb}
 .calendar-view-toggle{display:flex;background:#f5f1f7;padding:3px;border-radius:10px;gap:2px}
 .calendar-view-toggle button{border:0;background:transparent;color:#82768d;border-radius:8px;padding:7px 10px;font-size:10px;font-weight:800;cursor:pointer}
 .calendar-view-toggle button.active{background:#fff;color:#70568f;box-shadow:0 1px 4px #44334a18}
