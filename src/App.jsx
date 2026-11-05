@@ -282,36 +282,46 @@ const foodQuestions = [{"q":"Which food belongs in the vegetables and fruit part
 
 
 function FutureWorld({ markCompleted }) {
-  const [open,setOpen] = useState(false);
-  const [likes,setLikes] = useState([]);
-  const qualities=["I enjoy helping people learn.","I like explaining things.","I enjoy being creative.","I like working with children."];
+  const [open,setOpen] = useState("");
+  const jobs = [
+    {id:"teacher",emoji:"👩‍🏫",title:"Teacher",category:"Education",art:"teacher",sections:[
+      ["What does a teacher do?","Teachers help children learn. They explain things, answer questions and plan fun lessons."],
+      ["Where do teachers work?","In schools, where they teach and help their students."],
+      ["What skills help?","Patience, kindness, creativity and clear explanations."],
+      ["Try it!","Teach a teddy bear or a friend something you know. Can you explain it in three steps?"]
+    ]},
+    {id:"doctor",emoji:"🧑‍⚕️",title:"Doctor",category:"Healthcare",art:"doctor",sections:[
+      ["What does a doctor do?","Doctors help people when they are ill or hurt. They ask questions, examine patients and suggest treatment."],
+      ["Where do doctors work?","In hospitals, doctors' offices and health centers."],
+      ["What skills help?","Kindness, careful listening, teamwork and problem-solving."],
+      ["Try it!","Set up a pretend doctor's office for a teddy bear. Ask what hurts and how you can help."]
+    ]}
+  ];
   return <>
     <PageHeading eyebrow="EXPLORE THE WORLD OF WORK" title="My future world" subtitle="Discover jobs and what you might enjoy." emoji="🌍" />
-    <div className={open ? "future-flip-card is-flipped" : "future-flip-card"}>
-      <div className="future-flip-inner">
-        <div className="future-card-face future-card-front">
-          <button className="future-job-card" onClick={()=>{setOpen(true);markCompleted("profession-teacher");}} aria-label="Turn over the Teacher card">
-            <div className="teacher-art" role="img" aria-label="Teacher in a classroom"><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></div>
-            <span className="future-card-title">Teacher</span><span className="future-card-category">Education</span><span className="future-card-open">Tap to turn the card ↻</span>
-          </button>
-        </div>
-        <div className="future-card-face future-card-back">
-          <div className="future-back-content">
-            <button className="secondary-button future-back" onClick={()=>setOpen(false)}>↶ Turn card back</button>
-            <div className="future-back-title"><span>👩‍🏫</span><div><p className="eyebrow">EDUCATION</p><h2>Teacher</h2></div></div>
-            <div className="future-info-block"><h3>What does a teacher do?</h3><p>Teachers help people learn. They explain ideas, plan lessons, answer questions and encourage their students.</p></div>
-            <div className="future-info-block"><h3>Where can teachers work?</h3><ul><li>Primary and secondary schools</li><li>Special education and language schools</li><li>Vocational colleges and adult education</li><li>International schools</li></ul><p>An <b>international teacher</b> teaches in a school where children may come from many countries. Lessons are often taught in English.</p></div>
-            <div className="future-info-block"><h3>How do you become a teacher?</h3><p>In Germany, the usual route is to study teaching at university and then complete practical teacher training called <b>Referendariat</b>. The exact route depends on the school and German state.</p></div>
-            <div className="future-info-block"><h3>What skills can help?</h3><p>Patience · Kindness · Creativity · Good communication · Enjoying learning and sharing ideas</p></div>
-            <div className="future-info-block"><h3>Would you enjoy being a teacher?</h3><p>Choose anything that sounds like you. There are no right or wrong answers!</p><div className="future-checklist">{qualities.map(item=><label key={item}><input type="checkbox" checked={likes.includes(item)} onChange={e=>setLikes(old=>e.target.checked?[...old,item]:old.filter(x=>x!==item))}/><span>{item}</span></label>)}</div><p className="future-small-note">{likes.length ? "You picked "+likes.length+" things you might enjoy!" : "Pick the things you like."}</p></div>
-            <div className="future-try"><h3>🎨 Try it yourself!</h3><p>Choose something you know and teach it to a teddy bear, friend or family member. Can you explain it in three steps?</p></div>
+    <div className="future-jobs-grid">
+      {jobs.map(job=><div className={"future-flip-card "+(open===job.id?"is-flipped":"")} key={job.id}>
+        <div className="future-flip-inner">
+          <div className="future-card-face future-card-front">
+            <button className="future-job-card" onClick={()=>{setOpen(open===job.id?"":job.id);markCompleted("profession-"+job.id);}} aria-label={"Turn over the "+job.title+" card"}>
+              <div className={job.art==="teacher"?"teacher-art":"doctor-art"} role="img" aria-label={job.art==="teacher"?"Teacher in a classroom":"Doctor with a medical bag"}>
+                {job.art==="teacher"?<><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></>:<><span>🧑‍⚕️</span><span className="doctor-bag">🩺</span><span className="doctor-cross">✚</span></>}
+              </div>
+              <span className="future-card-title">{job.title}</span><span className="future-card-category">{job.category}</span><span className="future-card-open">Tap to turn the card ↻</span>
+            </button>
+          </div>
+          <div className="future-card-face future-card-back">
+            <div className="future-back-content">
+              <button className="secondary-button future-back" onClick={()=>setOpen("")}>↶ Turn card back</button>
+              <div className="future-back-title"><span>{job.emoji}</span><div><p className="eyebrow">{job.category.toUpperCase()}</p><h2>{job.title}</h2></div></div>
+              {job.sections.map(([heading,copy],index)=><div className={index===3?"future-try":"future-info-block"} key={heading}><h3>{index===3?"🎨 ":""}{heading}</h3><p>{copy}</p></div>)}
+            </div>
           </div>
         </div>
-      </div>
+      </div>)}
     </div>
   </>;
 }
-
 
 const emotionCards = [
   { id:"happy", emoji:"😊", en:"Happy", de:"Glücklich", meaning:"You might feel happy when something lovely happens or you enjoy time with someone.", clue:"You may smile, laugh, feel warm, or have lots of energy.", body:"A smile, relaxed face, light feeling, or excited energy.", example:"Your friend invites you to play. You might feel happy!" },
