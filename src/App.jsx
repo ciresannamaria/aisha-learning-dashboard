@@ -229,8 +229,6 @@ function Calendar() {
   return <>
     <div className="page-heading calendar-page-heading"><div><h1>Calendar</h1><p className="page-subtitle">Aisha, this is our family calendar. You can look here to see our plans and events.</p></div></div>
     <section className="calendar-panel">
-      <div className="holiday-countdown"><span className="holiday-countdown-icon">🎄</span><div className="holiday-countdown-copy"><strong>{daysToHoliday === 0 ? "Christmas holidays start today!" : `${daysToHoliday} days left until Christmas holidays`}</strong></div></div>
-      <div className="day-progress" aria-label={`Today is ${Math.round(dayProgress)} percent remaining`}><div className="day-progress-label"><span>Today</span><small>Time left in the day</small></div><div className="day-progress-track"><span style={{ width: `${dayProgress}%` }} /></div></div>
       <div className="calendar-toolbar">
         <button className="secondary-button" onClick={() => view === "week" ? moveWeek(-1) : moveMonth(-1)} aria-label={view === "week" ? "Previous week" : "Previous month"}>‹</button>
         <h2><span className="calendar-heading-leaves">🍂</span> {view === "week" ? weekLabel : monthName}</h2>
@@ -262,6 +260,7 @@ function Calendar() {
         {selectedEvents.length ? selectedEvents.map(event => <div className="calendar-event-card" key={event.title}><span>{event.icon}</span><div><b>{event.title}</b><small>{new Date(event.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" })} · {event.time}</small></div></div>) : <p className="calendar-empty-note">Tap a day to see its plans. More adventures can be added here!</p>}
       </div>
     </section>
+    <div className="day-progress" aria-label={`Today is ${Math.round(dayProgress)} percent remaining`}><div className="day-progress-label"><span>Today</span><small>Time left in the day</small></div><div className="day-progress-track"><span style={{ width: `${dayProgress}%` }} /></div></div>
   </>;
 }
 
