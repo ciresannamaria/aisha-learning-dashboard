@@ -157,9 +157,11 @@ function App() {
 }
 
 function Calendar() {
-  const [month, setMonth] = useState(new Date(2026, 10, 1));
+  const today = new Date();
+  const todayKey = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, "0"), String(today.getDate()).padStart(2, "0")].join("-");
+  const [month, setMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [view, setView] = useState("month");
-  const [selectedDate, setSelectedDate] = useState("2026-11-07");
+  const [selectedDate, setSelectedDate] = useState(todayKey);
   const marketEvents = [];
   for (let date = new Date(2026, 10, 5); date <= new Date(2027, 10, 4); date.setDate(date.getDate() + 7)) {
     const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
@@ -167,11 +169,11 @@ function Calendar() {
   }
   const recurringSundayEvents = [];
   for (let date = new Date(2026, 10, 8); date <= new Date(2027, 10, 7); date.setDate(date.getDate() + 7)) {
-    const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
-    recurringSundayEvents.push({ date: key, time: "2:30–4:30 PM", title: "Chess club", detail: "Chess club — time to practise moves and play!", icon: "♟️", color: "chess" });
+    const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate())].join("-");
     if (date <= new Date(2026, 11, 13)) {
       recurringSundayEvents.push({ date: key, time: "11:00 AM–12:00 PM", title: "Swimming club", detail: "Swimming course (last session: December 13, 2026).", icon: "🏊", color: "swimming" });
     }
+    recurringSundayEvents.push({ date: key, time: "2:30–4:30 PM", title: "Chess club", detail: "Chess club — time to practise moves and play!", icon: "♟️", color: "chess" });
   }
   const events = [
     { date: "2026-11-07", time: "11:00 AM", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
@@ -181,44 +183,57 @@ function Calendar() {
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
   const monthName = month.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-  const first = new Date(year, monthIndex, 1);
-  const offset = (first.getDay() + 6) % 7;
-  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-  const today = new Date();
+  const dateKey = (date) => date ? [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-") : "";
   const isoWeek = (date) => {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     d.setDate(d.getDate() + 4 - (d.getDay() || 7));
     const yearStart = new Date(d.getFullYear(), 0, 1);
     return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
   };
+  const first = new Date(year, monthIndex, 1);
+  const offset = (first.getDay() + 6) % 7;
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
   const cells = Array.from({ length: Math.ceil((offset + daysInMonth) / 7) * 7 }, (_, index) => {
     const day = index - offset + 1;
     return day > 0 && day <= daysInMonth ? new Date(year, monthIndex, day) : null;
   });
   const weeks = [];
   for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
-  const dateKey = (date) => date ? [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-") : "";
+  const selected = new Date(selectedDate + "T12:00:00");
+  const monday = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
+  monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+  const selectedWeek = Array.from({ length: 7 }, (_, i) => new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i));
+  const weekLabel = selectedWeek[0].toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " – " + selectedWeek[6].toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   const selectedEvents = events.filter(event => event.date === selectedDate);
   const moveMonth = (amount) => setMonth(new Date(year, monthIndex + amount, 1));
+  const moveWeek = (amount) => {
+    const next = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + amount * 7);
+    setSelectedDate(dateKey(next));
+    setMonth(new Date(next.getFullYear(), next.getMonth(), 1));
+  };
+  const goToThisWeek = () => {
+    setSelectedDate(todayKey);
+    setMonth(new Date(today.getFullYear(), today.getMonth(), 1));
+  };
   return <>
     <PageHeading eyebrow="OUR PLANS & LITTLE ADVENTURES" title="Calendar" subtitle="Special days, family plans and fun things to look forward to." emoji="🗓️" />
     <section className="calendar-panel">
       <div className="calendar-season"><span>🍂</span><div><b>Autumn adventures</b><small>Leaves are falling and lovely plans are waiting!</small></div></div>
       <div className="calendar-toolbar">
-        <button className="secondary-button" onClick={() => moveMonth(-1)} aria-label="Previous month">‹</button>
-        <h2>{monthName}</h2>
-        <button className="secondary-button" onClick={() => moveMonth(1)} aria-label="Next month">›</button>
+        <button className="secondary-button" onClick={() => view === "week" ? moveWeek(-1) : moveMonth(-1)} aria-label={view === "week" ? "Previous week" : "Previous month"}>‹</button>
+        <h2>{view === "week" ? weekLabel : monthName}</h2>
+        <button className="secondary-button" onClick={() => view === "week" ? moveWeek(1) : moveMonth(1)} aria-label={view === "week" ? "Next week" : "Next month"}>›</button>
         <div className="calendar-view-toggle"><button className={view === "month" ? "active" : ""} onClick={() => setView("month")}>Month</button><button className={view === "week" ? "active" : ""} onClick={() => setView("week")}>Week</button></div>
+        <button className="calendar-today-button" onClick={goToThisWeek}>This week</button>
       </div>
       <div className="calendar-grid">
         <div className="calendar-weekday calendar-week-number"></div>
         {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(day => <div className="calendar-weekday" key={day}>{day}</div>)}
-        {(view === "month" ? weeks : weeks.filter(week => week.some(day => dateKey(day) === selectedDate))).map((week, weekIndex) => {
-          const visibleWeek = view === "month" ? week : week;
-          const weekDate = visibleWeek.find(Boolean);
+        {(view === "month" ? weeks : [selectedWeek]).map((week, weekIndex) => {
+          const weekDate = week.find(Boolean);
           return <React.Fragment key={weekIndex}>
             <div className="calendar-week-number">{weekDate ? isoWeek(weekDate) : ""}</div>
-            {visibleWeek.map((date, dayIndex) => {
+            {week.map((date, dayIndex) => {
               const key = dateKey(date);
               const dayEvents = events.filter(event => event.date === key);
               const isToday = date && date.toDateString() === today.toDateString();
@@ -233,7 +248,6 @@ function Calendar() {
         <h3>✨ {selectedEvents.length ? "Plans for this day" : "A little look ahead"}</h3>
         {selectedEvents.length ? selectedEvents.map(event => <div className="calendar-event-card" key={event.title}><span>{event.icon}</span><div><b>{event.title}</b><small>{new Date(event.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" })} · {event.time}</small><p>{event.detail}</p></div></div>) : <p className="calendar-empty-note">Tap a day to see its plans. More adventures can be added here!</p>}
       </div>
-      <p className="calendar-note">The small numbers on the left show the week of the year. This calendar is a first preview with an example event.</p>
     </section>
   </>;
 }
