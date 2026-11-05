@@ -159,6 +159,11 @@ function App() {
 function Calendar() {
   const today = new Date();
   const todayKey = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, "0"), String(today.getDate()).padStart(2, "0")].join("-");
+  const holidayStart = "2026-12-23";
+  const holidayEnd = "2027-01-06";
+  const startDate = new Date(2026, 11, 23);
+  const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const daysToHoliday = Math.max(0, Math.ceil((startDate - todayMidnight) / 86400000));
   const [month, setMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [view, setView] = useState("month");
   const [selectedDate, setSelectedDate] = useState(todayKey);
@@ -219,6 +224,7 @@ function Calendar() {
     <PageHeading eyebrow="OUR PLANS & LITTLE ADVENTURES" title="Calendar" subtitle="Special days, family plans and fun things to look forward to." emoji="🗓️" />
     <section className="calendar-panel">
       <div className="calendar-season"><span>🍂</span><div><b>Autumn adventures</b><small>Leaves are falling and lovely plans are waiting!</small></div></div>
+      <div className="holiday-countdown"><span className="holiday-countdown-icon">🎄</span><div className="holiday-countdown-copy"><b>Christmas holidays are coming!</b><strong>{daysToHoliday === 0 ? "The holidays begin today!" : `${daysToHoliday} days to go!`}</strong><small>December 23, 2026 – January 6, 2027</small></div><span className="holiday-countdown-sparkle">✨</span></div>
       <div className="calendar-toolbar">
         <button className="secondary-button" onClick={() => view === "week" ? moveWeek(-1) : moveMonth(-1)} aria-label={view === "week" ? "Previous week" : "Previous month"}>‹</button>
         <h2>{view === "week" ? weekLabel : monthName}</h2>
@@ -237,7 +243,8 @@ function Calendar() {
               const key = dateKey(date);
               const dayEvents = events.filter(event => event.date === key);
               const isToday = date && date.toDateString() === today.toDateString();
-              return <button key={key || "blank-" + dayIndex} className={`calendar-day ${!date ? "empty" : ""} ${isToday ? "today" : ""} ${key === selectedDate ? "selected" : ""}`} disabled={!date} onClick={() => setSelectedDate(key)}>
+              const isHoliday = date && key >= holidayStart && key <= holidayEnd;
+              return <button key={key || "blank-" + dayIndex} className={`calendar-day ${!date ? "empty" : ""} ${isHoliday ? "holiday" : ""} ${isToday ? "today" : ""} ${key === selectedDate ? "selected" : ""}`} disabled={!date} onClick={() => setSelectedDate(key)}>
                 {date && <><span className="calendar-day-number">{date.getDate()}</span>{dayEvents.map(event => <span className="calendar-event-dot" key={event.title}>{event.icon} <small>{event.title}</small></span>)}</>}
               </button>;
             })}
