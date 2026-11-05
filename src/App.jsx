@@ -99,7 +99,7 @@ function App() {
   ], [earnedToday, progress.completed]);
 
   function markCompleted(id) {
-    const labels = { "profession-teacher": "My Future World · explored Teacher", "coding-Scratch": "Coding Lab · opened Scratch", "coding-Code.org": "Coding Lab · opened Code.org", "coding-Blockly Games": "Coding Lab · opened Blockly Games", "feeling-happy": "My Feelings · learned about Happiness" };
+    const labels = { "profession-teacher": "My Future World · explored Teacher", "coding-Scratch": "Coding Lab · opened Scratch", "coding-Code.org": "Coding Lab · opened Code.org", "coding-Blockly Games": "Coding Lab · opened Blockly Games", "feeling-happy": "Emotions · learned about Happiness", "feeling-awe": "Emotions · learned about Awe" };
     setProgress((old) => old.completed.includes(id) ? old : {
       ...old,
       completed: [...old.completed, id],
@@ -336,12 +336,25 @@ function MyFeelings({ markCompleted }) {
       emoji:"😊",
       name:"Happiness",
       german:"Glücklich",
-      intro:"Happiness is a warm, bright feeling we may have when something good happens or when we enjoy a moment.",
-      clues:"You might smile, laugh, feel warm inside, or want to share your good mood with someone.",
-      example:"You build a tall tower, and it stands up! You may feel happy and proud.",
+      intro:"Happiness is a good feeling when you enjoy something.",
+      clues:"You may smile, laugh, or feel cheerful.",
+      example:"You play a fun game with a friend and smile.",
       questions:[
         {question:"Which situation might make you feel happy?",options:["Playing a fun game with a friend","Losing your favorite toy","Hearing a loud, scary noise"],correct:0,why:"Playing together can be enjoyable and make you feel happy."},
         {question:"What might your body do when you feel happy?",options:["You might smile or laugh","Your body must always feel tired","You must always want to cry"],correct:0,why:"A smile or laugh can be a clue that you feel happy."}
+      ]
+    },
+    {
+      id:"awe",
+      emoji:"😮",
+      name:"Awe",
+      german:"Staunen",
+      intro:"Awe is wonder when something feels amazing.",
+      clues:"You may say “Wow!”, look closely, or feel curious.",
+      example:"You see a sky full of stars and whisper, “Wow!”",
+      questions:[
+        {question:"When might you feel awe?",options:["Seeing a huge waterfall","Finding a missing sock","Eating your usual breakfast"],correct:0,why:"A huge waterfall can feel amazing and fill us with wonder."},
+        {question:"What might you do when you feel awe?",options:["Look closely and say “Wow!”","Always feel angry","Always want to run away"],correct:0,why:"Awe can make us curious and amazed."}
       ]
     }
   ];
