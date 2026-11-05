@@ -413,3 +413,13 @@ button{cursor:pointer}
 .holiday-countdown-icon{font-size:27px}.holiday-countdown-copy{display:flex;flex-direction:column;gap:3px}.holiday-countdown-copy strong{font-size:15px;color:#367344}.calendar-heading-leaves{font-size:17px;vertical-align:1px}
 .calendar-day.holiday{background:#eef8ec;border-color:#cfe5c9}.calendar-day.holiday .calendar-day-number{color:#397342}.calendar-day.holiday:hover:not(:disabled){background:#e3f2df;border-color:#9fca98}.calendar-day.holiday.selected{background:#dff0da;border-color:#79b16e}.calendar-day.holiday.today{border:2px solid #8daed4;background:#eaf4e7}
 @media(max-width:650px){.holiday-countdown{padding:11px 12px}.holiday-countdown-copy strong{font-size:14px}}
+
+
+.calendar-page-heading{margin-bottom:18px}
+.day-progress{display:flex;align-items:center;gap:16px;padding:11px 14px;margin:0 0 17px;background:#f8f6fb;border:1px solid #eee8f3;border-radius:13px}
+.day-progress-label{display:flex;flex-direction:column;gap:2px;min-width:112px}
+.day-progress-label span{font-size:12px;font-weight:800;color:#625276}
+.day-progress-label small{font-size:10px;color:#988da0}
+.day-progress-track{height:9px;flex:1;background:#e9e3ee;border-radius:20px;overflow:hidden}
+.day-progress-track span{display:block;height:100%;background:linear-gradient(90deg,#a9c99f,#79ad79);border-radius:20px;transition:width 1s linear}
+@media(max-width:650px){.day-progress{gap:10px;padding:10px}.day-progress-label{min-width:96px}}
