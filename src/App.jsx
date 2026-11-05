@@ -160,8 +160,14 @@ function Calendar() {
   const [month, setMonth] = useState(new Date(2026, 10, 1));
   const [view, setView] = useState("month");
   const [selectedDate, setSelectedDate] = useState("2026-11-07");
+  const marketEvents = [];
+  for (let date = new Date(2026, 10, 5); date <= new Date(2027, 10, 4); date.setDate(date.getDate() + 7)) {
+    const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+    marketEvents.push({ date: key, time: "Morning", title: "Morning market & a sweet treat", detail: "A little stop at the market before work and school to choose some sweets together.", icon: "🍬", color: "market" });
+  }
   const events = [
     { date: "2026-11-07", time: "11:00", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
+    ...marketEvents,
   ];
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
