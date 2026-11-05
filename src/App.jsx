@@ -157,13 +157,19 @@ function App() {
 }
 
 function Calendar() {
-  const today = new Date();
+  const [clock, setClock] = useState(() => new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setClock(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
+  const today = clock;
   const todayKey = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, "0"), String(today.getDate()).padStart(2, "0")].join("-");
   const holidayStart = "2026-12-23";
   const holidayEnd = "2027-01-06";
   const startDate = new Date(2026, 11, 23);
   const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   const daysToHoliday = Math.max(0, Math.ceil((startDate - todayMidnight) / 86400000));
+  const dayProgress = Math.max(0, Math.min(100, ((86400000 - (today.getHours() * 3600000 + today.getMinutes() * 60000 + today.getSeconds() * 1000 + today.getMilliseconds())) / 86400000) * 100));
   const [month, setMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [view, setView] = useState("month");
   const [selectedDate, setSelectedDate] = useState(todayKey);
@@ -221,9 +227,10 @@ function Calendar() {
     setMonth(new Date(today.getFullYear(), today.getMonth(), 1));
   };
   return <>
-    <PageHeading eyebrow="OUR PLANS & LITTLE ADVENTURES" title="Calendar" subtitle="Special days, family plans and fun things to look forward to." emoji="🗓️" />
+    <div className="page-heading calendar-page-heading"><div><h1>Calendar</h1><p className="page-subtitle">Aisha, this is our family calendar. You can look here to see our plans and events.</p></div></div>
     <section className="calendar-panel">
       <div className="holiday-countdown"><span className="holiday-countdown-icon">🎄</span><div className="holiday-countdown-copy"><strong>{daysToHoliday === 0 ? "Christmas holidays start today!" : `${daysToHoliday} days left until Christmas holidays`}</strong></div></div>
+      <div className="day-progress" aria-label={`Today is ${Math.round(dayProgress)} percent remaining`}><div className="day-progress-label"><span>Today</span><small>Time left in the day</small></div><div className="day-progress-track"><span style={{ width: `${dayProgress}%` }} /></div></div>
       <div className="calendar-toolbar">
         <button className="secondary-button" onClick={() => view === "week" ? moveWeek(-1) : moveMonth(-1)} aria-label={view === "week" ? "Previous week" : "Previous month"}>‹</button>
         <h2><span className="calendar-heading-leaves">🍂</span> {view === "week" ? weekLabel : monthName}</h2>
