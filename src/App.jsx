@@ -8,6 +8,7 @@ const sections = [
   { id: "feelings", label: "Emotions", icon: "😊" },
   { id: "coding", label: "Coding lab", icon: "🤖" },
   { id: "math", label: "Math games", icon: "🧩" },
+  { id: "calendar", label: "Calendar", icon: "🗓️" },
   { id: "stars", label: "My stars", icon: "⭐" },
 ];
 
@@ -146,12 +147,80 @@ function App() {
           {active === "feelings" && <MyFeelings markCompleted={markCompleted} />}
           {active === "coding" && <Coding markCompleted={markCompleted} />}
           {active === "math" && <MathGames question={question} questionIndex={questionIndex} answer={answer} chooseAnswer={chooseAnswer} nextQuestion={nextQuestion} roundScore={roundScore} roundFinished={roundFinished} restartMath={restartMath} earnedToday={earnedToday} />}
+          {active === "calendar" && <Calendar />}
           {active === "stars" && <Achievements stars={progress.stars} badges={badges} history={progress.history || []} />}
           <footer className="footer">Made with <span>♥</span> for Aisha · Your learning adventure</footer>
         </main>
       </div>
     </div>
   );
+}
+
+function Calendar() {
+  const [month, setMonth] = useState(new Date(2026, 10, 1));
+  const [view, setView] = useState("month");
+  const [selectedDate, setSelectedDate] = useState("2026-11-07");
+  const events = [
+    { date: "2026-11-07", time: "11:00", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
+  ];
+  const year = month.getFullYear();
+  const monthIndex = month.getMonth();
+  const monthName = month.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  const first = new Date(year, monthIndex, 1);
+  const offset = (first.getDay() + 6) % 7;
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  const today = new Date();
+  const isoWeek = (date) => {
+    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+    const yearStart = new Date(d.getFullYear(), 0, 1);
+    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  };
+  const cells = Array.from({ length: Math.ceil((offset + daysInMonth) / 7) * 7 }, (_, index) => {
+    const day = index - offset + 1;
+    return day > 0 && day <= daysInMonth ? new Date(year, monthIndex, day) : null;
+  });
+  const weeks = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+  const dateKey = (date) => date ? [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-") : "";
+  const selectedEvents = events.filter(event => event.date === selectedDate);
+  const moveMonth = (amount) => setMonth(new Date(year, monthIndex + amount, 1));
+  return <>
+    <PageHeading eyebrow="OUR PLANS & LITTLE ADVENTURES" title="Calendar" subtitle="Special days, family plans and fun things to look forward to." emoji="🗓️" />
+    <section className="calendar-panel">
+      <div className="calendar-season"><span>🍂</span><div><b>Autumn adventures</b><small>Leaves are falling and lovely plans are waiting!</small></div></div>
+      <div className="calendar-toolbar">
+        <button className="secondary-button" onClick={() => moveMonth(-1)} aria-label="Previous month">‹</button>
+        <h2>{monthName}</h2>
+        <button className="secondary-button" onClick={() => moveMonth(1)} aria-label="Next month">›</button>
+        <div className="calendar-view-toggle"><button className={view === "month" ? "active" : ""} onClick={() => setView("month")}>Month</button><button className={view === "week" ? "active" : ""} onClick={() => setView("week")}>Week</button></div>
+      </div>
+      <div className="calendar-grid">
+        <div className="calendar-weekday calendar-week-number"></div>
+        {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(day => <div className="calendar-weekday" key={day}>{day}</div>)}
+        {(view === "month" ? weeks : weeks.filter(week => week.some(day => dateKey(day) === selectedDate))).map((week, weekIndex) => {
+          const visibleWeek = view === "month" ? week : week;
+          const weekDate = visibleWeek.find(Boolean);
+          return <React.Fragment key={weekIndex}>
+            <div className="calendar-week-number">{weekDate ? isoWeek(weekDate) : ""}</div>
+            {visibleWeek.map((date, dayIndex) => {
+              const key = dateKey(date);
+              const dayEvents = events.filter(event => event.date === key);
+              const isToday = date && date.toDateString() === today.toDateString();
+              return <button key={key || "blank-" + dayIndex} className={`calendar-day ${!date ? "empty" : ""} ${isToday ? "today" : ""} ${key === selectedDate ? "selected" : ""}`} disabled={!date} onClick={() => setSelectedDate(key)}>
+                {date && <><span className="calendar-day-number">{date.getDate()}</span>{dayEvents.map(event => <span className="calendar-event-dot" key={event.title}>{event.icon} <small>{event.title}</small></span>)}</>}
+              </button>;
+            })}
+          </React.Fragment>;
+        })}
+      </div>
+      <div className="calendar-event-list">
+        <h3>✨ {selectedEvents.length ? "Plans for this day" : "A little look ahead"}</h3>
+        {selectedEvents.length ? selectedEvents.map(event => <div className="calendar-event-card" key={event.title}><span>{event.icon}</span><div><b>{event.title}</b><small>{new Date(event.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" })} · {event.time}</small><p>{event.detail}</p></div></div>) : <p className="calendar-empty-note">Tap a day to see its plans. More adventures can be added here!</p>}
+      </div>
+      <p className="calendar-note">The small numbers on the left show the week of the year. This calendar is a first preview with an example event.</p>
+    </section>
+  </>;
 }
 
 function PageHeading({ eyebrow, title, subtitle, emoji }) {
