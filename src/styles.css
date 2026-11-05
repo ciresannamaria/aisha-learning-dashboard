@@ -407,3 +407,9 @@ button{cursor:pointer}
 .calendar-event-card>span{font-size:28px}.calendar-event-card>div{display:flex;flex-direction:column;gap:4px}.calendar-event-card b{font-size:12px;color:#625276}.calendar-event-card small{font-size:10px;color:#998a9d}.calendar-event-card p{font-size:11px;color:#776f7c;margin:2px 0 0;line-height:1.5}
 .calendar-empty-note,.calendar-note{font-size:10px;line-height:1.6;color:#9a919f}.calendar-note{margin:14px 0 0}
 @media(max-width:650px){.calendar-panel{padding:12px}.calendar-grid{gap:3px;grid-template-columns:29px repeat(7,minmax(0,1fr))}.calendar-day{min-height:62px;padding:5px 3px}.calendar-day-number{font-size:11px}.calendar-event-dot small{display:none}.calendar-toolbar h2{font-size:17px}.calendar-week-number{font-size:9px}.calendar-weekday{font-size:9px}}
+
+
+.holiday-countdown{display:flex;align-items:center;gap:12px;padding:14px 16px;margin:0 0 18px;border:1px solid #d8ead5;border-radius:15px;background:linear-gradient(110deg,#f0f8ed,#f8fbf3)}
+.holiday-countdown-icon{font-size:30px}.holiday-countdown-copy{display:flex;flex-direction:column;gap:3px}.holiday-countdown-copy b{font-size:12px;color:#426b43}.holiday-countdown-copy strong{font-size:20px;color:#367344}.holiday-countdown-copy small{font-size:10px;color:#718c70}.holiday-countdown-sparkle{margin-left:auto;font-size:22px}
+.calendar-day.holiday{background:#eef8ec;border-color:#cfe5c9}.calendar-day.holiday .calendar-day-number{color:#397342}.calendar-day.holiday:hover:not(:disabled){background:#e3f2df;border-color:#9fca98}.calendar-day.holiday.selected{background:#dff0da;border-color:#79b16e}.calendar-day.holiday.today{border:2px solid #8daed4;background:#eaf4e7}
+@media(max-width:650px){.holiday-countdown{padding:11px 12px}.holiday-countdown-copy strong{font-size:18px}.holiday-countdown-sparkle{font-size:18px}}
