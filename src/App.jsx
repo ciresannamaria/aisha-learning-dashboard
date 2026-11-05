@@ -223,11 +223,10 @@ function Calendar() {
   return <>
     <PageHeading eyebrow="OUR PLANS & LITTLE ADVENTURES" title="Calendar" subtitle="Special days, family plans and fun things to look forward to." emoji="🗓️" />
     <section className="calendar-panel">
-      <div className="calendar-season"><span>🍂</span><div><b>Autumn adventures</b><small>Leaves are falling and lovely plans are waiting!</small></div></div>
-      <div className="holiday-countdown"><span className="holiday-countdown-icon">🎄</span><div className="holiday-countdown-copy"><b>Christmas holidays are coming!</b><strong>{daysToHoliday === 0 ? "The holidays begin today!" : `${daysToHoliday} days to go!`}</strong><small>December 23, 2026 – January 6, 2027</small></div><span className="holiday-countdown-sparkle">✨</span></div>
+      <div className="holiday-countdown"><span className="holiday-countdown-icon">🎄</span><div className="holiday-countdown-copy"><strong>{daysToHoliday === 0 ? "Christmas holidays start today!" : `${daysToHoliday} days left until Christmas holidays`}</strong></div></div>
       <div className="calendar-toolbar">
         <button className="secondary-button" onClick={() => view === "week" ? moveWeek(-1) : moveMonth(-1)} aria-label={view === "week" ? "Previous week" : "Previous month"}>‹</button>
-        <h2>{view === "week" ? weekLabel : monthName}</h2>
+        <h2><span className="calendar-heading-leaves">🍂</span> {view === "week" ? weekLabel : monthName}</h2>
         <button className="secondary-button" onClick={() => view === "week" ? moveWeek(1) : moveMonth(1)} aria-label={view === "week" ? "Next week" : "Next month"}>›</button>
         <div className="calendar-view-toggle"><button className={view === "month" ? "active" : ""} onClick={() => setView("month")}>Month</button><button className={view === "week" ? "active" : ""} onClick={() => setView("week")}>Week</button></div>
         <button className="calendar-today-button" onClick={goToThisWeek}>This week</button>
@@ -253,7 +252,7 @@ function Calendar() {
       </div>
       <div className="calendar-event-list">
         <h3>✨ {selectedEvents.length ? "Plans for this day" : "A little look ahead"}</h3>
-        {selectedEvents.length ? selectedEvents.map(event => <div className="calendar-event-card" key={event.title}><span>{event.icon}</span><div><b>{event.title}</b><small>{new Date(event.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" })} · {event.time}</small><p>{event.detail}</p></div></div>) : <p className="calendar-empty-note">Tap a day to see its plans. More adventures can be added here!</p>}
+        {selectedEvents.length ? selectedEvents.map(event => <div className="calendar-event-card" key={event.title}><span>{event.icon}</span><div><b>{event.title}</b><small>{new Date(event.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" })} · {event.time}</small></div></div>) : <p className="calendar-empty-note">Tap a day to see its plans. More adventures can be added here!</p>}
       </div>
     </section>
   </>;
