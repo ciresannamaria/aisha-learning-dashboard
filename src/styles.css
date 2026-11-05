@@ -364,3 +364,16 @@ button{cursor:pointer}
 .food-fiber{background:#edf6e8}.food-carbs{background:#fff5db}.food-protein{background:#fcefeb}
 .balanced-food-note{font-size:11px;line-height:1.55;color:#8a8290;margin:14px 2px 0}
 @media(max-width:760px){.balanced-food-layout{grid-template-columns:1fr;gap:14px}.balanced-plate-visual{min-height:320px}.balanced-plate{max-width:290px}.balanced-food-guide{padding:16px}}
+
+
+/* Two compact career cards */
+.future-jobs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;width:100%;align-items:start}
+.future-jobs-grid .future-flip-card{max-width:none;min-height:440px}
+.future-jobs-grid .future-flip-inner{min-height:440px}
+.future-jobs-grid .future-back-content{height:440px}
+.future-jobs-grid .future-card-front .future-job-card{width:100%;max-width:none}
+.doctor-art{height:170px;border-radius:13px;background:linear-gradient(145deg,#e7f5f3,#edf0ff);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.doctor-art>span:first-child{font-size:86px;z-index:1}
+.doctor-bag{position:absolute;left:16px;bottom:12px;font-size:32px}
+.doctor-cross{position:absolute;right:20px;top:15px;color:#d65d69;background:#fff;border-radius:10px;padding:3px 10px;font-size:28px;font-weight:900}
+@media(max-width:650px){.future-jobs-grid{grid-template-columns:1fr}.future-jobs-grid .future-flip-card{min-height:470px}.future-jobs-grid .future-flip-inner{min-height:470px}.future-jobs-grid .future-back-content{height:470px}.future-jobs-grid .future-card-front .future-job-card{width:100%;max-width:none}}
