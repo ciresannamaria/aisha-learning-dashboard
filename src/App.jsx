@@ -270,10 +270,10 @@ function School() {
     {editing && <button className="reset-schedule" onClick={resetSchedule}>Reset to original timetable</button>}
     </>}
     {schoolTab === "lunch" && <section className="panel lunch-menu-panel">
-      <div className="panel-heading"><h2>🍽️ School lunch menu</h2><span className="small-tag">CURRENT MENU</span></div>
-      <p className="lunch-menu-copy">The school now provides its weekly menus in the PCA-Kantine app, where you can also book meals for your child.</p>
-      <a className="primary-button lunch-menu-link" href="https://www.albert-schweitzer-gs.de/speiseplan/" target="_blank" rel="noreferrer">Open school lunch information <span>↗</span></a>
-      <p className="gentle-note">The school changed to the PCA-Kantine system on 1 June 2026. Open the school page for the app information and booking instructions.</p>
+      <div className="panel-heading"><h2>🍽️ School lunch menu</h2><span className="small-tag">9–13 NOV 2026</span></div>
+      <p className="lunch-menu-copy">Here is the school lunch menu for the week of 9–13 November 2026.</p>
+      <a className="primary-button lunch-menu-link" href="http://www.grundschule-albert-schweitzer.de/wp-content/uploads/2026/11/Speiseplan-Mensa-09.11-13.11.26.pdf" target="_blank" rel="noreferrer">Open lunch menu (PDF) <span>↗</span></a>
+      <p className="gentle-note">Tap the link to view this week's meals.</p>
     </section>}
   </>;
 }
