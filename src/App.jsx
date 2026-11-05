@@ -165,9 +165,18 @@ function Calendar() {
     const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
     marketEvents.push({ date: key, time: "Morning", title: "Morning market & a sweet treat", detail: "A little stop at the market before work and school to choose some sweets together.", icon: "🍬", color: "market" });
   }
+  const recurringSundayEvents = [];
+  for (let date = new Date(2026, 10, 8); date <= new Date(2027, 10, 7); date.setDate(date.getDate() + 7)) {
+    const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+    recurringSundayEvents.push({ date: key, time: "2:30–4:30 PM", title: "Chess club", detail: "Chess club — time to practise moves and play!", icon: "♟️", color: "chess" });
+    if (date <= new Date(2026, 11, 13)) {
+      recurringSundayEvents.push({ date: key, time: "11:00 AM–12:00 PM", title: "Swimming club", detail: "Swimming course (last session: December 13, 2026).", icon: "🏊", color: "swimming" });
+    }
+  }
   const events = [
-    { date: "2026-11-07", time: "11:00", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
+    { date: "2026-11-07", time: "11:00 AM", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
     ...marketEvents,
+    ...recurringSundayEvents,
   ];
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
