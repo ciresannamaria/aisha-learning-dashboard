@@ -423,3 +423,16 @@ button{cursor:pointer}
 .day-progress-track{height:9px;flex:1;background:#e9e3ee;border-radius:20px;overflow:hidden}
 .day-progress-track span{display:block;height:100%;background:linear-gradient(90deg,#a9c99f,#79ad79);border-radius:20px;transition:width 1s linear}
 @media(max-width:650px){.day-progress{gap:10px;padding:10px}.day-progress-label{min-width:96px}}
+
+
+/* KLARO learning links */
+.klaro-intro-panel{display:flex;align-items:center;gap:18px;padding:22px;margin:10px 0 18px;border-radius:20px;background:linear-gradient(120deg,#fff8d9,#f1f7e9);border:1px solid #eee8c9}
+.klaro-character{display:grid;place-items:center;flex:0 0 76px;height:76px;border-radius:24px;background:#fff;font-size:42px;box-shadow:0 4px 14px #5d53201a}
+.klaro-intro-panel h2{margin:2px 0 7px;color:#514b60;font-size:22px}
+.klaro-intro-panel p:not(.eyebrow){margin:0;color:#777386;font-size:13px;line-height:1.6}
+.klaro-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.klaro-link-card{display:flex;flex-direction:column;gap:9px;min-height:170px;padding:18px;text-decoration:none;color:#514b60;background:#fff;border:1px solid #eee9e2;border-radius:18px;box-shadow:0 4px 16px #4b3b240d;transition:transform .18s,box-shadow .18s}
+.klaro-link-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px #4b3b2418}
+.klaro-link-card>span{font-size:30px}.klaro-link-card b{font-size:15px}.klaro-link-card small{font-size:12px;line-height:1.5;color:#858091}.klaro-link-card em{font-size:12px;font-style:normal;font-weight:800;color:#6c8754;margin-top:auto}
+.klaro-password-note{font-size:12px;color:#858091;margin:16px 2px}
+@media(max-width:760px){.klaro-link-grid{grid-template-columns:1fr}.klaro-intro-panel{align-items:flex-start;padding:16px}.klaro-character{flex-basis:56px;height:56px;font-size:32px}}
