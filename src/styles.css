@@ -436,3 +436,9 @@ button{cursor:pointer}
 .klaro-link-card>span{font-size:30px}.klaro-link-card b{font-size:15px}.klaro-link-card small{font-size:12px;line-height:1.5;color:#858091}.klaro-link-card em{font-size:12px;font-style:normal;font-weight:800;color:#6c8754;margin-top:auto}
 .klaro-password-note{font-size:12px;color:#858091;margin:16px 2px}
 @media(max-width:760px){.klaro-link-grid{grid-template-columns:1fr}.klaro-intro-panel{align-items:flex-start;padding:16px}.klaro-character{flex-basis:56px;height:56px;font-size:32px}}
+
+
+/* Home cards: icon and title only */
+.home-top-row{display:flex;justify-content:flex-end;align-items:center;margin:0 0 14px}
+.adventure-card{justify-content:center;align-items:center;text-align:center;gap:12px;min-height:150px}
+.adventure-card .card-title{margin:0}
