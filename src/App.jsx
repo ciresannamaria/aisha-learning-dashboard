@@ -151,7 +151,7 @@ function App() {
           {active === "calendar" && <Calendar />}
           {active === "klaro" && <Klaro />}
           {active === "stars" && <Achievements stars={progress.stars} badges={badges} history={progress.history || []} />}
-          <footer className="footer">Made with <span>♥</span> for Aisha · Your learning adventure</footer>
+          <footer className="footer">Made with <span>♥</span> for Aisha</footer>
         </main>
       </div>
     </div>
@@ -605,7 +605,7 @@ function Coding({ markCompleted }) {
 function MathGames({ question, questionIndex, answer, chooseAnswer, nextQuestion, roundScore, roundFinished, restartMath, earnedToday }) {
   const isCorrect = answer === question.correct;
   return <>
-    <PageHeading eyebrow="MATH WORLD" title="Let's play with numbers!" subtitle="Think, try, and enjoy the challenge. Every question is a chance to learn." emoji="🧩" />
+    <PageHeading eyebrow="MATH GAMES" title="Math Games" subtitle="" emoji="🧩" />
     <section className="math-card">
       {!roundFinished ? <>
         <div className="math-topline"><span className="small-tag">DAILY CHALLENGE</span><span className="question-count">Question {questionIndex + 1} of {questions.length}</span></div>
@@ -616,8 +616,7 @@ function MathGames({ question, questionIndex, answer, chooseAnswer, nextQuestion
         {answer && <button className="primary-button next-button" onClick={nextQuestion}>{questionIndex === questions.length - 1 ? "See my result" : "Next question →"}</button>}
       </> : <div className="result-panel"><div className="result-emoji">🏆</div><p className="eyebrow">CHALLENGE COMPLETE</p><h2>You did it!</h2><p className="result-score">{roundScore} / {questions.length} correct</p><p>{roundScore === questions.length ? "Amazing work! You are a maths superstar!" : "Wonderful effort! Practising helps your brain grow."}</p>{earnedToday ? <p className="gentle-note">Your stars for today's challenge have already been collected.</p> : <p className="gentle-note">You earned {roundScore} stars!</p>}<button className="primary-button" onClick={restartMath}>Play again ↻</button></div>}
     </section>
-    <div className="section-title-row compact"><div><p className="eyebrow">MORE MATHS FUN</p><h2>Explore these websites</h2></div></div>
-    <div className="resource-list">{mathLinks.map((link) => <a className="resource-card" href={link.url} target="_blank" rel="noreferrer" key={link.name}><span className="resource-icon">{link.icon}</span><span className="resource-info"><b>{link.name}</b><small>{link.detail}</small></span><span className="external-arrow">↗</span></a>)}</div>
+    
   </>;
 }
 
