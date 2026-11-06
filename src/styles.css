@@ -442,3 +442,33 @@ button{cursor:pointer}
 .home-top-row{display:flex;justify-content:flex-end;align-items:center;margin:0 0 14px}
 .adventure-card{justify-content:center;align-items:center;text-align:center;gap:12px;min-height:150px}
 .adventure-card .card-title{margin:0}
+
+
+/* Math games: playful treasure hunt */
+.treasure-game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,270px));gap:18px;padding:8px 0}
+.treasure-game-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:230px;padding:22px;border:2px solid #eee5cf;border-radius:24px;background:linear-gradient(145deg,#fff8df,#f2f6ff);color:#514b60;cursor:pointer;box-shadow:0 7px 20px #514b6010;transition:transform .18s,box-shadow .18s}
+.treasure-game-card:hover{transform:translateY(-4px);box-shadow:0 12px 26px #514b6020}
+.treasure-game-art{font-size:58px;letter-spacing:5px}
+.treasure-game-name{font-size:19px;font-weight:850}
+.treasure-game-play{padding:8px 20px;border-radius:999px;background:#fff;color:#647d50;font-size:13px;font-weight:800}
+.treasure-play-panel{max-width:620px;margin:0 auto;padding:22px;border-radius:24px;background:linear-gradient(160deg,#fff9e7,#f1f5ff);border:1px solid #eee6d2;text-align:center;color:#514b60}
+.treasure-back{display:block;padding:6px 0;border:0;background:none;color:#71805e;font-weight:800;cursor:pointer}
+.treasure-progress-row{display:flex;justify-content:space-between;gap:10px;margin:18px 0 10px;font-size:13px}
+.treasure-map{display:flex;justify-content:center;gap:10px;margin:12px 0 22px}
+.treasure-map span{display:grid;place-items:center;width:39px;height:39px;border-radius:50%;background:#fff;border:2px solid #e8dfc9;font-weight:900;color:#a39a87}
+.treasure-map span.current{background:#fff0bf;border-color:#e6bd58;color:#8a6824}
+.treasure-map span.found{background:#e8f4dc;border-color:#b8d39e}
+.treasure-question-art,.treasure-finish{font-size:54px;margin:8px 0}
+.treasure-play-panel h2{margin:5px 0 18px;font-size:25px}
+.treasure-question{font-size:32px!important;font-weight:900}
+.treasure-answer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.treasure-answer{padding:17px 8px;border:2px solid #e7e1d7;border-radius:16px;background:#fff;color:#514b60;font-size:23px;font-weight:850;cursor:pointer}
+.treasure-answer:disabled{cursor:default}
+.treasure-answer.correct{background:#e6f4df;border-color:#9fc88b}
+.treasure-answer.incorrect{background:#fff0e9;border-color:#e7b5a4}
+.treasure-feedback{margin:14px 0;padding:12px;border-radius:14px;background:#fff0e9;color:#95604f;font-size:14px;font-weight:750}
+.treasure-feedback.right{background:#e8f5e1;color:#5d7b4b}
+.treasure-finish{font-size:72px;margin-top:22px}
+.treasure-score{font-size:38px;font-weight:900;color:#718c55;margin:8px 0}
+.treasure-reward{font-weight:800;color:#718c55;margin:16px 0}
+@media(max-width:600px){.treasure-play-panel{padding:16px}.treasure-answer{font-size:20px;padding:14px 5px}.treasure-question{font-size:27px!important}.treasure-game-grid{grid-template-columns:1fr}}
