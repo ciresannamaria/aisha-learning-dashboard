@@ -211,6 +211,11 @@ function Calendar() {
     const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
     marketEvents.push({ date: key, time: "Morning", title: "Morning market & a sweet treat", detail: "A little stop at the market before work and school to choose some sweets together.", icon: "🍬", color: "market" });
   }
+  const fridayBreakfastEvents = [];
+  for (let date = new Date(2026, 10, 6); date <= new Date(2027, 10, 5); date.setDate(date.getDate() + 7)) {
+    const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+    fridayBreakfastEvents.push({ date: key, time: "Morning", title: "Special Friday Breakfast", detail: "A lovely breakfast made just for you — a little Friday treat to look forward to!", icon: "🥞", color: "breakfast" });
+  }
   const recurringSundayEvents = [];
   for (let date = new Date(2026, 10, 8); date <= new Date(2027, 10, 7); date.setDate(date.getDate() + 7)) {
     const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate())].join("-");
@@ -222,6 +227,7 @@ function Calendar() {
   const events = [
     { date: "2026-11-07", time: "11:00 AM", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
     ...marketEvents,
+    ...fridayBreakfastEvents,
     ...recurringSundayEvents,
   ];
   const year = month.getFullYear();
