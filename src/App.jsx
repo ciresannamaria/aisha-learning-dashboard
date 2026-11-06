@@ -135,6 +135,7 @@ function App() {
 
   return (
     <div className="app-shell">
+      {progress.celebrationPending && <div className="star-celebration-overlay" role="dialog" aria-modal="true" aria-labelledby="star-celebration-title"><div className="star-celebration-card"><div className="star-celebration-art">🎉⭐🎁</div><p className="eyebrow">A SPECIAL MILESTONE</p><h2 id="star-celebration-title">Well done, Aisha!</h2><p>You collected 50 stars! Go and choose your special treat with Mum.</p><button className="primary-button" onClick={dismissCelebration}>Yay! ✨</button></div></div>}
       <header className="topbar">
         <a className="brand" href="#home" onClick={() => setActive("home")} aria-label="Aisha's home">
           <span className="brand-icon">🌈</span>
