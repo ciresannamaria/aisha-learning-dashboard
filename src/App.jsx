@@ -636,6 +636,7 @@ function MathGames({ awardTreasureStar, hasTreasureStar }) {
   const [choice, setChoice] = useState("");
   const [found, setFound] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [earnedThisRun, setEarnedThisRun] = useState(false);
   const current = tasks[index];
 
   function startHunt() {
@@ -644,6 +645,7 @@ function MathGames({ awardTreasureStar, hasTreasureStar }) {
     setChoice("");
     setFound(0);
     setFinished(false);
+    setEarnedThisRun(false);
     setPlaying(true);
   }
 
@@ -656,7 +658,7 @@ function MathGames({ awardTreasureStar, hasTreasureStar }) {
   function next() {
     if (index === tasks.length - 1) {
       setFinished(true);
-      if (!hasTreasureStar) awardTreasureStar();
+      if (!hasTreasureStar) { awardTreasureStar(); setEarnedThisRun(true); }
     } else {
       setIndex((n) => n + 1);
       setChoice("");
@@ -678,7 +680,7 @@ function MathGames({ awardTreasureStar, hasTreasureStar }) {
     <h2>You did it!</h2>
     <p className="treasure-score">{found} / {tasks.length}</p>
     <p>You explored all five treasure clues.</p>
-    <p className="treasure-reward">{hasTreasureStar ? "Your treasure star has already been collected." : "⭐ You earned a star!"}</p>
+    <p className="treasure-reward">{earnedThisRun ? "⭐ You earned a star!" : hasTreasureStar ? "Your treasure star has already been collected." : "Great exploring!"}</p>
     <button className="primary-button" onClick={startHunt}>Play again ↻</button>
   </section>;
 
