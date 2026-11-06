@@ -135,7 +135,7 @@ function App() {
           <p className="nav-caption">MY WORLD</p>
           {sections.map((section) => (
             <button key={section.id} className={`nav-button ${active === section.id ? "active" : ""}`} onClick={() => setActive(section.id)}>
-              <span>{section.icon}</span>{section.label}
+              <span>{section.icon}</span><span className="nav-label">{section.label}</span>{section.earnsStar && <span className="nav-star" aria-label="You can earn a star here">⭐</span>}
             </button>
           ))}
         </aside>
