@@ -147,7 +147,7 @@ function App() {
           {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
           {active === "feelings" && <MyFeelings markCompleted={markCompleted} />}
           {active === "coding" && <Coding markCompleted={markCompleted} />}
-          {active === "math" && <MathGames question={question} questionIndex={questionIndex} answer={answer} chooseAnswer={chooseAnswer} nextQuestion={nextQuestion} roundScore={roundScore} roundFinished={roundFinished} restartMath={restartMath} earnedToday={earnedToday} />}
+          {active === "math" && <MathGames awardTreasureStar={() => setProgress((old) => ({ ...old, stars: old.stars + 1, completed: [...old.completed, "math-treasure-hunt"], history: [...(old.history || []), { id: crypto.randomUUID(), label: "Math Games · completed Treasure Hunt", date: new Date().toISOString(), stars: 1 }] }))} hasTreasureStar={progress.completed.includes("math-treasure-hunt")} />}
           {active === "calendar" && <Calendar />}
           {active === "klaro" && <Klaro />}
           {active === "stars" && <Achievements stars={progress.stars} badges={badges} history={progress.history || []} />}
@@ -602,22 +602,96 @@ function Coding({ markCompleted }) {
   </>;
 }
 
-function MathGames({ question, questionIndex, answer, chooseAnswer, nextQuestion, roundScore, roundFinished, restartMath, earnedToday }) {
-  const isCorrect = answer === question.correct;
-  return <>
-    <PageHeading eyebrow="MATH GAMES" title="Math Games" subtitle="" emoji="🧩" />
-    <section className="math-card">
-      {!roundFinished ? <>
-        <div className="math-topline"><span className="small-tag">DAILY CHALLENGE</span><span className="question-count">Question {questionIndex + 1} of {questions.length}</span></div>
-        <div className="progress-track"><span style={{ width: `${((questionIndex + 1) / questions.length) * 100}%` }} /></div>
-        <div className="math-mascot">🦊</div><p className="math-prompt">Can you solve this?</p><h2 className="math-question">{question.question}</h2>
-        <div className="answer-grid">{question.answers.map((choice) => <button key={choice} disabled={Boolean(answer)} className={answer === choice ? (isCorrect ? "answer-button correct" : "answer-button incorrect") : "answer-button"} onClick={() => chooseAnswer(choice)}>{choice}</button>)}</div>
-        {answer && <div className={`feedback ${isCorrect ? "good" : "try-again"}`}>{isCorrect ? "Brilliant! That's right! 🎉" : `Good try! The answer is ${question.correct}.`}<br />{question.explanation}</div>}
-        {answer && <button className="primary-button next-button" onClick={nextQuestion}>{questionIndex === questions.length - 1 ? "See my result" : "Next question →"}</button>}
-      </> : <div className="result-panel"><div className="result-emoji">🏆</div><p className="eyebrow">CHALLENGE COMPLETE</p><h2>You did it!</h2><p className="result-score">{roundScore} / {questions.length} correct</p><p>{roundScore === questions.length ? "Amazing work! You are a maths superstar!" : "Wonderful effort! Practising helps your brain grow."}</p>{earnedToday ? <p className="gentle-note">Your stars for today's challenge have already been collected.</p> : <p className="gentle-note">You earned {roundScore} stars!</p>}<button className="primary-button" onClick={restartMath}>Play again ↻</button></div>}
-    </section>
-    
-  </>;
+function makeTreasureQuestions() {
+  const used = new Set();
+  return Array.from({ length: 5 }, () => {
+    let a, b, op, answer, question;
+    do {
+      op = Math.random() < 0.5 ? "+" : "−";
+      if (op === "+") {
+        a = Math.floor(Math.random() * 11) + 5;
+        b = Math.floor(Math.random() * (21 - a));
+        answer = a + b;
+      } else {
+        a = Math.floor(Math.random() * 11) + 10;
+        b = Math.floor(Math.random() * Math.min(10, a));
+        answer = a - b;
+      }
+      question = `${a} ${op} ${b} = ?`;
+    } while (used.has(question));
+    used.add(question);
+    const options = new Set([answer]);
+    while (options.size < 3) {
+      const offset = Math.floor(Math.random() * 7) - 3;
+      if (offset !== 0 && answer + offset >= 0) options.add(answer + offset);
+    }
+    return { question, answer: String(answer), options: [...options].sort(() => Math.random() - 0.5) };
+  });
+}
+
+function MathGames({ awardTreasureStar, hasTreasureStar }) {
+  const [playing, setPlaying] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [choice, setChoice] = useState("");
+  const [found, setFound] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const current = tasks[index];
+
+  function startHunt() {
+    setTasks(makeTreasureQuestions());
+    setIndex(0);
+    setChoice("");
+    setFound(0);
+    setFinished(false);
+    setPlaying(true);
+  }
+
+  function choose(value) {
+    if (choice) return;
+    setChoice(value);
+    if (value === current.answer) setFound((n) => n + 1);
+  }
+
+  function next() {
+    if (index === tasks.length - 1) {
+      setFinished(true);
+      if (!hasTreasureStar) awardTreasureStar();
+    } else {
+      setIndex((n) => n + 1);
+      setChoice("");
+    }
+  }
+
+  if (!playing) return <section className="treasure-game-grid">
+    <button className="treasure-game-card" onClick={startHunt}>
+      <span className="treasure-game-art">🗺️💎</span>
+      <span className="treasure-game-name">Math Treasure Hunt</span>
+      <span className="treasure-game-play">Play <b>→</b></span>
+    </button>
+  </section>;
+
+  if (finished) return <section className="treasure-play-panel">
+    <button className="treasure-back" onClick={() => setPlaying(false)}>← All games</button>
+    <div className="treasure-finish">🏴‍☠️</div>
+    <p className="eyebrow">TREASURE FOUND!</p>
+    <h2>You did it!</h2>
+    <p className="treasure-score">{found} / {tasks.length}</p>
+    <p>You explored all five treasure clues.</p>
+    <p className="treasure-reward">{hasTreasureStar ? "Your treasure star has already been collected." : "⭐ You earned a star!"}</p>
+    <button className="primary-button" onClick={startHunt}>Play again ↻</button>
+  </section>;
+
+  return <section className="treasure-play-panel">
+    <button className="treasure-back" onClick={() => setPlaying(false)}>← All games</button>
+    <div className="treasure-progress-row"><span>🗺️ Treasure map</span><b>Clue {index + 1} of {tasks.length}</b></div>
+    <div className="treasure-map">{tasks.map((_, i) => <span key={i} className={i < index ? "found" : i === index ? "current" : ""}>{i < index ? "💎" : "?"}</span>)}</div>
+    <div className="treasure-question-art">🦊</div>
+    <p className="eyebrow">SOLVE THE CLUE</p>
+    <h2 className="treasure-question">{current.question}</h2>
+    <div className="treasure-answer-grid">{current.options.map((option) => <button key={option} disabled={Boolean(choice)} className={choice === option ? (choice === current.answer ? "treasure-answer correct" : "treasure-answer incorrect") : "treasure-answer"} onClick={() => choose(option)}>{option}</button>)}</div>
+    {choice && <><p className={choice === current.answer ? "treasure-feedback right" : "treasure-feedback"}>{choice === current.answer ? "Brilliant! You found a clue! 💎" : `Good try! The answer is ${current.answer}.`}</p><button className="primary-button" onClick={next}>{index === tasks.length - 1 ? "Find the treasure!" : "Next clue →"}</button></>}
+  </section>;
 }
 
 function Achievements({ stars, badges, history }) {
