@@ -9,7 +9,6 @@ const sections = [
   { id: "feelings", label: "Emotions", icon: "😊", earnsStar: true },
   { id: "future", label: "Professions", icon: "🌍", earnsStar: true },
   { id: "food", label: "Food", icon: "🍎", earnsStar: true },
-  { id: "klaro", label: "KLARO · Klasse2000", icon: "🟡" },
   { id: "stars", label: "My Stars", icon: "⭐" },
 ];
 
@@ -29,7 +28,6 @@ const codingLinks = [
 ];
 
 const mathLinks = [
-  { name: "ANTON", detail: "School exercises and maths practice.", url: "https://anton.app/", icon: "📚" },
   { name: "Matific", detail: "Interactive maths activities and games.", url: "https://www.matific.com/", icon: "🎲" },
   { name: "Math Is Fun", detail: "Friendly explanations, puzzles and number games.", url: "https://www.mathsisfun.com/", icon: "🔢" },
 ];
@@ -164,29 +162,12 @@ function App() {
           {active === "coding" && <Coding markCompleted={markCompleted} />}
           {active === "math" && <MathGames awardTreasureStar={() => setProgress((old) => ({ ...addStars(old, 1, "Math Games · completed Treasure Hunt"), completed: [...old.completed, "math-treasure-hunt"] }))} hasTreasureStar={progress.completed.includes("math-treasure-hunt")} />}
           {active === "calendar" && <Calendar />}
-          {active === "klaro" && <Klaro />}
           {active === "stars" && <Achievements progress={progress} />}
           <footer className="footer">Made with <span>♥</span> for Aisha</footer>
         </main>
       </div>
     </div>
   );
-}
-
-function Klaro() {
-  return <>
-    <PageHeading eyebrow="HEALTH & WELLBEING" title="KLARO · Klasse2000" subtitle="Discover little ways to stay healthy, feel good and grow strong." emoji="🟡" />
-    <section className="klaro-intro-panel">
-      <div className="klaro-character">🙂</div>
-      <div><p className="eyebrow">YOUR KLARO WORLD</p><h2>Learn, move and feel good!</h2><p>KLARO is part of the Klasse2000 health education program at school. Explore activities about healthy eating, movement, relaxation, feelings and friendship.</p></div>
-    </section>
-    <div className="klaro-link-grid">
-      <a className="klaro-link-card" href="https://www.klaro-labor.de/" target="_blank" rel="noreferrer"><span>💻</span><b>Open KLARO Labor</b><small>Games, exercises and learning activities</small><em>Open website ↗</em></a>
-      <a className="klaro-link-card" href="https://play.google.com/store/apps/details?id=de.klasse2000.klaro" target="_blank" rel="noreferrer"><span>📱</span><b>KLARO App · Android</b><small>Movement breaks, breathing and stories</small><em>Get the app ↗</em></a>
-      <a className="klaro-link-card" href="https://apps.apple.com/de/app/klaro-app/id6466402729" target="_blank" rel="noreferrer"><span>📱</span><b>KLARO App · iPhone/iPad</b><small>Movement breaks, breathing and stories</small><em>Get the app ↗</em></a>
-    </div>
-    <p className="klaro-password-note">For the KLARO Labor and full app content, use the access password printed on your school's flyer.</p>
-  </>;
 }
 
 function Calendar() {
@@ -349,6 +330,7 @@ const afterSchoolActivities = {
 };
 function School() {
   const [schoolTab,setSchoolTab] = useState("timetable");
+  const [klaroPassword,setKlaroPassword] = useState("");
   const [week,setWeek] = useState(() => { try { const saved = JSON.parse(localStorage.getItem("aisha-week-schedule")); return saved ? saved.map(day => day.day === "Monday" && day.after?.includes("Dance Club") ? {...day,after:"Betreuung · GT 8 · Chess Club (every two weeks)"} : day) : initialWeek; } catch { return initialWeek; } });
   const [showChessDates,setShowChessDates] = useState(false);
   const chessClubDates = [];
@@ -370,6 +352,7 @@ function School() {
     <div className="school-tabs" role="tablist" aria-label="School information">
       <button className={schoolTab === "timetable" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("timetable")}>📅 My timetable</button>
       <button className={schoolTab === "lunch" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("lunch")}>🍽️ School lunches</button>
+      <button className={schoolTab === "edu" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("edu")}>🎮 Edu Games</button>
       <a className="school-tab school-system-link" href="https://ggsass.de/iserv/auth/login" target="_blank" rel="noreferrer">🔐 School System ↗</a>
     </div>
     {schoolTab === "timetable" && <>
@@ -426,6 +409,16 @@ function School() {
     <p className="gentle-note">Changes are saved in this browser on this device. Mum can edit the timetable any time.</p>
     {editing && <button className="reset-schedule" onClick={resetSchedule}>Reset to original timetable</button>}
     </>}
+    {schoolTab === "edu" && <section className="panel" style={{display:"grid",gap:"1.25rem"}}>
+      <div className="panel-heading"><h2>🎮 Educational games</h2><span className="small-tag">LEARN & PLAY</span></div>
+      <article className="klaro-link-card" style={{display:"grid",gap:".75rem"}}>
+        <span style={{fontSize:"2rem"}}>🟡</span><b>KLARO · Klasse2000</b>
+        <small>Copy the school password first, then open the KLARO website.</small>
+        <label style={{display:"grid",gap:".4rem"}}><strong>School password</strong><input type="text" value={klaroPassword} onChange={e=>setKlaroPassword(e.target.value)} placeholder="Enter the password from school" autoComplete="off" /></label>
+        <div style={{display:"flex",gap:".6rem",flexWrap:"wrap"}}><button className="secondary-button" disabled={!klaroPassword.trim()} onClick={()=>navigator.clipboard?.writeText(klaroPassword)}>Copy password</button><a className="primary-button" href="https://www.klaro-labor.de/" target="_blank" rel="noreferrer">Open KLARO website ↗</a></div>
+      </article>
+      <a className="klaro-link-card" href="https://anton.app/" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}><span style={{fontSize:"2rem"}}>📚</span><b>ANTON</b><small>School exercises and learning games. Tap to open ANTON; if installed, your device may open the app.</small><em>Open ANTON ↗</em></a>
+    </section>}
     {schoolTab === "lunch" && <section className="panel lunch-menu-panel">
       <div className="panel-heading"><h2>🍽️ School lunch menu</h2><span className="small-tag">9–13 NOV 2026</span></div>
       <p className="lunch-menu-copy">Here is the school lunch menu for the week of 9–13 November 2026.</p>
