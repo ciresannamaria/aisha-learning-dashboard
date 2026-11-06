@@ -218,7 +218,7 @@ function Calendar() {
   }
   const recurringSundayEvents = [];
   for (let date = new Date(2026, 10, 8); date <= new Date(2027, 10, 7); date.setDate(date.getDate() + 7)) {
-    const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate())].join("-");
+    const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
     if (date <= new Date(2026, 11, 13)) {
       recurringSundayEvents.push({ date: key, time: "11:00 AM–12:00 PM", title: "Swimming club", detail: "Swimming course (last session: December 13, 2026).", icon: "🏊", color: "swimming" });
     }
