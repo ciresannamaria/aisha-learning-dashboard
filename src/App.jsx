@@ -316,8 +316,8 @@ function Home({ setActive, stars }) {
   return <>
 
     <div className="home-top-row"><span className="star-counter">⭐ {stars} stars</span></div>
+    <section className="star-goal-reminder"><span>⭐</span><div><b>Goal: collect 50 stars.</b><p>When you reach 50 stars, choose a special treat with Mom.</p></div></section>
     <div className="adventure-grid">{cards.map((card) => <button key={card.id} className={`adventure-card ${card.color}`} onClick={() => setActive(card.id)}><span className="card-emoji">{card.icon}</span><span className="card-title">{card.title}{card.earnsStar && <span className="home-card-star" aria-label="You can earn a star here"> ⭐</span>}</span></button>)}</div>
-    <section className="mission-card star-goal-card"><div className="mission-icon">⭐</div><div><p className="eyebrow">YOUR STAR GOAL</p><h3>Collect 50 stars!</h3><p>When you reach 50 stars, choose a special treat with Mum.</p><p className="star-encouragement">✨ Try one new thing today. Every little step counts!</p></div><span className="mission-sparkle">🎁</span></section>
   </>;
 }
 
