@@ -226,6 +226,8 @@ function Calendar() {
   }
   const events = [
     { date: "2026-11-07", time: "11:00 AM", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
+    { date: "2026-11-09", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
+    { date: "2026-11-11", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     ...marketEvents,
     ...fridayBreakfastEvents,
     ...recurringSundayEvents,
