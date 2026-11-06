@@ -228,6 +228,7 @@ function Calendar() {
     { date: "2026-11-07", time: "11:00 AM", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
     { date: "2026-11-09", time: "5:30–7:00 PM", title: "Lanterns Exhibition", detail: "Aisha’s school lanterns exhibition.", icon: "🏮", color: "school" },
     { date: "2026-11-10", time: "4:15 PM", title: "St Martin Parade", detail: "St George School.", icon: "🏮", color: "school" },
+    { date: "2026-11-11", time: "5:30 PM", title: "Lanterns St Martin – Aisha", detail: "Meet in the classroom.", icon: "🏮", color: "school" },
     { date: "2026-11-09", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     { date: "2026-11-11", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     ...marketEvents,
