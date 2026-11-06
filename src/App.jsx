@@ -4,11 +4,11 @@ const sections = [
   { id: "home", label: "Home", icon: "🏡" },
   { id: "calendar", label: "Calendar", icon: "🗓️" },
   { id: "school", label: "My School Day", icon: "🎒" },
-  { id: "coding", label: "Coding Lab", icon: "🤖" },
-  { id: "math", label: "Math Games", icon: "🧩" },
-  { id: "feelings", label: "Emotions", icon: "😊" },
-  { id: "future", label: "My Future World", icon: "🌍" },
-  { id: "food", label: "Food", icon: "🍎" },
+  { id: "coding", label: "Coding Lab", icon: "🤖", earnsStar: true },
+  { id: "math", label: "Math Games", icon: "🧩", earnsStar: true },
+  { id: "feelings", label: "Emotions", icon: "😊", earnsStar: true },
+  { id: "future", label: "Professions", icon: "🌍", earnsStar: true },
+  { id: "food", label: "Food", icon: "🍎", earnsStar: true },
   { id: "klaro", label: "KLARO · Klasse2000", icon: "🟡" },
   { id: "stars", label: "My Stars", icon: "⭐" },
 ];
@@ -101,7 +101,7 @@ function App() {
   ], [earnedToday, progress.completed]);
 
   function markCompleted(id) {
-    const labels = { "profession-teacher": "My Future World · explored Teacher", "coding-Scratch": "Coding Lab · opened Scratch", "coding-Code.org": "Coding Lab · opened Code.org", "coding-Blockly Games": "Coding Lab · opened Blockly Games", "feeling-happy": "Emotions · learned about Happiness", "feeling-awe": "Emotions · learned about Awe" };
+    const labels = { "profession-teacher": "Professions · explored Teacher", "coding-Scratch": "Coding Lab · opened Scratch", "coding-Code.org": "Coding Lab · opened Code.org", "coding-Blockly Games": "Coding Lab · opened Blockly Games", "feeling-happy": "Emotions · learned about Happiness", "feeling-awe": "Emotions · learned about Awe" };
     setProgress((old) => old.completed.includes(id) ? old : {
       ...old,
       completed: [...old.completed, id],
@@ -290,17 +290,17 @@ function Home({ setActive, stars }) {
   const cards = [
     { id: "calendar", icon: "🗓️", title: "Calendar", text: "See dates, plans and upcoming events.", color: "blue" },
     { id: "school", icon: "🎒", title: "My School Day", text: "Timetable, school things and reminders.", color: "blue" },
-    { id: "coding", icon: "🤖", title: "Coding Lab", text: "Give instructions and create things.", color: "purple" },
-    { id: "math", icon: "🧩", title: "Math Games", text: "Solve puzzles and become a math star.", color: "peach" },
-    { id: "feelings", icon: "😊", title: "Emotions", text: "Explore emotions and understand yourself.", color: "peach" },
-    { id: "future", icon: "🌍", title: "My Future World", text: "Explore interesting jobs and professions.", color: "purple" },
-    { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" },
+    { id: "coding", icon: "🤖", title: "Coding Lab", text: "Give instructions and create things.", color: "purple" , earnsStar: true},
+    { id: "math", icon: "🧩", title: "Math Games", text: "Solve puzzles and become a math star.", color: "peach" , earnsStar: true},
+    { id: "feelings", icon: "😊", title: "Emotions", text: "Explore emotions and understand yourself.", color: "peach" , earnsStar: true},
+    { id: "future", icon: "🌍", title: "Professions", text: "Explore interesting jobs and professions.", color: "purple", earnsStar: true },
+    { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" , earnsStar: true},
     { id: "klaro", icon: "🟡", title: "KLARO · Klasse2000", text: "Explore healthy habits, movement and feelings.", color: "green" },
   ];
   return <>
 
     <div className="home-top-row"><span className="star-counter">⭐ {stars} stars</span></div>
-    <div className="adventure-grid">{cards.map((card) => <button key={card.id} className={`adventure-card ${card.color}`} onClick={() => setActive(card.id)}><span className="card-emoji">{card.icon}</span><span className="card-title">{card.title}</span></button>)}</div>
+    <div className="adventure-grid">{cards.map((card) => <button key={card.id} className={`adventure-card ${card.color}`} onClick={() => setActive(card.id)}><span className="card-emoji">{card.icon}</span><span className="card-title">{card.title}{card.earnsStar && <span className="home-card-star" aria-label="You can earn a star here"> ⭐</span>}</span></button>)}</div>
     <section className="mission-card star-goal-card"><div className="mission-icon">⭐</div><div><p className="eyebrow">YOUR STAR GOAL</p><h3>Collect 50 stars!</h3><p>When you reach 50 stars, choose a special treat with Mum.</p><p className="star-encouragement">✨ Try one new thing today. Every little step counts!</p></div><span className="mission-sparkle">🎁</span></section>
   </>;
 }
@@ -428,7 +428,7 @@ function FutureWorld({ markCompleted }) {
     ]}
   ];
   return <>
-    <PageHeading eyebrow="EXPLORE THE WORLD OF WORK" title="My future world" subtitle="Discover jobs and what you might enjoy." emoji="🌍" />
+    <PageHeading eyebrow="EXPLORE THE WORLD OF WORK" title="Professions" subtitle="Discover jobs and what you might enjoy." emoji="🌍" />
     <div className="future-jobs-grid">
       {jobs.map(job=><div className={"future-flip-card "+(open===job.id?"is-flipped":"")} key={job.id}>
         <div className="future-flip-inner">
@@ -652,7 +652,7 @@ function MathGames({ awardTreasureStar, hasTreasureStar }) {
   function choose(value) {
     if (choice) return;
     setChoice(value);
-    if (value === current.answer) setFound((n) => n + 1);
+    if (String(value) === current.answer) setFound((n) => n + 1);
   }
 
   function next() {
