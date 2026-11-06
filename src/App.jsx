@@ -737,3 +737,4 @@ function Achievements({ progress }) {
   </>;
 }
 
+export default App;
