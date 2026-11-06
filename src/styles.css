@@ -503,3 +503,10 @@ button{cursor:pointer}
 .star-celebration-card>p:not(.eyebrow){margin:0 auto 22px;max-width:320px;color:#716a78;font-size:16px;line-height:1.55}
 @keyframes milestone-pop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(max-width:600px){.progress-goal-card{padding:18px}.star-celebration-card{padding:26px 20px}}
+
+
+/* Compact star-goal reminder at the top of Home */
+.star-goal-reminder{display:flex;align-items:center;gap:12px;width:100%;max-width:760px;margin:4px 0 20px;padding:12px 16px;border:1px solid #eee2bd;border-radius:14px;background:#fff9e9;color:#65566e}
+.star-goal-reminder>span{font-size:23px;flex:0 0 auto}
+.star-goal-reminder b{display:block;font-size:14px;line-height:1.35}
+.star-goal-reminder p{margin:3px 0 0;font-size:12px;line-height:1.4;color:#776d7e}
