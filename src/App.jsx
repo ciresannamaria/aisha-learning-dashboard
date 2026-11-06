@@ -2,14 +2,15 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const sections = [
   { id: "home", label: "Home", icon: "🏡" },
-  { id: "school", label: "My school", icon: "🎒" },
-  { id: "future", label: "My future world", icon: "🌍" },
-  { id: "food", label: "Food", icon: "🍎" },
-  { id: "feelings", label: "Emotions", icon: "😊" },
-  { id: "coding", label: "Coding lab", icon: "🤖" },
-  { id: "math", label: "Math games", icon: "🧩" },
   { id: "calendar", label: "Calendar", icon: "🗓️" },
-  { id: "stars", label: "My stars", icon: "⭐" },
+  { id: "school", label: "My School Day", icon: "🎒" },
+  { id: "coding", label: "Coding Lab", icon: "🤖" },
+  { id: "math", label: "Math Games", icon: "🧩" },
+  { id: "feelings", label: "Emotions", icon: "😊" },
+  { id: "future", label: "My Future World", icon: "🌍" },
+  { id: "food", label: "Food", icon: "🍎" },
+  { id: "klaro", label: "KLARO · Klasse2000", icon: "🟡" },
+  { id: "stars", label: "My Stars", icon: "⭐" },
 ];
 
 const questions = [
@@ -148,12 +149,29 @@ function App() {
           {active === "coding" && <Coding markCompleted={markCompleted} />}
           {active === "math" && <MathGames question={question} questionIndex={questionIndex} answer={answer} chooseAnswer={chooseAnswer} nextQuestion={nextQuestion} roundScore={roundScore} roundFinished={roundFinished} restartMath={restartMath} earnedToday={earnedToday} />}
           {active === "calendar" && <Calendar />}
+          {active === "klaro" && <Klaro />}
           {active === "stars" && <Achievements stars={progress.stars} badges={badges} history={progress.history || []} />}
           <footer className="footer">Made with <span>♥</span> for Aisha · Your learning adventure</footer>
         </main>
       </div>
     </div>
   );
+}
+
+function Klaro() {
+  return <>
+    <PageHeading eyebrow="HEALTH & WELLBEING" title="KLARO · Klasse2000" subtitle="Discover little ways to stay healthy, feel good and grow strong." emoji="🟡" />
+    <section className="klaro-intro-panel">
+      <div className="klaro-character">🙂</div>
+      <div><p className="eyebrow">YOUR KLARO WORLD</p><h2>Learn, move and feel good!</h2><p>KLARO is part of the Klasse2000 health education program at school. Explore activities about healthy eating, movement, relaxation, feelings and friendship.</p></div>
+    </section>
+    <div className="klaro-link-grid">
+      <a className="klaro-link-card" href="https://www.klaro-labor.de/" target="_blank" rel="noreferrer"><span>💻</span><b>Open KLARO Labor</b><small>Games, exercises and learning activities</small><em>Open website ↗</em></a>
+      <a className="klaro-link-card" href="https://play.google.com/store/apps/details?id=de.klasse2000.klaro" target="_blank" rel="noreferrer"><span>📱</span><b>KLARO App · Android</b><small>Movement breaks, breathing and stories</small><em>Get the app ↗</em></a>
+      <a className="klaro-link-card" href="https://apps.apple.com/de/app/klaro-app/id6466402729" target="_blank" rel="noreferrer"><span>📱</span><b>KLARO App · iPhone/iPad</b><small>Movement breaks, breathing and stories</small><em>Get the app ↗</em></a>
+    </div>
+    <p className="klaro-password-note">For the KLARO Labor and full app content, use the access password printed on your school's flyer.</p>
+  </>;
 }
 
 function Calendar() {
@@ -270,12 +288,14 @@ function PageHeading({ eyebrow, title, subtitle, emoji }) {
 
 function Home({ setActive, stars }) {
   const cards = [
-    { id: "school", icon: "🎒", title: "My school day", text: "Timetable, school things and reminders.", color: "blue" },
-    { id: "future", icon: "🌍", title: "My future world", text: "Explore interesting jobs and professions.", color: "purple" },
-    { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" },
+    { id: "calendar", icon: "🗓️", title: "Calendar", text: "See dates, plans and upcoming events.", color: "blue" },
+    { id: "school", icon: "🎒", title: "My School Day", text: "Timetable, school things and reminders.", color: "blue" },
+    { id: "coding", icon: "🤖", title: "Coding Lab", text: "Give instructions and create things.", color: "purple" },
+    { id: "math", icon: "🧩", title: "Math Games", text: "Solve puzzles and become a math star.", color: "peach" },
     { id: "feelings", icon: "😊", title: "Emotions", text: "Explore emotions and understand yourself.", color: "peach" },
-    { id: "coding", icon: "🤖", title: "Coding lab", text: "Give instructions and create things.", color: "purple" },
-    { id: "math", icon: "🧩", title: "Math games", text: "Solve puzzles and become a math star.", color: "peach" },
+    { id: "future", icon: "🌍", title: "My Future World", text: "Explore interesting jobs and professions.", color: "purple" },
+    { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" },
+    { id: "klaro", icon: "🟡", title: "KLARO · Klasse2000", text: "Explore healthy habits, movement and feelings.", color: "green" },
   ];
   return <>
 
