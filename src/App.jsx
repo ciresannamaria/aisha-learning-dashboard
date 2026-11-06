@@ -37,7 +37,9 @@ const mathLinks = [
 
 function readSaved() {
   try {
-    return { stars: 0, completed: [], history: [], achievements: [], cycleStartedAt: new Date().toISOString(), celebrationPending: false, ...JSON.parse(localStorage.getItem("aisha-dashboard-progress") || "{}") };
+    const saved = JSON.parse(localStorage.getItem("aisha-dashboard-progress") || "{}");
+    const firstStarDate = (saved.history || []).map(item => item.date).filter(Boolean).sort()[0];
+    return { stars: 0, completed: [], history: [], achievements: [], cycleStartedAt: firstStarDate || new Date().toISOString(), celebrationPending: false, ...saved };
   } catch {
     return { stars: 0, completed: [], history: [], achievements: [], cycleStartedAt: new Date().toISOString(), celebrationPending: false };
   }
