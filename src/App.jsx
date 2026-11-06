@@ -125,7 +125,7 @@ function App() {
       <header className="topbar">
         <a className="brand" href="#home" onClick={() => setActive("home")} aria-label="Aisha's home">
           <span className="brand-icon">🌈</span>
-          <span>Aisha's <strong>Little Learning World</strong></span>
+          <span><strong>Aisha's Dashboard</strong></span>
         </a>
         <div className="top-stats"><button className="star-history-button" onClick={() => setActive("stars")} aria-label="View star history">⭐ {progress.stars}</button></div>
       </header>
@@ -299,8 +299,8 @@ function Home({ setActive, stars }) {
   ];
   return <>
 
-    <div className="section-title-row"><div><p className="eyebrow">CHOOSE YOUR ADVENTURE</p><h2>Where shall we go?</h2></div><span className="star-counter">⭐ {stars} stars</span></div>
-    <div className="adventure-grid">{cards.map((card) => <button key={card.id} className={`adventure-card ${card.color}`} onClick={() => setActive(card.id)}><span className="card-emoji">{card.icon}</span><span className="card-title">{card.title}</span><span className="card-text">{card.text}</span><span className="card-arrow">Let's go <b>↗</b></span></button>)}</div>
+    <div className="home-top-row"><span className="star-counter">⭐ {stars} stars</span></div>
+    <div className="adventure-grid">{cards.map((card) => <button key={card.id} className={`adventure-card ${card.color}`} onClick={() => setActive(card.id)}><span className="card-emoji">{card.icon}</span><span className="card-title">{card.title}</span></button>)}</div>
     <section className="mission-card star-goal-card"><div className="mission-icon">⭐</div><div><p className="eyebrow">YOUR STAR GOAL</p><h3>Collect 50 stars!</h3><p>When you reach 50 stars, choose a special treat with Mum.</p><p className="star-encouragement">✨ Try one new thing today. Every little step counts!</p></div><span className="mission-sparkle">🎁</span></section>
   </>;
 }
