@@ -24,9 +24,8 @@ const questions = [
 ];
 
 const codingLinks = [
-  { name: "Scratch", detail: "Make your own stories, animations and games.", url: "https://scratch.mit.edu/", icon: "🐱", level: "Create" },
-  { name: "Code.org", detail: "Try beginner-friendly coding puzzles and lessons.", url: "https://studio.code.org/courses/coursec-2025/units/1", icon: "💻", level: "Learn" },
-  { name: "Blockly Games", detail: "Learn how to give computers step-by-step instructions.", url: "https://blockly.games/", icon: "🧱", level: "Play" },
+  { name: "Code.org", url: "https://studio.code.org/courses/coursec-2025/units/1", icon: "💻" },
+  { name: "Scratch · Meet and Do", url: "https://scratch.mit.edu/", icon: "🐱" },
 ];
 
 const mathLinks = [
@@ -610,11 +609,8 @@ function Food() {
 
 function Coding({ markCompleted }) {
   return <>
-    <PageHeading eyebrow="CODING LAB" title="Hello, little coder!" subtitle="Computers follow instructions. You can teach them what to do!" emoji="🤖" />
-    <section className="coding-intro"><div className="robot-face">🤖</div><div><h2>Think like a computer scientist</h2><p>Break a big problem into small steps. Give clear instructions. Test your idea and try again!</p></div></section>
-    <div className="section-title-row compact"><div><p className="eyebrow">PICK A CODING ADVENTURE</p><h2>Choose where to explore</h2></div></div>
-    <div className="resource-list">{codingLinks.map((link) => <a className="resource-card" href={link.url} target="_blank" rel="noreferrer" key={link.name} onClick={() => markCompleted("coding-" + link.name)}><span className="resource-icon">{link.icon}</span><span className="resource-info"><b>{link.name}</b><small>{link.detail}</small></span><span className="resource-level">{link.level}</span><span className="external-arrow">↗</span></a>)}</div>
-    <section className="mission-card"><div className="mission-icon">🧭</div><div><p className="eyebrow">UNPLUGGED CHALLENGE</p><h3>Be a robot's teacher!</h3><p>Write 4 steps to help a robot walk from the door to a chair. Are your instructions clear?</p></div></section>
+    <PageHeading eyebrow="CODING LAB" title="Hello, little coder!" emoji="🤖" />
+    <div className="resource-list">{codingLinks.map((link) => <a className="resource-card" href={link.url} target="_blank" rel="noreferrer" key={link.name} onClick={() => markCompleted("coding-" + link.name)}><span className="resource-icon">{link.icon}</span><span className="resource-info"><b>{link.name}</b></span><span className="external-arrow">↗</span></a>)}</div>
   </>;
 }
 
