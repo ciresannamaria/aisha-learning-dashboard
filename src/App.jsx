@@ -37,9 +37,9 @@ const mathLinks = [
 
 function readSaved() {
   try {
-    return JSON.parse(localStorage.getItem("aisha-dashboard-progress")) || { stars: 0, completed: [], history: [] };
+    return { stars: 0, completed: [], history: [], achievements: [], cycleStartedAt: new Date().toISOString(), celebrationPending: false, ...JSON.parse(localStorage.getItem("aisha-dashboard-progress") || "{}") };
   } catch {
-    return { stars: 0, completed: [], history: [] };
+    return { stars: 0, completed: [], history: [], achievements: [], cycleStartedAt: new Date().toISOString(), celebrationPending: false };
   }
 }
 
@@ -59,14 +59,27 @@ function App() {
   const question = questions[questionIndex];
   const earnedToday = progress.completed.includes("math-starter");
 
+  function addStars(old, amount, label) {
+    if (!amount) return old;
+    const now = new Date();
+    let total = (old.stars || 0) + amount;
+    let achievements = [...(old.achievements || [])];
+    let cycleStart = old.cycleStartedAt || now.toISOString();
+    let celebrationPending = old.celebrationPending || false;
+    while (total >= 50) {
+      const days = Math.max(1, Math.ceil((now - new Date(cycleStart)) / 86400000));
+      achievements.push({ id: crypto.randomUUID(), date: now.toISOString(), days, stars: 50, treat: "" });
+      total -= 50;
+      cycleStart = now.toISOString();
+      celebrationPending = true;
+    }
+    const historyItems = Array.from({ length: amount }, () => ({ id: crypto.randomUUID(), label, date: now.toISOString(), stars: 1 }));
+    return { ...old, stars: total, achievements, cycleStartedAt: cycleStart, celebrationPending, history: [...(old.history || []), ...historyItems] };
+  }
+
   function completeMathRound() {
     if (!earnedToday) {
-      setProgress((old) => ({
-        ...old,
-        stars: old.stars + roundScore,
-        completed: [...old.completed, "math-starter"],
-        history: [...(old.history || []), ...Array.from({ length: roundScore }, () => ({ id: crypto.randomUUID(), label: "Math Games · correct answer", date: new Date().toISOString(), stars: 1 }))],
-      }));
+      setProgress((old) => ({ ...addStars(old, roundScore, "Math Games · correct answer"), completed: [...old.completed, "math-starter"] }));
     }
     setRoundFinished(true);
   }
@@ -103,21 +116,21 @@ function App() {
   function markCompleted(id) {
     const labels = { "profession-teacher": "Professions · explored Teacher", "coding-Scratch": "Coding Lab · opened Scratch", "coding-Code.org": "Coding Lab · opened Code.org", "coding-Blockly Games": "Coding Lab · opened Blockly Games", "feeling-happy": "Emotions · learned about Happiness", "feeling-awe": "Emotions · learned about Awe" };
     setProgress((old) => old.completed.includes(id) ? old : {
-      ...old,
+      ...addStars(old, 1, labels[id] || "Learning activity"),
       completed: [...old.completed, id],
-      stars: old.stars + 1,
-      history: [...(old.history || []), { id: crypto.randomUUID(), label: labels[id] || "Learning activity", date: new Date().toISOString(), stars: 1 }],
     });
   }
 
   function awardFoodQuizStars(score) {
     const earned = Math.floor(score / 3);
     setProgress((old) => ({
-      ...old,
+      ...addStars(old, earned, "Healthy Me · 3 correct quiz answers"),
       completed: old.completed.includes("food") ? old.completed : [...old.completed, "food"],
-      stars: old.stars + earned,
-      history: [...(old.history || []), ...Array.from({ length: earned }, (_, index) => ({ id: crypto.randomUUID(), label: "Healthy Me · 3 correct quiz answers", date: new Date().toISOString(), stars: 1 }))],
     }));
+  }
+
+  function dismissCelebration() {
+    setProgress((old) => ({ ...old, celebrationPending: false }));
   }
 
   return (
@@ -147,10 +160,10 @@ function App() {
           {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
           {active === "feelings" && <MyFeelings markCompleted={markCompleted} />}
           {active === "coding" && <Coding markCompleted={markCompleted} />}
-          {active === "math" && <MathGames awardTreasureStar={() => setProgress((old) => ({ ...old, stars: old.stars + 1, completed: [...old.completed, "math-treasure-hunt"], history: [...(old.history || []), { id: crypto.randomUUID(), label: "Math Games · completed Treasure Hunt", date: new Date().toISOString(), stars: 1 }] }))} hasTreasureStar={progress.completed.includes("math-treasure-hunt")} />}
+          {active === "math" && <MathGames awardTreasureStar={() => setProgress((old) => ({ ...addStars(old, 1, "Math Games · completed Treasure Hunt"), completed: [...old.completed, "math-treasure-hunt"] }))} hasTreasureStar={progress.completed.includes("math-treasure-hunt")} />}
           {active === "calendar" && <Calendar />}
           {active === "klaro" && <Klaro />}
-          {active === "stars" && <Achievements stars={progress.stars} badges={badges} history={progress.history || []} />}
+          {active === "stars" && <Achievements progress={progress} />}
           <footer className="footer">Made with <span>♥</span> for Aisha</footer>
         </main>
       </div>
@@ -696,22 +709,28 @@ function MathGames({ awardTreasureStar, hasTreasureStar }) {
   </section>;
 }
 
-function Achievements({ stars, badges, history }) {
-  const thisMonth = new Date().toISOString().slice(0, 7);
-  const monthlyHistory = history.filter(item => item.date?.slice(0, 7) === thisMonth).sort((a,b) => b.date.localeCompare(a.date));
-  const olderStars = Math.max(0, stars - history.reduce((sum,item) => sum + (item.stars || 1), 0));
+function Achievements({ progress }) {
+  const stars = progress.stars || 0;
+  const history = progress.history || [];
+  const achievements = progress.achievements || [];
+  const percent = Math.min(100, (stars / 50) * 100);
+  const monthlyHistory = history.slice().sort((a,b) => b.date.localeCompare(a.date));
   return <>
-    <PageHeading eyebrow="MY PROGRESS" title="Look at you go!" subtitle="Every little step is something to celebrate." emoji="🏆" />
-    <section className="stars-hero"><span>⭐</span><div><strong>{stars}</strong><p>stars collected</p><p className="treat-goal">🎁 At 50 stars, choose a special treat with Mum!</p></div><span>✨</span></section>
-    <div className="section-title-row compact"><div><p className="eyebrow">STAR NOTIFICATIONS</p><h2>This month's stars</h2></div></div>
-    <section className="star-history-list">
-      {monthlyHistory.length ? monthlyHistory.map(item => <div className="star-history-item" key={item.id}><span>⭐</span><div><b>{item.label}</b><small>{new Date(item.date).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}</small></div><strong>+{item.stars || 1}</strong></div>) : <p className="gentle-note">No stars collected this month yet. Try an activity to get started!</p>}
-      {olderStars > 0 && <p className="gentle-note">{olderStars} earlier {olderStars === 1 ? "star was" : "stars were"} collected before star notifications were added.</p>}
+    <PageHeading eyebrow="MY PROGRESS" title="My Progress" subtitle={`Well done, Aisha! You have collected ${stars} stars so far.`} />
+    <section className="stars-hero progress-goal-card">
+      <div className="progress-goal-top"><strong>{stars} / 50</strong><span>⭐</span></div>
+      <div className="star-progress-track" role="progressbar" aria-valuenow={stars} aria-valuemin="0" aria-valuemax="50"><span style={{ width: percent + "%" }} /></div>
+      <p>{50 - stars} more {50 - stars === 1 ? "star" : "stars"} to your special treat with Mum!</p>
     </section>
-    <div className="section-title-row compact"><div><p className="eyebrow">YOUR BADGE COLLECTION</p><h2>Little achievements</h2></div></div>
-    <div className="badge-grid">{badges.map((badge) => <div className={`badge-card ${badge.unlocked ? "unlocked" : "locked"}`} key={badge.title}><span>{badge.unlocked ? badge.icon : "🔒"}</span><b>{badge.title}</b><small>{badge.unlocked ? badge.description : "Keep exploring to unlock this badge!"}</small></div>)}</div>
-    <p className="gentle-note">Your stars and completed missions are saved in this browser on this device.</p>
+    <div className="section-title-row compact"><div><h2>Notifications</h2></div></div>
+    <section className="star-history-list">
+      {monthlyHistory.length ? monthlyHistory.map(item => <div className="star-history-item" key={item.id}><span>⭐</span><div><b>{item.label}</b><small>{new Date(item.date).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}</small></div><strong>+{item.stars || 1}</strong></div>) : <p className="gentle-note">Your stars will appear here as you earn them.</p>}
+    </section>
+    <div className="section-title-row compact"><div><h2>Little Achievements</h2></div></div>
+    <section className="milestone-grid">
+      {achievements.length ? achievements.slice().reverse().map((item) => <article className="milestone-card" key={item.id}><span>🏆</span><div><b>50 stars collected!</b><p>You reached your goal in {item.days} {item.days === 1 ? "day" : "days"}.</p><small>Special treat: {item.treat || "To be added with Mum"}</small><small>{new Date(item.date).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})}</small></div></article>) : <p className="gentle-note">Your first 50-star celebration will be remembered here!</p>}
+    </section>
+    <p className="gentle-note">Your progress is saved in this browser on this device.</p>
   </>;
 }
 
-export default App;
