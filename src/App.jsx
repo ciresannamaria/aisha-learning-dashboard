@@ -348,7 +348,8 @@ function School() {
   function resetSchedule() { if (window.confirm("Reset the timetable to the original school schedule?")) { setWeek(initialWeek); setSunday([["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]); localStorage.removeItem("aisha-week-schedule"); localStorage.removeItem("aisha-sunday-schedule"); setEditing(false); } }
   const lessonTimes = ["8:10–8:55","9:00–9:45","10:15–11:00","11:05–11:50","12:05–12:50","12:50–13:35"];
   return <>
-    <PageHeading eyebrow="MY SCHOOL & ACTIVITIES" title="My school" subtitle="Your timetable and lunch menu." emoji="🎒" />
+    <PageHeading eyebrow="MY SCHOOL & ACTIVITIES" title="My school" subtitle="Your timetable, lunch menu and learning games." emoji="🎒" />
+    <button className="primary-button" style={{display:"flex",width:"100%",justifyContent:"center",margin:"0 0 1rem",padding:"1rem",fontSize:"1.05rem"}} onClick={() => setSchoolTab("edu")}>🎮 Open Edu Games · KLARO & ANTON →</button>
     <div className="school-tabs" role="tablist" aria-label="School information">
       <button className={schoolTab === "timetable" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("timetable")}>📅 My timetable</button>
       <button className={schoolTab === "lunch" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("lunch")}>🍽️ School lunches</button>
