@@ -412,11 +412,12 @@ function School() {
     {schoolTab === "edu" && <section className="panel" style={{display:"grid",gap:"1.25rem"}}>
       <div className="panel-heading"><h2>🎮 Educational games</h2><span className="small-tag">LEARN & PLAY</span></div>
       <article className="klaro-link-card" style={{display:"grid",gap:".75rem"}}>
-        <span style={{fontSize:"2rem"}}>🟡</span><b>KLARO · Klasse2000</b>
-        <small>Copy the school password first, then open the KLARO website.</small>
-        <label style={{display:"grid",gap:".4rem"}}><strong>School password</strong><input type="text" value={klaroPassword} onChange={e=>setKlaroPassword(e.target.value)} placeholder="Enter the password from school" autoComplete="off" /></label>
-        <div style={{display:"flex",gap:".6rem",flexWrap:"wrap"}}><button className="secondary-button" disabled={!klaroPassword.trim()} onClick={()=>navigator.clipboard?.writeText(klaroPassword)}>Copy password</button><a className="primary-button" href="https://www.klaro-labor.de/" target="_blank" rel="noreferrer">Open KLARO website ↗</a></div>
+        <span style={{fontSize:"2rem"}}>🔐</span><b>KLARO · School password</b>
+        <small>Copy the password before opening the KLARO website.</small>
+        <label style={{display:"grid",gap:".4rem"}}><strong>Password</strong><input type="text" value={klaroPassword} onChange={e=>setKlaroPassword(e.target.value)} placeholder="Enter the password from school" autoComplete="off" /></label>
+        <button className="secondary-button" disabled={!klaroPassword.trim()} onClick={()=>navigator.clipboard?.writeText(klaroPassword)}>Copy password</button>
       </article>
+      <a className="klaro-link-card" href="https://www.klaro-labor.de/" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}><span style={{fontSize:"2rem"}}>🟡</span><b>KLARO · Klasse2000</b><small>Games, exercises and learning activities.</small><em>Open KLARO website ↗</em></a>
       <a className="klaro-link-card" href="https://anton.app/" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}><span style={{fontSize:"2rem"}}>📚</span><b>ANTON</b><small>School exercises and learning games. Tap to open ANTON; if installed, your device may open the app.</small><em>Open ANTON ↗</em></a>
     </section>}
     {schoolTab === "lunch" && <section className="panel lunch-menu-panel">
