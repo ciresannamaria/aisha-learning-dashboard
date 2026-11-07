@@ -327,8 +327,15 @@ const afterSchoolActivities = {
   Monday: [{ time:"15:00–16:00", name:"Chess Club", detail:"Every two weeks", chess:true }],
   Tuesday: [{ time:"13:30–14:15", name:"Recorder", detail:"Frau Bierhaus" }],
   Wednesday: [{ time:"14:00–14:45", name:"Ensemble", detail:"Herr Pottmeier" }],
-  Thursday: [{ time:"15:00–16:00", name:"Bastel Club" }],
+  Thursday: [],
   Friday: [],
+};
+const ogsSchedule = {
+  Monday: [{time:"13:00",name:"Lunch",icon:"🍽️"},{time:"13:40",name:"Homework time",icon:"📚"}],
+  Tuesday: [{time:"12:50",name:"Homework time",icon:"📚"},{time:"13:45",name:"Lunch",icon:"🍽️"}],
+  Wednesday: [{time:"12:05",name:"Homework time",icon:"📚"},{time:"13:00",name:"Lunch",icon:"🍽️"}],
+  Thursday: [{time:"13:45",name:"Lunch · after swimming",icon:"🍽️"},{time:"14:45",name:"Homework time",icon:"📚"}],
+  Friday: [{time:"13:00",name:"Lunch",icon:"🍽️"},{time:"13:45",name:"Homework time",icon:"📚"}],
 };
 function School() {
   const [schoolTab,setSchoolTab] = useState("timetable");
@@ -377,11 +384,10 @@ function School() {
                   {editing ? <><input aria-label={day.day+" lesson "+(lessonIndex+1)} value={lesson[1]} placeholder={isOgsCard ? "GT 8 / activity" : "Lesson / activity"} onChange={e => updateLesson(dayIndex,lessonIndex,1,e.target.value)} /><input aria-label="Teacher" value={lesson[2]} placeholder="Teacher (optional)" onChange={e => updateLesson(dayIndex,lessonIndex,2,e.target.value)} />{isOgsCard && <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" GT 8 activities"} />}</> : <>
                     <b>{isOgsCard ? "🌟 GT 8" : lesson[1] || "—"}</b>
                     {lesson[2] && <span>{lesson[2]}</span>}
-                    {isOgsCard && (afterSchoolActivities[day.day] || []).map(activity => <div className="ogs-activity" key={activity.name}>
-                      <strong>{activity.time}</strong><span>{activity.name}{activity.detail ? ` · ${activity.detail}` : ""}</span>
+                    {isOgsCard && [...(ogsSchedule[day.day] || []).map(item => ({...item,kind:"routine"})), ...(afterSchoolActivities[day.day] || []).map(item => ({...item,kind:"club"}))].sort((a,b) => a.time.localeCompare(b.time)).map(activity => <div className="ogs-activity" key={activity.name}>
+                      <strong>{activity.time}</strong><span>{activity.icon ? `${activity.icon} ` : ""}{activity.name}{activity.detail ? ` · ${activity.detail}` : ""}</span>
                       {activity.chess && <><button className="chess-dates-toggle" onClick={() => setShowChessDates(value => !value)}>{showChessDates ? "Hide dates ▲" : "Show chess club dates ▼"}</button>{showChessDates && <ol className="chess-dates-list">{chessClubDates.map(date => <li key={date}>{date}</li>)}</ol>}</>}
                     </div>)}
-                    {isOgsCard && !(afterSchoolActivities[day.day] || []).length && <span>No extra club scheduled.</span>}
                   </>}
                 </div>
                 {breakTimes.filter(b => b.after === lessonIndex).map(b => <div className="schedule-break" key={b.label}>{b.label}</div>)}
@@ -391,11 +397,10 @@ function School() {
                 <small>13:35 onwards</small>
                 {editing ? <textarea value={day.after} onChange={e => updateAfter(dayIndex,e.target.value)} aria-label={day.day+" GT 8 activities"} /> : <>
                   <b>🌟 OGS</b>
-                  {(afterSchoolActivities[day.day] || []).map(activity => <div className="ogs-activity" key={activity.name}>
-                    <strong>{activity.time}</strong><span>{activity.name}{activity.detail ? ` · ${activity.detail}` : ""}</span>
+                  {[...(ogsSchedule[day.day] || []).map(item => ({...item,kind:"routine"})), ...(afterSchoolActivities[day.day] || []).map(item => ({...item,kind:"club"}))].sort((a,b) => a.time.localeCompare(b.time)).map(activity => <div className="ogs-activity" key={activity.name}>
+                    <strong>{activity.time}</strong><span>{activity.icon ? `${activity.icon} ` : ""}{activity.name}{activity.detail ? ` · ${activity.detail}` : ""}</span>
                     {activity.chess && <><button className="chess-dates-toggle" onClick={() => setShowChessDates(value => !value)}>{showChessDates ? "Hide dates ▲" : "Show chess club dates ▼"}</button>{showChessDates && <ol className="chess-dates-list">{chessClubDates.map(date => <li key={date}>{date}</li>)}</ol>}</>}
                   </div>)}
-                  {!(afterSchoolActivities[day.day] || []).length && <span>No extra club scheduled.</span>}
                 </>}
               </div>}
             </>;
@@ -404,9 +409,7 @@ function School() {
         </div>)}
       </div>
     </section>
-    <section className="panel sunday-panel"><div className="panel-heading"><h2>☀️ Sunday · Optional activities</h2><span className="small-tag">WEEKEND</span></div><div className="sunday-activities">{sunday.map((item,index) => <div className="sunday-item" key={index}>{editing ? <><input value={item[0]} aria-label="Sunday activity" onChange={e => updateSunday(index,0,e.target.value)} /><input value={item[1]} aria-label="Activity time" onChange={e => updateSunday(index,1,e.target.value)} /></> : <><b>{item[0]}</b><span>{item[1]}</span></>}</div>)}</div></section>
-    <section className="panel"><div className="panel-heading"><h2>🎒 Before I leave</h2><span className="small-tag">MY CHECKLIST</span></div><div className="checklist">{["School bag","Water bottle","Lunch or snack","Pencil case"].map(item => <label key={item}><input type="checkbox" /> <span>{item}</span></label>)}</div></section>
-    <p className="gentle-note">Changes are saved in this browser on this device. Mum can edit the timetable any time.</p>
+
     {editing && <button className="reset-schedule" onClick={resetSchedule}>Reset to original timetable</button>}
     </>}
 
