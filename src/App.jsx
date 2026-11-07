@@ -305,7 +305,7 @@ function Home({ setActive, stars }) {
     { id: "feelings", icon: "😊", title: "Emotions", text: "Explore emotions and understand yourself.", color: "peach" , earnsStar: true},
     { id: "future", icon: "🌍", title: "Professions", text: "Explore interesting jobs and professions.", color: "purple", earnsStar: true },
     { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" , earnsStar: true},
-    { id: "klaro", icon: "🟡", title: "KLARO · Klasse2000", text: "Explore healthy habits, movement and feelings.", color: "green" },
+    { id: "edugames", icon: "🎮", title: "Edu Games", text: "Open KLARO and ANTON learning games.", color: "green" },
   ];
   return <>
 
