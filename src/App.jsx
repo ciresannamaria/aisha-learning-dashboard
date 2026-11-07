@@ -517,6 +517,19 @@ function MyFeelings({ markCompleted }) {
         {question:"When might you feel awe?",options:["Seeing a huge waterfall","Finding a missing sock","Eating your usual breakfast"],correct:0,why:"A huge waterfall can feel amazing and fill us with wonder."},
         {question:"What might you do when you feel awe?",options:["Look closely and say “Wow!”","Always feel angry","Always want to run away"],correct:0,why:"Awe can make us curious and amazed."}
       ]
+    },
+    {
+      id:"proud",
+      emoji:"🌟",
+      name:"Proud",
+      german:"Stolz",
+      intro:"Proud is a good feeling you may have when you try hard, learn something, or do something that matters to you.",
+      clues:"You might smile, stand a little taller, or feel pleased with yourself.",
+      example:"You keep practicing how to ride your bike, and one day you can do it!",
+      questions:[
+        {question:"When might you feel proud?",options:["You keep practicing and learn something new","You give up before trying","You laugh when someone makes a mistake"],correct:0,why:"Trying hard and learning something new can make you feel proud."},
+        {question:"What is a kind thing to remember about feeling proud?",options:["You can feel proud of your effort, not only winning","You should only feel proud when you are the best","You must never make mistakes"],correct:0,why:"Effort, practice, and progress are all good reasons to feel proud."}
+      ]
     }
   ];
   const current=lessons.find(item=>item.id===openFeeling);
