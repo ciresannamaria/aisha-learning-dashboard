@@ -4,6 +4,7 @@ const sections = [
   { id: "home", label: "Home", icon: "🏡" },
   { id: "calendar", label: "Calendar", icon: "🗓️" },
   { id: "school", label: "My School Day", icon: "🎒" },
+  { id: "edugames", label: "Edu Games", icon: "🎮" },
   { id: "coding", label: "Coding Lab", icon: "🤖", earnsStar: true },
   { id: "math", label: "Math Games", icon: "🧩", earnsStar: true },
   { id: "feelings", label: "Emotions", icon: "😊", earnsStar: true },
@@ -156,6 +157,7 @@ function App() {
         <main className="main-content">
           {active === "home" && <Home setActive={setActive} stars={progress.stars} />}
           {active === "school" && <School />}
+          {active === "edugames" && <EduGames />}
           {active === "future" && <FutureWorld markCompleted={markCompleted} />}
           {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
           {active === "feelings" && <MyFeelings markCompleted={markCompleted} />}
@@ -330,7 +332,6 @@ const afterSchoolActivities = {
 };
 function School() {
   const [schoolTab,setSchoolTab] = useState("timetable");
-  const [klaroPassword,setKlaroPassword] = useState("");
   const [week,setWeek] = useState(() => { try { const saved = JSON.parse(localStorage.getItem("aisha-week-schedule")); return saved ? saved.map(day => day.day === "Monday" && day.after?.includes("Dance Club") ? {...day,after:"Betreuung · GT 8 · Chess Club (every two weeks)"} : day) : initialWeek; } catch { return initialWeek; } });
   const [showChessDates,setShowChessDates] = useState(false);
   const chessClubDates = [];
@@ -349,11 +350,9 @@ function School() {
   const lessonTimes = ["8:10–8:55","9:00–9:45","10:15–11:00","11:05–11:50","12:05–12:50","12:50–13:35"];
   return <>
     <PageHeading eyebrow="MY SCHOOL & ACTIVITIES" title="My school" subtitle="Your timetable, lunch menu and learning games." emoji="🎒" />
-    <button className="primary-button" style={{display:"flex",width:"100%",justifyContent:"center",margin:"0 0 1rem",padding:"1rem",fontSize:"1.05rem"}} onClick={() => setSchoolTab("edu")}>🎮 Open Edu Games · KLARO & ANTON →</button>
     <div className="school-tabs" role="tablist" aria-label="School information">
       <button className={schoolTab === "timetable" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("timetable")}>📅 My timetable</button>
       <button className={schoolTab === "lunch" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("lunch")}>🍽️ School lunches</button>
-      <button className={schoolTab === "edu" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("edu")}>🎮 Edu Games</button>
       <a className="school-tab school-system-link" href="https://ggsass.de/iserv/auth/login" target="_blank" rel="noreferrer">🔐 School System ↗</a>
     </div>
     {schoolTab === "timetable" && <>
@@ -410,7 +409,22 @@ function School() {
     <p className="gentle-note">Changes are saved in this browser on this device. Mum can edit the timetable any time.</p>
     {editing && <button className="reset-schedule" onClick={resetSchedule}>Reset to original timetable</button>}
     </>}
-    {schoolTab === "edu" && <section className="panel" style={{display:"grid",gap:"1.25rem"}}>
+
+    {schoolTab === "lunch" && <section className="panel lunch-menu-panel">
+      <div className="panel-heading"><h2>🍽️ School lunch menu</h2><span className="small-tag">9–13 NOV 2026</span></div>
+      <p className="lunch-menu-copy">Here is the school lunch menu for the week of 9–13 November 2026.</p>
+      <a className="primary-button lunch-menu-link" href="http://www.grundschule-albert-schweitzer.de/wp-content/uploads/2026/11/Speiseplan-Mensa-09.11-13.11.26.pdf" target="_blank" rel="noreferrer">Open lunch menu (PDF) <span>↗</span></a>
+      <p className="gentle-note">Tap the link to view this week's meals.</p>
+    </section>}
+  </>;
+}
+
+
+function EduGames() {
+  const [klaroPassword,setKlaroPassword] = useState("");
+  return <>
+    <PageHeading eyebrow="LEARN & PLAY" title="Edu Games" subtitle="Choose a learning game to explore." emoji="🎮" />
+<section className="panel" style={{display:"grid",gap:"1.25rem"}}>
       <div className="panel-heading"><h2>🎮 Educational games</h2><span className="small-tag">LEARN & PLAY</span></div>
       <article className="klaro-link-card" style={{display:"grid",gap:".75rem"}}>
         <span style={{fontSize:"2rem"}}>🔐</span><b>KLARO · School password</b>
@@ -420,12 +434,6 @@ function School() {
       </article>
       <a className="klaro-link-card" href="https://www.klaro-labor.de/" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}><span style={{fontSize:"2rem"}}>🟡</span><b>KLARO · Klasse2000</b><small>Games, exercises and learning activities.</small><em>Open KLARO website ↗</em></a>
       <a className="klaro-link-card" href="https://anton.app/" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}><span style={{fontSize:"2rem"}}>📚</span><b>ANTON</b><small>School exercises and learning games. Tap to open ANTON; if installed, your device may open the app.</small><em>Open ANTON ↗</em></a>
-    </section>}
-    {schoolTab === "lunch" && <section className="panel lunch-menu-panel">
-      <div className="panel-heading"><h2>🍽️ School lunch menu</h2><span className="small-tag">9–13 NOV 2026</span></div>
-      <p className="lunch-menu-copy">Here is the school lunch menu for the week of 9–13 November 2026.</p>
-      <a className="primary-button lunch-menu-link" href="http://www.grundschule-albert-schweitzer.de/wp-content/uploads/2026/11/Speiseplan-Mensa-09.11-13.11.26.pdf" target="_blank" rel="noreferrer">Open lunch menu (PDF) <span>↗</span></a>
-      <p className="gentle-note">Tap the link to view this week's meals.</p>
     </section>}
   </>;
 }
