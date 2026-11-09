@@ -6,6 +6,7 @@ const sections = [
   { id: "school", label: "My School Day", icon: "🎒" },
   { id: "edugames", label: "Edu Games", icon: "🎮" },
   { id: "books", label: "Books", icon: "📚" },
+  { id: "achievements", label: "My Achievements", icon: "🏆" },
   { id: "coding", label: "Coding Lab", icon: "🤖", earnsStar: true },
   { id: "math", label: "Math Games", icon: "🧩", earnsStar: true },
   { id: "feelings", label: "Emotions", icon: "😊", earnsStar: true },
@@ -160,6 +161,7 @@ function App() {
           {active === "school" && <School />}
           {active === "edugames" && <EduGames />}
           {active === "books" && <Books />}
+          {active === "achievements" && <MyAchievements />}
           {active === "future" && <FutureWorld markCompleted={markCompleted} />}
           {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
           {active === "feelings" && <MyFeelings markCompleted={markCompleted} />}
@@ -309,6 +311,7 @@ function Home({ setActive, stars }) {
     { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" , earnsStar: true},
     { id: "edugames", icon: "🎮", title: "Edu Games", text: "Open KLARO and ANTON learning games.", color: "green" },
     { id: "books", icon: "📚", title: "Books", text: "Open your collection of books.", color: "purple" },
+    { id: "achievements", icon: "🏆", title: "My Achievements", text: "Celebrate the wonderful things I can do.", color: "peach" },
   ];
   return <>
 
@@ -425,6 +428,31 @@ function School() {
   </>;
 }
 
+
+function MyAchievements() {
+  const achievements = [
+    {
+      icon: "🌍",
+      title: "Growing up with three languages",
+      description: "At 7 years old, I have learned English and German, and I completely understand Romanian. I can understand and connect with three languages!",
+      tag: "Languages"
+    }
+  ];
+  return <>
+    <PageHeading eyebrow="MY JOURNEY" title="My Achievements" subtitle="Every new skill, every little step and every big moment is worth celebrating." emoji="🏆" />
+    <section className="panel" style={{display:"grid",gap:"1rem"}}>
+      <div className="panel-heading"><h2>✨ Look what I can do!</h2><span className="small-tag">AGE 7</span></div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,240px),1fr))",gap:"1rem"}}>
+        {achievements.map((item) => <article key={item.title} className="klaro-link-card" style={{display:"grid",alignContent:"start",gap:".65rem"}}>
+          <span style={{fontSize:"2.25rem"}}>{item.icon}</span>
+          <small>{item.tag}</small>
+          <b>{item.title}</b>
+          <p style={{margin:0,lineHeight:1.55}}>{item.description}</p>
+        </article>)}
+      </div>
+    </section>
+  </>;
+}
 
 function Books() {
   return <>
