@@ -5,6 +5,7 @@ const sections = [
   { id: "calendar", label: "Calendar", icon: "🗓️" },
   { id: "school", label: "My School Day", icon: "🎒" },
   { id: "edugames", label: "Edu Games", icon: "🎮" },
+  { id: "books", label: "Books", icon: "📚" },
   { id: "coding", label: "Coding Lab", icon: "🤖", earnsStar: true },
   { id: "math", label: "Math Games", icon: "🧩", earnsStar: true },
   { id: "feelings", label: "Emotions", icon: "😊", earnsStar: true },
@@ -158,6 +159,7 @@ function App() {
           {active === "home" && <Home setActive={setActive} stars={progress.stars} />}
           {active === "school" && <School />}
           {active === "edugames" && <EduGames />}
+          {active === "books" && <Books />}
           {active === "future" && <FutureWorld markCompleted={markCompleted} />}
           {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
           {active === "feelings" && <MyFeelings markCompleted={markCompleted} />}
@@ -306,6 +308,7 @@ function Home({ setActive, stars }) {
     { id: "future", icon: "🌍", title: "Professions", text: "Explore interesting jobs and professions.", color: "purple", earnsStar: true },
     { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" , earnsStar: true},
     { id: "edugames", icon: "🎮", title: "Edu Games", text: "Open KLARO and ANTON learning games.", color: "green" },
+    { id: "books", icon: "📚", title: "Books", text: "Open your collection of books.", color: "purple" },
   ];
   return <>
 
@@ -422,6 +425,18 @@ function School() {
   </>;
 }
 
+
+function Books() {
+  return <>
+    <PageHeading eyebrow="READ & EXPLORE" title="Books" subtitle="Open your collection of books." emoji="📚" />
+    <section className="panel" style={{display:"grid",gap:"1rem"}}>
+      <div className="panel-heading"><h2>📚 My Books</h2><span className="small-tag">READ & EXPLORE</span></div>
+      <a className="klaro-link-card" href="https://drive.google.com/drive/folders/13LyTEoCodeJidsxFAExiU6jzmsMMwrxv?usp=sharing" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}>
+        <span style={{fontSize:"2rem"}}>📖</span><b>Open book collection</b><small>Browse the books in your Google Drive folder.</small><em>Open books ↗</em>
+      </a>
+    </section>
+  </>;
+}
 
 function EduGames() {
   const [klaroPassword,setKlaroPassword] = useState("");
