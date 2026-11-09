@@ -430,11 +430,13 @@ function School() {
 
 
 function MyAchievements() {
+  const [showDetails, setShowDetails] = useState({});
   const achievements = [
     {
       icon: "🌍",
-      title: "Growing up with three languages",
-      description: "At 7 years old, I have learned English and German, and I completely understand Romanian. I can understand and connect with three languages!",
+      title: "Three languages",
+      age: "By age 7",
+      description: "I have learned to speak and communicate in English and German. I also completely understand Romanian. That means I can understand and connect with three languages!",
       tag: "Languages"
     }
   ];
@@ -442,13 +444,28 @@ function MyAchievements() {
     <PageHeading eyebrow="MY JOURNEY" title="My Achievements" subtitle="Every new skill, every little step and every big moment is worth celebrating." emoji="🏆" />
     <section className="panel" style={{display:"grid",gap:"1rem"}}>
       <div className="panel-heading"><h2>✨ Look what I can do!</h2><span className="small-tag">AGE 7</span></div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,240px),1fr))",gap:"1rem"}}>
-        {achievements.map((item) => <article key={item.title} className="klaro-link-card" style={{display:"grid",alignContent:"start",gap:".65rem"}}>
-          <span style={{fontSize:"2.25rem"}}>{item.icon}</span>
-          <small>{item.tag}</small>
-          <b>{item.title}</b>
-          <p style={{margin:0,lineHeight:1.55}}>{item.description}</p>
-        </article>)}
+      <div style={{display:"flex",flexWrap:"wrap",gap:"1rem",alignItems:"flex-start"}}>
+        {achievements.map((item) => <button
+          key={item.title}
+          type="button"
+          aria-label={showDetails[item.title] ? "Show achievement front" : "Show achievement details"}
+          aria-pressed={!!showDetails[item.title]}
+          onClick={() => setShowDetails(old => ({...old,[item.title]:!old[item.title]}))}
+          className="klaro-link-card"
+          style={{width:"190px",minHeight:"175px",padding:"1rem",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"space-between",gap:".65rem",textAlign:"left",cursor:"pointer",border:"1px solid var(--border-color, #e5e7eb)"}}
+        >
+          {showDetails[item.title] ? <>
+            <span style={{fontSize:"1.5rem"}}>✨</span>
+            <b>{item.title}</b>
+            <span style={{fontSize:".88rem",lineHeight:1.45}}>{item.description}</span>
+            <small>Tap to turn back ↩</small>
+          </> : <>
+            <span style={{fontSize:"2rem"}}>{item.icon}</span>
+            <b style={{fontSize:"1.05rem",lineHeight:1.25}}>{item.title}</b>
+            <span style={{fontWeight:700,fontSize:".9rem"}}>{item.age}</span>
+            <small>{item.tag} · Tap to discover</small>
+          </>}
+        </button>)}
       </div>
     </section>
   </>;
