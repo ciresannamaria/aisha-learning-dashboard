@@ -433,10 +433,24 @@ function MyAchievements() {
   const [showDetails, setShowDetails] = useState({});
   const achievements = [
     {
+      icon: "♟️",
+      title: "Chess lessons",
+      age: "Learning to think ahead",
+      description: "I have been learning to play chess, think carefully, plan my moves and solve problems one move at a time.",
+      tag: "Clubs & Activities"
+    },
+    {
+      icon: "🏊",
+      title: "Swimming lessons",
+      age: "Building confidence in the water",
+      description: "I have been taking swimming lessons and practicing my skills, coordination and confidence in the water.",
+      tag: "Clubs & Activities"
+    },
+    {
       icon: "💃",
-      title: "Around 50 dance lessons",
-      age: "Last academic year",
-      description: "I went to dance club once a week and completed around 50 dance lessons during the school year. I practiced moving to music, rhythm, coordination and expressing myself through dance!",
+      title: "Dance lessons",
+      age: "My dance journey",
+      description: "I took dance lessons and practiced moving to music, rhythm, coordination and expressing myself through dance!",
       tag: "Clubs & Activities"
     },
     {
