@@ -540,8 +540,8 @@ function FutureWorld({ markCompleted }) {
         <div className="future-flip-inner">
           <div className="future-card-face future-card-front">
             <button className="future-job-card" onClick={()=>{setOpen(open===job.id?"":job.id);markCompleted("profession-"+job.id);}} aria-label={"Turn over the "+job.title+" card"}>
-              <div className={job.art==="teacher"?"teacher-art":"doctor-art"} role="img" aria-label={job.art==="teacher"?"Teacher in a classroom":"Doctor with a medical bag"}>
-                {job.art==="teacher"?<><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></>:<><span>🧑‍⚕️</span><span className="doctor-bag">🩺</span><span className="doctor-cross">✚</span></>}
+              <div className={job.art==="teacher"?"teacher-art":job.art==="doctor"?"doctor-art":"programmer-art"} role="img" aria-label={job.art==="teacher"?"Teacher in a classroom":job.art==="doctor"?"Doctor with a medical bag":"Programmer coding at a computer"}>
+                {job.art==="teacher"?<><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></>:job.art==="doctor"?<><span>🧑‍⚕️</span><span className="doctor-bag">🩺</span><span className="doctor-cross">✚</span></>:<><span>👩‍💻</span><span style={{fontSize:"2rem"}}>💻</span><span style={{fontSize:"1rem"}}>{"</>"} · 0101</span></>}
               </div>
               <span className="future-card-title">{job.title}</span><span className="future-card-category">{job.category}</span><span className="future-card-open">Tap to turn the card ↻</span>
             </button>
