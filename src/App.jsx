@@ -433,6 +433,13 @@ function MyAchievements() {
   const [showDetails, setShowDetails] = useState({});
   const achievements = [
     {
+      icon: "💃",
+      title: "Around 50 dance lessons",
+      age: "Last academic year",
+      description: "I went to dance club once a week and completed around 50 dance lessons during the school year. I practiced moving to music, rhythm, coordination and expressing myself through dance!",
+      tag: "Clubs & Activities"
+    },
+    {
       icon: "🌍",
       title: "Three languages",
       age: "By age 7",
@@ -518,6 +525,12 @@ function FutureWorld({ markCompleted }) {
       ["Where do doctors work?","In hospitals, doctors' offices and health centers."],
       ["What skills help?","Kindness, careful listening, teamwork and problem-solving."],
       ["Try it!","Set up a pretend doctor's office for a teddy bear. Ask what hurts and how you can help."]
+    ]},
+    {id:"programmer",emoji:"👩‍💻",title:"Programmer",category:"Technology",art:"programmer",sections:[
+      ["What does a programmer do?","Programmers create instructions that tell computers, tablets and other devices what to do. They build apps, games and websites."],
+      ["Where do programmers work?","They may work in offices, studios or from home, often as part of a team."],
+      ["What skills help?","Creativity, curiosity, logical thinking, patience and problem-solving."],
+      ["Try it!","Imagine a game you would like to create. Draw the characters and write three instructions for what happens in your game."]
     ]}
   ];
   return <>
@@ -588,6 +601,19 @@ function MyFeelings({ markCompleted }) {
       questions:[
         {question:"When might you feel awe?",options:["Seeing a huge waterfall","Finding a missing sock","Eating your usual breakfast"],correct:0,why:"A huge waterfall can feel amazing and fill us with wonder."},
         {question:"What might you do when you feel awe?",options:["Look closely and say “Wow!”","Always feel angry","Always want to run away"],correct:0,why:"Awe can make us curious and amazed."}
+      ]
+    },
+    {
+      id:"curious",
+      emoji:"🤔",
+      name:"Curious",
+      german:"Neugierig",
+      intro:"Curiosity is the feeling you have when you want to find out more about something.",
+      clues:"You might ask questions, look closely, explore, or wonder how something works.",
+      example:"You find a tiny insect in the garden and want to learn what it is.",
+      questions:[
+        {question:"When might you feel curious?",options:["When you want to discover how something works","When you are fast asleep","When you already know everything"],correct:0,why:"Curiosity makes us want to explore and learn."},
+        {question:"What might you do when you feel curious?",options:["Ask questions and look closely","Never try anything new","Stop exploring"],correct:0,why:"Asking questions and exploring are ways to follow your curiosity."}
       ]
     },
     {
