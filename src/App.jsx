@@ -535,19 +535,26 @@ function FutureWorld({ markCompleted }) {
   return <>
     <PageHeading eyebrow="EXPLORE THE WORLD OF WORK" title="Professions" subtitle="Discover jobs and what you might enjoy." emoji="🌍" />
     <div className="future-jobs-grid">
-      {jobs.map(job=><div className={"future-flip-card "+(open===job.id?"is-flipped":"")} key={job.id}>
+      {jobs.map(job=><div
+        className={"future-flip-card "+(open===job.id?"is-flipped":"")}
+        key={job.id}
+        role="button"
+        tabIndex={0}
+        aria-label={(open===job.id?"Turn back the ":"Turn over the ")+job.title+" card"}
+        onClick={()=>{if(open!==job.id) markCompleted("profession-"+job.id);setOpen(open===job.id?"":job.id);}}
+        onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();if(open!==job.id) markCompleted("profession-"+job.id);setOpen(open===job.id?"":job.id);}}}
+      >
         <div className="future-flip-inner">
           <div className="future-card-face future-card-front">
-            <button className="future-job-card" onClick={()=>{if(open!==job.id) markCompleted("profession-"+job.id);setOpen(open===job.id?"":job.id);}} aria-label={"Turn over the "+job.title+" card"}>
+            <div className="future-job-card">
               <div className="profession-art" role="img" aria-label={job.title}>
                 <span>{job.emoji}</span>
               </div>
               <span className="future-card-title">{job.title}</span><span className="future-card-category">{job.category}</span><span className="future-card-open">Tap to turn the card ↻</span>
-            </button>
+            </div>
           </div>
           <div className="future-card-face future-card-back">
             <div className="future-back-content">
-              <button className="secondary-button future-back" onClick={()=>setOpen("")}>↶ Turn card back</button>
               <div className="future-back-title"><span>{job.emoji}</span><div><p className="eyebrow">{job.category.toUpperCase()}</p><h2>{job.title}</h2></div></div>
               {job.sections.map(([heading,copy],index)=><div className={index===3?"future-try":"future-info-block"} key={heading}><h3>{index===3?"🎨 ":""}{heading}</h3><p>{copy}</p></div>)}
             </div>
