@@ -3,10 +3,10 @@ import React, { useEffect, useMemo, useState } from "react";
 const sections = [
   { id: "home", label: "Home", icon: "🏡" },
   { id: "calendar", label: "Calendar", icon: "🗓️" },
-  { id: "school", label: "My School Day", icon: "🎒" },
+  { id: "school", label: "School", icon: "🎒" },
   { id: "edugames", label: "Edu Games", icon: "🎮" },
   { id: "books", label: "Books", icon: "📚" },
-  { id: "achievements", label: "My Achievements", icon: "🏆" },
+  { id: "achievements", label: "Achievements", icon: "🏆" },
   { id: "coding", label: "Coding Lab", icon: "🤖", earnsStar: true },
   { id: "math", label: "Math Games", icon: "🧩", earnsStar: true },
   { id: "feelings", label: "Emotions", icon: "😊", earnsStar: true },
@@ -303,7 +303,7 @@ function PageHeading({ eyebrow, title, subtitle, emoji }) {
 function Home({ setActive, stars }) {
   const cards = [
     { id: "calendar", icon: "🗓️", title: "Calendar", text: "See dates, plans and upcoming events.", color: "blue" },
-    { id: "school", icon: "🎒", title: "My School Day", text: "Timetable, school things and reminders.", color: "blue" },
+    { id: "school", icon: "🎒", title: "School", text: "Timetable, school things and reminders.", color: "blue" },
     { id: "coding", icon: "🤖", title: "Coding Lab", text: "Give instructions and create things.", color: "purple" , earnsStar: true},
     { id: "math", icon: "🧩", title: "Math Games", text: "Solve puzzles and become a math star.", color: "peach" , earnsStar: true},
     { id: "feelings", icon: "😊", title: "Emotions", text: "Explore emotions and understand yourself.", color: "peach" , earnsStar: true},
@@ -311,7 +311,7 @@ function Home({ setActive, stars }) {
     { id: "food", icon: "🍎", title: "Food", text: "Discover how different foods help your body.", color: "green" , earnsStar: true},
     { id: "edugames", icon: "🎮", title: "Edu Games", text: "Open KLARO and ANTON learning games.", color: "green" },
     { id: "books", icon: "📚", title: "Books", text: "Open your collection of books.", color: "purple" },
-    { id: "achievements", icon: "🏆", title: "My Achievements", text: "Celebrate the wonderful things I can do.", color: "peach" },
+    { id: "achievements", icon: "🏆", title: "Achievements", text: "Celebrate the wonderful things I can do.", color: "peach" },
   ];
   return <>
 
@@ -362,7 +362,7 @@ function School() {
   function resetSchedule() { if (window.confirm("Reset the timetable to the original school schedule?")) { setWeek(initialWeek); setSunday([["Swimming Club","09:00–10:00"],["Chess Club","14:00–16:00"]]); localStorage.removeItem("aisha-week-schedule"); localStorage.removeItem("aisha-sunday-schedule"); setEditing(false); } }
   const lessonTimes = ["8:10–8:55","9:00–9:45","10:15–11:00","11:05–11:50","12:05–12:50","12:50–13:35"];
   return <>
-    <PageHeading eyebrow="MY SCHOOL & ACTIVITIES" title="My school" subtitle="Your timetable, lunch menu and learning games." emoji="🎒" />
+    <PageHeading eyebrow="MY SCHOOL & ACTIVITIES" title="School" subtitle="Your timetable, lunch menu and learning games." emoji="🎒" />
     <div className="school-tabs" role="tablist" aria-label="School information">
       <button className={schoolTab === "timetable" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("timetable")}>📅 My timetable</button>
       <button className={schoolTab === "lunch" ? "school-tab active" : "school-tab"} onClick={() => setSchoolTab("lunch")}>🍽️ School lunches</button>
@@ -435,7 +435,7 @@ function MyAchievements() {
     {
       icon: "♟️",
       title: "Chess lessons",
-      age: "Learning to think ahead",
+      age: "Playing chess since age 6",
       description: "I have been learning to play chess, think carefully, plan my moves and solve problems one move at a time.",
       tag: "Clubs & Activities"
     },
@@ -462,7 +462,7 @@ function MyAchievements() {
     }
   ];
   return <>
-    <PageHeading eyebrow="MY JOURNEY" title="My Achievements" subtitle="Every new skill, every little step and every big moment is worth celebrating." emoji="🏆" />
+    <PageHeading eyebrow="MY JOURNEY" title="Achievements" subtitle="Every new skill, every little step and every big moment is worth celebrating." emoji="🏆" />
     <section className="panel" style={{display:"grid",gap:"1rem"}}>
       <div className="panel-heading"><h2>✨ Look what I can do!</h2><span className="small-tag">AGE 7</span></div>
       <div style={{display:"flex",flexWrap:"wrap",gap:"1rem",alignItems:"flex-start"}}>
@@ -705,8 +705,30 @@ function MyFeelings({ markCompleted }) {
 }
 
 function Food() {
+  const [carrotOpen, setCarrotOpen] = useState(false);
   return <>
-    <PageHeading eyebrow="FOOD" title="Eat a rainbow!" subtitle="Discover the foods that help you grow, feel strong and have energy." emoji="🌈" />
+    <PageHeading eyebrow="FOOD" title="Eat a rainbow!" subtitle="Discover one ingredient at a time and learn how it helps your body." emoji="🌈" />
+    <section className="panel" style={{display:"grid",gap:"1rem",marginBottom:"1.25rem"}}>
+      <div className="panel-heading"><div><p className="eyebrow">THIS WEEK'S INGREDIENT</p><h2>🥕 Meet the carrot!</h2></div><span className="small-tag">WEEK 1</span></div>
+      <button type="button" onClick={()=>setCarrotOpen(value=>!value)} aria-pressed={carrotOpen} style={{width:"100%",maxWidth:"430px",minHeight:"260px",margin:"0 auto",padding:"1.4rem",border:"1px solid var(--border-color, #e5e7eb)",borderRadius:"18px",background:carrotOpen?"#fff8ed":"#fffaf2",color:"#49351f",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:".8rem",textAlign:"center",cursor:"pointer",boxShadow:"0 4px 14px rgba(80,55,20,.07)"}}>
+        {!carrotOpen ? <>
+          <span role="img" aria-label="Carrot" style={{fontSize:"5.5rem",lineHeight:1}}>🥕</span>
+          <strong style={{fontSize:"1.5rem"}}>Carrot</strong>
+          <span style={{fontWeight:700}}>Helps keep your eyes healthy 👀</span>
+          <small>Tap to discover what's inside ↻</small>
+        </> : <>
+          <strong style={{fontSize:"1.3rem"}}>What's inside a carrot?</strong>
+          <div style={{textAlign:"left",width:"100%",lineHeight:1.55,fontSize:".94rem"}}>
+            <p><b>Beta-carotene:</b> Your body changes this into vitamin A, which helps you see, especially in dim light, and supports your immune system.</p>
+            <p><b>Fiber:</b> Helps your digestion.</p>
+            <p><b>Vitamin K1:</b> Helps your blood clot normally and supports healthy bones.</p>
+            <p><b>Potassium:</b> Helps your muscles and nerves work.</p>
+            <p><b>Did you know?</b> Eating lots of carrots regularly can make your skin look slightly yellow-orange because of beta-carotene. It's usually harmless and fades when you eat less.</p>
+          </div>
+          <small>Tap to turn back ↶</small>
+        </>}
+      </button>
+    </section>
     <section className="balanced-food-layout">
       <div className="balanced-plate-visual" role="img" aria-label="A balanced plate with vegetables, fruit, chicken, rice and potatoes">
         <div className="balanced-plate">
