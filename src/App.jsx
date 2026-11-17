@@ -437,61 +437,35 @@ function School() {
 function MyAchievements() {
   const [showDetails, setShowDetails] = useState({});
   const achievements = [
-    {
-      icon: "♟️",
-      title: "Chess lessons",
-      age: "Playing chess since age 6",
-      description: "I have been learning to play chess, think carefully, plan my moves and solve problems one move at a time.",
-      tag: "Clubs & Activities"
-    },
-    {
-      icon: "🏊",
-      title: "Swimming lessons",
-      age: "Building confidence in the water",
-      description: "I have been taking swimming lessons and practicing my skills, coordination and confidence in the water.",
-      tag: "Clubs & Activities"
-    },
-    {
-      icon: "💃",
-      title: "Dance lessons",
-      age: "My dance journey",
-      description: "I took dance lessons and practiced moving to music, rhythm, coordination and expressing myself through dance!",
-      tag: "Clubs & Activities"
-    },
-    {
-      icon: "🌍",
-      title: "Three languages",
-      age: "By age 7",
-      description: "I have learned to speak and communicate in English and German. I also completely understand Romanian. That means I can understand and connect with three languages!",
-      tag: "Languages"
-    }
+    { icon: "♟️", title: "Chess lessons", age: "Playing chess since age 6", description: "I have been learning to play chess, think carefully, plan my moves and solve problems one move at a time." },
+    { icon: "🏊", title: "Swimming lessons", age: "Building confidence in the water", description: "I have been taking swimming lessons and practicing my skills, coordination and confidence in the water." },
+    { icon: "💃", title: "Dance lessons", age: "My dance journey", description: "I took dance lessons and practiced moving to music, rhythm, coordination and expressing myself through dance!" },
+    { icon: "🌍", title: "Three languages", age: "By age 7", description: "I have learned to speak and communicate in English and German. I also completely understand Romanian. That means I can understand and connect with three languages!" }
   ];
   return <>
     <PageHeading eyebrow="MY JOURNEY" title="Achievements" subtitle="Every new skill, every little step and every big moment is worth celebrating." emoji="🏆" />
     <section className="panel" style={{display:"grid",gap:"1rem"}}>
       <div className="panel-heading"><h2>✨ Look what I can do!</h2><span className="small-tag">AGE 7</span></div>
-      <div style={{display:"flex",flexWrap:"wrap",gap:"1rem",alignItems:"flex-start"}}>
-        {achievements.map((item) => <button
-          key={item.title}
-          type="button"
-          aria-label={showDetails[item.title] ? "Show achievement front" : "Show achievement details"}
-          aria-pressed={!!showDetails[item.title]}
-          onClick={() => setShowDetails(old => ({...old,[item.title]:!old[item.title]}))}
-          className="klaro-link-card"
-          style={{width:"190px",minHeight:"175px",padding:"1rem",display:"flex",flexDirection:"column",alignItems:"flex-start",justifyContent:"space-between",gap:".65rem",textAlign:"left",cursor:"pointer",border:"1px solid var(--border-color, #e5e7eb)"}}
-        >
-          {showDetails[item.title] ? <>
-            <span style={{fontSize:"1.5rem"}}>✨</span>
-            <b>{item.title}</b>
-            <span style={{fontSize:".88rem",lineHeight:1.45}}>{item.description}</span>
-            <small>Tap to turn back ↩</small>
-          </> : <>
-            <span style={{fontSize:"2rem"}}>{item.icon}</span>
-            <b style={{fontSize:"1.05rem",lineHeight:1.25}}>{item.title}</b>
-            <span style={{fontWeight:700,fontSize:".9rem"}}>{item.age}</span>
-            <small>{item.tag} · Tap to discover</small>
-          </>}
-        </button>)}
+      <div className="achievement-flip-list">
+        {achievements.map(item => <div className="achievement-flip-wrap" key={item.title}>
+          <div className={"feeling-flip-inner "+(showDetails[item.title]?"is-flipped":"")}>
+            <div className="feeling-flip-face feeling-flip-front">
+              <button type="button" className="achievement-flip-front" onClick={()=>setShowDetails(old=>({...old,[item.title]:!old[item.title]}))} aria-label={"Turn over "+item.title}>
+                <span className="achievement-flip-emoji">{item.icon}</span>
+                <b>{item.title}</b>
+                <span>{item.age}</span>
+              </button>
+            </div>
+            <div className="feeling-flip-face feeling-flip-back">
+              <div className="achievement-flip-back">
+                <span className="achievement-flip-emoji">✨</span>
+                <b>{item.title}</b>
+                <p>{item.description}</p>
+                <button type="button" onClick={()=>setShowDetails(old=>({...old,[item.title]:false}))}>Turn card back ↶</button>
+              </div>
+            </div>
+          </div>
+        </div>)}
       </div>
     </section>
   </>;
@@ -550,6 +524,12 @@ function FutureWorld({ markCompleted }) {
       ["Where do programmers work?","They may work in offices, studios or from home, often as part of a team."],
       ["What skills help?","Creativity, curiosity, logical thinking, patience and problem-solving."],
       ["Try it!","Imagine a game you would like to create. Draw the characters and write three instructions for what happens in your game."]
+    ]},
+    {id:"chef",emoji:"👩‍🍳",title:"Chef",category:"Food & Hospitality",art:"chef",sections:[
+      ["What does a chef do?","Chefs plan menus, prepare ingredients and cook meals for people to enjoy."],
+      ["Where do chefs work?","Chefs work in restaurants, hotels, cafés, schools and other kitchens."],
+      ["What skills help?","Creativity, teamwork, organization, careful measuring and curiosity about food."],
+      ["Try it!","Invent a new dish. Draw it and choose three ingredients you would use."]
     ]}
   ];
   return <>
@@ -559,8 +539,8 @@ function FutureWorld({ markCompleted }) {
         <div className="future-flip-inner">
           <div className="future-card-face future-card-front">
             <button className="future-job-card" onClick={()=>{if(open!==job.id) markCompleted("profession-"+job.id);setOpen(open===job.id?"":job.id);}} aria-label={"Turn over the "+job.title+" card"}>
-              <div className={job.art==="teacher"?"teacher-art":job.art==="doctor"?"doctor-art":"programmer-art"} role="img" aria-label={job.art==="teacher"?"Teacher in a classroom":job.art==="doctor"?"Doctor with a medical bag":"Programmer coding at a computer"}>
-                {job.art==="teacher"?<><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></>:job.art==="doctor"?<><span>🧑‍⚕️</span><span className="doctor-bag">🩺</span><span className="doctor-cross">✚</span></>:<><span>👩‍💻</span><span style={{fontSize:"2rem"}}>💻</span><span style={{fontSize:"1rem"}}>{"</>"} · 0101</span></>}
+              <div className="profession-art" role="img" aria-label={job.title}>
+                <span>{job.emoji}</span>
               </div>
               <span className="future-card-title">{job.title}</span><span className="future-card-category">{job.category}</span><span className="future-card-open">Tap to turn the card ↻</span>
             </button>
@@ -633,6 +613,19 @@ function MyFeelings({ markCompleted }) {
       questions:[
         {question:"When might you feel curious?",options:["When you want to discover how something works","When you are fast asleep","When you already know everything"],correct:0,why:"Curiosity makes us want to explore and learn."},
         {question:"What might you do when you feel curious?",options:["Ask questions and look closely","Never try anything new","Stop exploring"],correct:0,why:"Asking questions and exploring are ways to follow your curiosity."}
+      ]
+    },
+    {
+      id:"excited",
+      emoji:"🤩",
+      name:"Excited",
+      german:"Aufgeregt",
+      intro:"Excited is a feeling you might have when you are looking forward to something special.",
+      clues:"You may smile, talk quickly, feel full of energy, or find it hard to sit still.",
+      example:"You are going on a fun day trip tomorrow and cannot wait!",
+      questions:[
+        {question:"When might you feel excited?",options:["Looking forward to a special trip","Doing something you find boring","Feeling very sleepy at bedtime"],correct:0,why:"Looking forward to something fun can make you feel excited."},
+        {question:"What might your body do when you feel excited?",options:["Feel full of energy","Always feel very slow","Always want to hide"],correct:0,why:"Excitement can make you feel energetic and ready to go."}
       ]
     },
     {
