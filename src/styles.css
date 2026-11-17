@@ -510,3 +510,29 @@ button{cursor:pointer}
 .star-goal-reminder>span{font-size:23px;flex:0 0 auto}
 .star-goal-reminder b{display:block;font-size:14px;line-height:1.35}
 .star-goal-reminder p{margin:3px 0 0;font-size:12px;line-height:1.4;color:#776d7e}
+
+
+/* Refined achievement cards: centered fronts and a gentle 3D flip */
+.achievement-flip-list{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.achievement-flip-wrap{width:190px;height:175px;perspective:1000px}
+.achievement-flip-wrap .feeling-flip-inner{height:100%}
+.achievement-flip-front,.achievement-flip-back{width:100%;height:100%;padding:14px;border:1px solid #eee4f2;border-radius:18px;background:linear-gradient(145deg,#fff8e8,#f2eafa 70%,#eaf3ff);color:#514b60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;text-align:center;cursor:pointer}
+.achievement-flip-emoji{font-size:43px;line-height:1.1}
+.achievement-flip-front b,.achievement-flip-back b{font-size:16px;line-height:1.25}
+.achievement-flip-front>span:last-child{font-size:12px;font-weight:700;line-height:1.35;color:#756b82}
+.achievement-flip-back{background:#fff8ef;cursor:default}
+.achievement-flip-back p{font-size:11px;line-height:1.45;margin:0;color:#716a78}
+.achievement-flip-back button{border:1px solid #e7d9ec;background:#fff;border-radius:9px;padding:6px 9px;color:#8065a3;font-size:10px;font-weight:800;cursor:pointer}
+
+/* Profession cards use the same compact visual scale as Emotions */
+.future-jobs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:100%;align-items:start}
+.future-jobs-grid .future-flip-card{width:100%;max-width:330px;min-height:420px;justify-self:center}
+.future-jobs-grid .future-flip-inner{min-height:420px}
+.future-jobs-grid .future-back-content{height:420px;padding:15px}
+.future-jobs-grid .future-card-front .future-job-card{width:100%;height:100%;align-items:center;text-align:center;padding:12px;gap:9px}
+.profession-art{width:100%;height:190px;border-radius:14px;background:linear-gradient(145deg,#eaf3ff,#f4eafa);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.profession-art>span{font-size:76px;line-height:1}
+.future-jobs-grid .future-card-title{font-size:18px}
+.future-jobs-grid .future-card-category{font-size:11px}
+.future-jobs-grid .future-card-open{font-size:10px}
+@media(max-width:650px){.achievement-flip-wrap{width:min(100%,190px)}.future-jobs-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.future-jobs-grid .future-flip-card,.future-jobs-grid .future-flip-inner{min-height:390px}.future-jobs-grid .future-back-content{height:390px;padding:11px}.profession-art{height:145px}.profession-art>span{font-size:62px}}
