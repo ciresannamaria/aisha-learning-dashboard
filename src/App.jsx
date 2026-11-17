@@ -116,11 +116,16 @@ function App() {
   ], [earnedToday, progress.completed]);
 
   function markCompleted(id) {
-    const labels = { "profession-teacher": "Professions · explored Teacher", "coding-Scratch": "Coding Lab · opened Scratch", "coding-Code.org": "Coding Lab · opened Code.org", "coding-Blockly Games": "Coding Lab · opened Blockly Games", "feeling-happy": "Emotions · learned about Happiness", "feeling-awe": "Emotions · learned about Awe" };
-    setProgress((old) => old.completed.includes(id) ? old : {
+    const labels = { "profession-teacher": "Professions · explored Teacher", "profession-doctor": "Professions · explored Doctor", "profession-programmer": "Professions · explored Programmer", "coding-Scratch": "Coding Lab · opened Scratch", "coding-Code.org": "Coding Lab · opened Code.org", "coding-Blockly Games": "Coding Lab · opened Blockly Games", "feeling-happy": "Emotions · learned about Happiness", "feeling-awe": "Emotions · learned about Awe" };
+    setProgress((old) => ({
       ...addStars(old, 1, labels[id] || "Learning activity"),
-      completed: [...old.completed, id],
-    });
+      completed: old.completed.includes(id) ? old.completed : [...old.completed, id],
+    }));
+  }
+
+  function openSection(id) {
+    setActive(id);
+    if (id === "coding") setProgress(old => addStars(old, 1, "Coding Lab · opened"));
   }
 
   function awardFoodQuizStars(score) {
@@ -150,14 +155,14 @@ function App() {
         <aside className="sidebar" aria-label="Main navigation">
           <p className="nav-caption">MY WORLD</p>
           {sections.map((section) => (
-            <button key={section.id} className={`nav-button ${active === section.id ? "active" : ""}`} onClick={() => setActive(section.id)}>
+            <button key={section.id} className={`nav-button ${active === section.id ? "active" : ""}`} onClick={() => openSection(section.id)}>
               <span>{section.icon}</span><span className="nav-label">{section.label}</span>{section.earnsStar && <span className="nav-star" aria-label="You can earn a star here">⭐</span>}
             </button>
           ))}
         </aside>
 
         <main className="main-content">
-          {active === "home" && <Home setActive={setActive} stars={progress.stars} />}
+          {active === "home" && <Home setActive={openSection} stars={progress.stars} />}
           {active === "school" && <School />}
           {active === "edugames" && <EduGames />}
           {active === "books" && <Books />}
@@ -553,7 +558,7 @@ function FutureWorld({ markCompleted }) {
       {jobs.map(job=><div className={"future-flip-card "+(open===job.id?"is-flipped":"")} key={job.id}>
         <div className="future-flip-inner">
           <div className="future-card-face future-card-front">
-            <button className="future-job-card" onClick={()=>{setOpen(open===job.id?"":job.id);markCompleted("profession-"+job.id);}} aria-label={"Turn over the "+job.title+" card"}>
+            <button className="future-job-card" onClick={()=>{if(open!==job.id) markCompleted("profession-"+job.id);setOpen(open===job.id?"":job.id);}} aria-label={"Turn over the "+job.title+" card"}>
               <div className={job.art==="teacher"?"teacher-art":job.art==="doctor"?"doctor-art":"programmer-art"} role="img" aria-label={job.art==="teacher"?"Teacher in a classroom":job.art==="doctor"?"Doctor with a medical bag":"Programmer coding at a computer"}>
                 {job.art==="teacher"?<><span>👩‍🏫</span><span className="teacher-board">ABC<br/>1 2 3<br/>✏️ 📚</span><span className="teacher-plant">🌱</span></>:job.art==="doctor"?<><span>🧑‍⚕️</span><span className="doctor-bag">🩺</span><span className="doctor-cross">✚</span></>:<><span>👩‍💻</span><span style={{fontSize:"2rem"}}>💻</span><span style={{fontSize:"1rem"}}>{"</>"} · 0101</span></>}
               </div>
