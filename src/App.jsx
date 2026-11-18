@@ -426,9 +426,9 @@ function School() {
     </>}
 
     {schoolTab === "lunch" && <section className="panel lunch-menu-panel">
-      <div className="panel-heading"><h2>🍽️ School lunch menu</h2><span className="small-tag">9–13 NOV 2026</span></div>
-      <p className="lunch-menu-copy">Here is the school lunch menu for the week of 9–13 November 2026.</p>
-      <a className="primary-button lunch-menu-link" href="http://www.grundschule-albert-schweitzer.de/wp-content/uploads/2026/11/Speiseplan-Mensa-09.11-13.11.26.pdf" target="_blank" rel="noreferrer">Open lunch menu (PDF) <span>↗</span></a>
+      <div className="panel-heading"><h2>🍽️ School lunch menu</h2><span className="small-tag">23–27 NOV 2026</span></div>
+      <p className="lunch-menu-copy">Here is the school lunch menu for the week of 23–27 November 2026.</p>
+      <a className="primary-button lunch-menu-link" href="http://www.grundschule-albert-schweitzer.de/wp-content/uploads/2026/11/Speiseplan-Mensa-23.11-27.11.26.pdf" target="_blank" rel="noreferrer">Open lunch menu (PDF) <span>↗</span></a>
       <p className="gentle-note">Tap the link to view this week's meals.</p>
     </section>}
   </>;
