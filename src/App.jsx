@@ -673,15 +673,23 @@ function MyFeelings({ markCompleted }) {
       <h2>Let's learn about a feeling</h2>
       <p className="feelings-copy">Choose the card to discover today's feeling.</p>
       <div className="feeling-flip-list">
-        {lessons.map(item=><div className="feeling-flip-wrap" key={item.id}>
+        {lessons.map(item=><div
+          className="feeling-flip-wrap"
+          key={item.id}
+          role="button"
+          tabIndex={0}
+          aria-label={(openFeeling===item.id?"Turn back the ":"Turn over the ")+item.name+" card"}
+          onClick={()=>openCard(item)}
+          onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openCard(item);}}}
+        >
           <div className={"feeling-flip-inner "+(openFeeling===item.id?"is-flipped":"")}>
             <div className="feeling-flip-face feeling-flip-front">
-              <button className="feeling-flip-front-button" onClick={()=>openCard(item)} aria-label={"Turn over the "+item.name+" card"}>
+              <div className="feeling-flip-front-button">
                 <span className="feeling-flip-emoji">{item.emoji}</span>
                 <span className="feeling-flip-name">{item.name}</span>
                 <small>{item.german}</small>
                 <span className="feeling-flip-hint">Tap to turn the card ↻</span>
-              </button>
+              </div>
             </div>
             <div className="feeling-flip-face feeling-flip-back">
               <div className="feeling-flip-back-content">
@@ -689,7 +697,7 @@ function MyFeelings({ markCompleted }) {
                 <p>{item.intro}</p>
                 <p><b>How might it feel?</b> {item.clues}</p>
                 <p><b>Example:</b> {item.example}</p>
-                <button className="feeling-flip-back-button" onClick={()=>setOpenFeeling("")}>Turn card back ↶</button>
+                <span className="feeling-flip-back-hint">Tap to turn back ↶</span>
               </div>
             </div>
           </div>
