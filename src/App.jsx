@@ -224,6 +224,7 @@ function Calendar() {
     { date: "2026-11-14", time: "9:00 AM", title: "Meeting with Fatima", detail: "", icon: "🤝", color: "school" },
     { date: "2026-11-20", time: "8:30 AM", title: "Dentist appointment", detail: "A visit to the dentist.", icon: "🦷", color: "school" },
     { date: "2026-11-20", time: "After the dentist", title: "Buy Christmas decorations", detail: "A little Christmas shopping trip together.", icon: "🎄", color: "market" },
+    { date: "2026-11-27", time: "During the school day", title: "Felting craft session", detail: "A special felting activity at school. Bring a clean metal tin can with a smooth, non-sharp edge.", icon: "🧶", color: "school" },
     { date: "2026-11-09", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     { date: "2026-11-11", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     ...marketEvents,
