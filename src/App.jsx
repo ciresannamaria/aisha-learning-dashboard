@@ -432,7 +432,7 @@ function School() {
       <p className="lunch-menu-copy">Here is the school lunch menu for the week of 23–27 November 2026.</p>
       <a className="primary-button lunch-menu-link" href="http://www.grundschule-albert-schweitzer.de/wp-content/uploads/2026/11/Speiseplan-Mensa-23.11-27.11.26.pdf" target="_blank" rel="noreferrer">Open lunch menu (PDF) <span>↗</span></a>
       <p className="gentle-note">Tap the link to view this week's meals.</p>
-    </section>}
+    </section>
   </>;
 }
 
@@ -896,7 +896,7 @@ function MathGames({ awardTreasureStar, hasTreasureStar }) {
     <p className="eyebrow">SOLVE THE CLUE</p>
     <h2 className="treasure-question">{current.question}</h2>
     <div className="treasure-answer-grid">{current.options.map((option) => <button key={option} disabled={Boolean(choice)} className={choice === option ? (choice === current.answer ? "treasure-answer correct" : "treasure-answer incorrect") : "treasure-answer"} onClick={() => choose(option)}>{option}</button>)}</div>
-    {choice && <><p className={choice === current.answer ? "treasure-feedback right" : "treasure-feedback"}>{choice === current.answer ? "Brilliant! You found a clue! 💎" : `Good try! The answer is ${current.answer}.`}</p><button className="primary-button" onClick={next}>{index === tasks.length - 1 ? "Find the treasure!" : "Next clue →"}</button></>}
+    {choice && <><p className={choice === current.answer ? "treasure-feedback right" : "treasure-feedback"}>{choice === current.answer ? "Well done! That is the correct answer! 🌟" : `Good try! The correct answer is ${current.answer}. Keep going! 💛`}</p><button className="primary-button" onClick={next}>{index === tasks.length - 1 ? "Find the treasure!" : "Next clue →"}</button></>}
   </section>;
 }
 
