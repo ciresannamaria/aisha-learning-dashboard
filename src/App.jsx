@@ -714,6 +714,7 @@ function MyFeelings({ markCompleted }) {
 
 function Food() {
   const [carrotOpen, setCarrotOpen] = useState(false);
+  const [broccoliOpen, setBroccoliOpen] = useState(false);
   return <>
     <PageHeading eyebrow="FOOD" title="Eat a rainbow!" subtitle="Discover one ingredient at a time and learn how it helps your body." emoji="🌈" />
     <section className="panel" style={{display:"grid",gap:"1rem",marginBottom:"1.25rem"}}>
@@ -732,6 +733,28 @@ function Food() {
             <p><b>Vitamin K1:</b> Helps your blood clot normally and supports healthy bones.</p>
             <p><b>Potassium:</b> Helps your muscles and nerves work.</p>
             <p><b>Did you know?</b> Eating lots of carrots regularly can make your skin look slightly yellow-orange because of beta-carotene. It's usually harmless and fades when you eat less.</p>
+          </div>
+          <small>Tap to turn back ↶</small>
+        </>}
+      </button>
+    </section>
+    <section className="panel" style={{display:"grid",gap:"1rem",marginBottom:"1.25rem"}}>
+      <div className="panel-heading"><div><p className="eyebrow">NEXT INGREDIENT</p><h2>🥦 Meet the broccoli!</h2></div><span className="small-tag">WEEK 2</span></div>
+      <button type="button" onClick={()=>setBroccoliOpen(value=>!value)} aria-pressed={broccoliOpen} style={{width:"100%",maxWidth:"430px",minHeight:"260px",margin:"0 auto",padding:"1.4rem",border:"1px solid var(--border-color, #e5e7eb)",borderRadius:"18px",background:broccoliOpen?"#effaf0":"#f4fbf1",color:"#29452b",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:".8rem",textAlign:"center",cursor:"pointer",boxShadow:"0 4px 14px rgba(30,70,30,.07)"}}>
+        {!broccoliOpen ? <>
+          <span role="img" aria-label="Broccoli" style={{fontSize:"5.5rem",lineHeight:1}}>🥦</span>
+          <strong style={{fontSize:"1.5rem"}}>Broccoli</strong>
+          <span style={{fontWeight:700}}>Helps keep your body strong and healthy 💚</span>
+          <small>Tap to discover what's inside ↻</small>
+        </> : <>
+          <strong style={{fontSize:"1.3rem"}}>What's inside broccoli?</strong>
+          <div style={{textAlign:"left",width:"100%",lineHeight:1.55,fontSize:".94rem"}}>
+            <p><b>Vitamin C:</b> Helps your body heal and supports your immune system.</p>
+            <p><b>Vitamin K:</b> Helps your blood clot normally and supports healthy bones.</p>
+            <p><b>Fiber:</b> Helps your digestion and keeps your tummy working well.</p>
+            <p><b>Folate (vitamin B9):</b> Helps your body make healthy new cells.</p>
+            <p><b>Potassium:</b> Helps your muscles and nerves work properly.</p>
+            <p><b>Did you know?</b> Broccoli is part of the cabbage family. Its green color comes from chlorophyll, the pigment plants use to capture sunlight.</p>
           </div>
           <small>Tap to turn back ↶</small>
         </>}
