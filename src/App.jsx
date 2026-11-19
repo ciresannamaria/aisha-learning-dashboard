@@ -206,7 +206,7 @@ function Calendar() {
   const fridayBreakfastEvents = [];
   for (let date = new Date(2026, 10, 6); date <= new Date(2027, 10, 5); date.setDate(date.getDate() + 7)) {
     const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
-    fridayBreakfastEvents.push({ date: key, time: "Morning", title: "Special Friday Breakfast", detail: "A lovely breakfast made just for you — a little Friday treat to look forward to!", icon: "🥞", color: "breakfast" });
+    if (key !== "2026-11-20") fridayBreakfastEvents.push({ date: key, time: "Morning", title: "Special Friday Breakfast", detail: "A lovely breakfast made just for you — a little Friday treat to look forward to!", icon: "🥞", color: "breakfast" });
   }
   const recurringSundayEvents = [];
   for (let date = new Date(2026, 10, 8); date <= new Date(2027, 10, 7); date.setDate(date.getDate() + 7)) {
@@ -223,6 +223,7 @@ function Calendar() {
     { date: "2026-11-11", time: "5:30 PM", title: "Lanterns St Martin – Aisha", detail: "Meet in the classroom.", icon: "🏮", color: "school" },
     { date: "2026-11-14", time: "9:00 AM", title: "Meeting with Fatima", detail: "", icon: "🤝", color: "school" },
     { date: "2026-11-20", time: "8:30 AM", title: "Dentist appointment", detail: "A visit to the dentist.", icon: "🦷", color: "school" },
+    { date: "2026-11-20", time: "After the dentist", title: "Buy Christmas decorations", detail: "A little Christmas shopping trip together.", icon: "🎄", color: "market" },
     { date: "2026-11-09", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     { date: "2026-11-11", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     ...marketEvents,
