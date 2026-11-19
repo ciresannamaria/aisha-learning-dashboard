@@ -432,7 +432,7 @@ function School() {
       <p className="lunch-menu-copy">Here is the school lunch menu for the week of 23–27 November 2026.</p>
       <a className="primary-button lunch-menu-link" href="http://www.grundschule-albert-schweitzer.de/wp-content/uploads/2026/11/Speiseplan-Mensa-23.11-27.11.26.pdf" target="_blank" rel="noreferrer">Open lunch menu (PDF) <span>↗</span></a>
       <p className="gentle-note">Tap the link to view this week's meals.</p>
-    </section>
+    </section>}
   </>;
 }
 
@@ -500,7 +500,7 @@ function EduGames() {
       </article>
       <a className="klaro-link-card" href="https://www.klaro-labor.de/" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}><span style={{fontSize:"2rem"}}>🟡</span><b>KLARO · Klasse2000</b><small>Games, exercises and learning activities.</small><em>Open KLARO website ↗</em></a>
       <a className="klaro-link-card" href="https://anton.app/" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}><span style={{fontSize:"2rem"}}>📚</span><b>ANTON</b><small>School exercises and learning games. Tap to open ANTON; if installed, your device may open the app.</small><em>Open ANTON ↗</em></a>
-    </section>}
+    </section>
   </>;
 }
 
