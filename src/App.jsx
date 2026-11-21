@@ -464,18 +464,28 @@ function School() {
 
 function MyAchievements() {
   const [showDetails, setShowDetails] = useState({});
+  const [category, setCategory] = useState("achievements");
   const achievements = [
     { icon: "♟️", title: "Chess lessons", age: "Playing chess since age 6", description: "I have been learning to play chess, think carefully, plan my moves and solve problems one move at a time." },
     { icon: "🏊", title: "Swimming lessons", age: "Building confidence in the water", description: "I have been taking swimming lessons and practicing my skills, coordination and confidence in the water." },
     { icon: "💃", title: "Dance lessons", age: "My dance journey", description: "I took dance lessons and practiced moving to music, rhythm, coordination and expressing myself through dance!" },
     { icon: "🌍", title: "Three languages", age: "By age 7", description: "I have learned to speak and communicate in English and German. I also completely understand Romanian. That means I can understand and connect with three languages!" }
   ];
+  const braveMoments = [
+    { icon: "🦷", title: "My First Local Anaesthesia", age: "20 November 2026", description: "I had local anaesthesia in my gum for the very first time. I was brave!" },
+    { icon: "💗", title: "Being Brave During My Surgery", age: "March 2026", description: "I was very brave during my surgery, even when I had to have an injection in my bottom." }
+  ];
+  const items = category === "achievements" ? achievements : braveMoments;
   return <>
-    <PageHeading eyebrow="MY JOURNEY" title="Achievements" subtitle="Every new skill, every little step and every big moment is worth celebrating." emoji="🏆" />
+    <PageHeading eyebrow="MY JOURNEY" title="Achievements" subtitle="Every new skill, every little step and every brave moment is worth celebrating." emoji="🏆" />
     <section className="panel" style={{display:"grid",gap:"1rem"}}>
-      <div className="panel-heading"><h2>✨ Look what I can do!</h2><span className="small-tag">AGE 7</span></div>
+      <div role="tablist" aria-label="My journey categories" style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+        <button type="button" role="tab" aria-selected={category === "achievements"} onClick={()=>{setCategory("achievements");setShowDetails({});}} style={{border:category === "achievements"?"1px solid #b9a2d0":"1px solid #eee5f2",background:category === "achievements"?"#f3edf9":"#fff",color:"#625276",borderRadius:999,padding:"9px 16px",fontSize:13,fontWeight:700,cursor:"pointer"}}>🏆 Achievements</button>
+        <button type="button" role="tab" aria-selected={category === "brave"} onClick={()=>{setCategory("brave");setShowDetails({});}} style={{border:category === "brave"?"1px solid #e8c5a6":"1px solid #eee5f2",background:category === "brave"?"#fff2e7":"#fff",color:"#8a6248",borderRadius:999,padding:"9px 16px",fontSize:13,fontWeight:700,cursor:"pointer"}}>💗 Brave Moments</button>
+      </div>
+      <div className="panel-heading"><h2>{category === "achievements" ? "✨ Look what I can do!" : "💗 Times I was brave"}</h2><span className="small-tag">{category === "achievements" ? "AGE 7" : "MY COURAGE"}</span></div>
       <div className="achievement-flip-list">
-        {achievements.map(item => <div className="achievement-flip-wrap" key={item.title}>
+        {items.map(item => <div className="achievement-flip-wrap" key={item.title}>
           <div className={"feeling-flip-inner "+(showDetails[item.title]?"is-flipped":"")}>
             <div className="feeling-flip-face feeling-flip-front">
               <button type="button" className="achievement-flip-front" onClick={()=>setShowDetails(old=>({...old,[item.title]:!old[item.title]}))} aria-label={"Turn over "+item.title}>
@@ -486,7 +496,7 @@ function MyAchievements() {
             </div>
             <div className="feeling-flip-face feeling-flip-back">
               <div className="achievement-flip-back">
-                <span className="achievement-flip-emoji">✨</span>
+                <span className="achievement-flip-emoji">{category === "achievements" ? "✨" : "💗"}</span>
                 <b>{item.title}</b>
                 <p>{item.description}</p>
                 <button type="button" onClick={()=>setShowDetails(old=>({...old,[item.title]:false}))}>Turn card back ↶</button>
