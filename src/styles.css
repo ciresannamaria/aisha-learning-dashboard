@@ -536,3 +536,24 @@ button{cursor:pointer}
 .future-jobs-grid .future-card-category{font-size:11px}
 .future-jobs-grid .future-card-open{font-size:10px}
 @media(max-width:650px){.achievement-flip-wrap{width:min(100%,190px)}.future-jobs-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.future-jobs-grid .future-flip-card,.future-jobs-grid .future-flip-inner{min-height:390px}.future-jobs-grid .future-back-content{height:390px;padding:11px}.profession-art{height:145px}.profession-art>span{font-size:62px}}
+
+
+/* Calendar day details and event editor */
+.calendar-modal-backdrop{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(42,34,49,.48);backdrop-filter:blur(3px)}
+.calendar-day-modal{width:min(100%,540px);max-height:min(86vh,760px);overflow:auto;padding:22px;background:#fff;border:1px solid #eee5f1;border-radius:22px;box-shadow:0 22px 70px #21152c38;animation:milestone-pop .22s ease both}
+.calendar-modal-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:15px;border-bottom:1px solid #f0eaf3}
+.calendar-modal-heading .eyebrow{margin:0 0 5px}
+.calendar-modal-heading h2{margin:0;color:#514b60;font-size:21px;line-height:1.3}
+.calendar-modal-close{width:34px;height:34px;flex:0 0 auto;border:0;border-radius:50%;background:#f5f1f7;color:#74647f;font-size:25px;line-height:1;cursor:pointer}
+.calendar-modal-events{display:grid;gap:9px;padding:16px 0}
+.calendar-modal-events .calendar-event-card{background:#fff9f0}
+.calendar-add-event{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:12px;border:1px dashed #bda8d0;border-radius:13px;background:#faf7fd;color:#70568f;font-size:13px;font-weight:700;cursor:pointer}
+.calendar-add-event span{font-size:21px;line-height:1}
+.calendar-add-form{display:grid;gap:11px;margin-top:14px;padding:15px;border:1px solid #eee6f2;border-radius:15px;background:#fcfaff}
+.calendar-add-form h3{margin:0 0 2px;color:#625276;font-size:15px}
+.calendar-add-form label{display:grid;gap:5px;color:#71657d;font-size:11px;font-weight:700}
+.calendar-add-form input,.calendar-add-form textarea,.calendar-add-form select{width:100%;box-sizing:border-box;padding:10px 11px;border:1px solid #e5ddea;border-radius:9px;background:#fff;color:#514b60;font:inherit;font-size:13px;outline:none}
+.calendar-add-form input:focus,.calendar-add-form textarea:focus,.calendar-add-form select:focus{border-color:#b69bce;box-shadow:0 0 0 3px #b69bce22}
+.calendar-form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:3px}
+.calendar-form-actions button:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:600px){.calendar-day-modal{padding:17px;border-radius:18px}.calendar-modal-heading h2{font-size:18px}.calendar-form-actions{flex-wrap:wrap}}
