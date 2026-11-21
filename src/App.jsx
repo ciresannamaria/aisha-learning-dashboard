@@ -191,13 +191,17 @@ function Calendar() {
   const todayKey = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, "0"), String(today.getDate()).padStart(2, "0")].join("-");
   const holidayStart = "2026-12-23";
   const holidayEnd = "2027-01-06";
-  const startDate = new Date(2026, 11, 23);
-  const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const daysToHoliday = Math.max(0, Math.ceil((startDate - todayMidnight) / 86400000));
   const dayProgress = Math.max(0, Math.min(100, ((86400000 - (today.getHours() * 3600000 + today.getMinutes() * 60000 + today.getSeconds() * 1000 + today.getMilliseconds())) / 86400000) * 100));
   const [month, setMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [view, setView] = useState("month");
   const [selectedDate, setSelectedDate] = useState(todayKey);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [addingEvent, setAddingEvent] = useState(false);
+  const [draft, setDraft] = useState({ title: "", time: "", detail: "", icon: "📌" });
+  const [customEvents, setCustomEvents] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("aisha-calendar-custom-events") || "[]"); }
+    catch { return []; }
+  });
   const marketEvents = [];
   for (let date = new Date(2026, 10, 5); date <= new Date(2027, 10, 4); date.setDate(date.getDate() + 7)) {
     const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
@@ -211,9 +215,7 @@ function Calendar() {
   const recurringSundayEvents = [];
   for (let date = new Date(2026, 10, 8); date <= new Date(2027, 10, 7); date.setDate(date.getDate() + 7)) {
     const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
-    if (date <= new Date(2026, 11, 13)) {
-      recurringSundayEvents.push({ date: key, time: "11:00 AM–12:00 PM", title: "Swimming club", detail: "Swimming course (last session: December 13, 2026).", icon: "🏊", color: "swimming" });
-    }
+    if (date <= new Date(2026, 11, 13)) recurringSundayEvents.push({ date: key, time: "11:00 AM–12:00 PM", title: "Swimming club", detail: "Swimming course (last session: December 13, 2026).", icon: "🏊", color: "swimming" });
     recurringSundayEvents.push({ date: key, time: "2:30–4:30 PM", title: "Chess club", detail: "Chess club — time to practise moves and play!", icon: "♟️", color: "chess" });
   }
   const events = [
@@ -227,9 +229,7 @@ function Calendar() {
     { date: "2026-11-27", time: "During the school day", title: "Felting craft session", detail: "A special felting activity at school. Bring a clean metal tin can with a smooth, non-sharp edge.", icon: "🧶", color: "school" },
     { date: "2026-11-09", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     { date: "2026-11-11", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
-    ...marketEvents,
-    ...fridayBreakfastEvents,
-    ...recurringSundayEvents,
+    ...marketEvents, ...fridayBreakfastEvents, ...recurringSundayEvents, ...customEvents,
   ];
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
@@ -262,10 +262,23 @@ function Calendar() {
     setSelectedDate(dateKey(next));
     setMonth(new Date(next.getFullYear(), next.getMonth(), 1));
   };
-  const goToThisWeek = () => {
-    setSelectedDate(todayKey);
-    setMonth(new Date(today.getFullYear(), today.getMonth(), 1));
+  const openDay = (key) => { setSelectedDate(key); setAddingEvent(false); setDraft({ title: "", time: "", detail: "", icon: "📌" }); setCalendarOpen(true); };
+  const closeDay = () => { setCalendarOpen(false); setAddingEvent(false); };
+  useEffect(() => {
+    if (!calendarOpen) return;
+    const onKeyDown = (event) => { if (event.key === "Escape") closeDay(); };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [calendarOpen]);
+  const saveEvent = () => {
+    if (!draft.title.trim()) return;
+    const updated = [...customEvents, { ...draft, title: draft.title.trim(), date: selectedDate, time: draft.time.trim() || "All day", icon: draft.icon || "📌", color: "custom", id: Date.now() }];
+    setCustomEvents(updated);
+    localStorage.setItem("aisha-calendar-custom-events", JSON.stringify(updated));
+    setDraft({ title: "", time: "", detail: "", icon: "📌" });
+    setAddingEvent(false);
   };
+  const goToThisWeek = () => { setSelectedDate(todayKey); setMonth(new Date(today.getFullYear(), today.getMonth(), 1)); };
   return <>
     <div className="page-heading calendar-page-heading"><div><h1>Calendar</h1><p className="page-subtitle">Aisha, this is our family calendar. You can look here to see our plans and events.</p></div></div>
     <section className="calendar-panel">
@@ -288,18 +301,30 @@ function Calendar() {
               const dayEvents = events.filter(event => event.date === key);
               const isToday = date && date.toDateString() === today.toDateString();
               const isHoliday = date && key >= holidayStart && key <= holidayEnd;
-              return <button key={key || "blank-" + dayIndex} className={`calendar-day ${!date ? "empty" : ""} ${isHoliday ? "holiday" : ""} ${isToday ? "today" : ""} ${key === selectedDate ? "selected" : ""}`} disabled={!date} onClick={() => setSelectedDate(key)}>
-                {date && <><span className="calendar-day-number">{date.getDate()}</span>{dayEvents.map(event => <span className="calendar-event-dot" key={event.title}>{event.icon} <small>{event.title}</small></span>)}</>}
+              return <button key={key || "blank-" + dayIndex} className={`calendar-day ${!date ? "empty" : ""} ${isHoliday ? "holiday" : ""} ${isToday ? "today" : ""} ${key === selectedDate ? "selected" : ""}`} disabled={!date} onClick={() => openDay(key)}>
+                {date && <><span className="calendar-day-number">{date.getDate()}</span>{dayEvents.slice(0,3).map((event,index) => <span className="calendar-event-dot" key={event.id || event.title + index}>{event.icon} <small>{event.title}</small></span>)}{dayEvents.length > 3 && <span className="calendar-event-dot"><small>+{dayEvents.length - 3} more</small></span>}</>}
               </button>;
             })}
           </React.Fragment>;
         })}
       </div>
-      <div className="calendar-event-list">
-        <h3>✨ {selectedEvents.length ? "Plans for this day" : "A little look ahead"}</h3>
-        {selectedEvents.length ? selectedEvents.map(event => <div className="calendar-event-card" key={event.title}><span>{event.icon}</span><div><b>{event.title}</b><small>{new Date(event.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long" })} · {event.time}</small></div></div>) : <p className="calendar-empty-note">Tap a day to see its plans. More adventures can be added here!</p>}
-      </div>
     </section>
+    {calendarOpen && <div className="calendar-modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDay(); }}>
+      <section className="calendar-day-modal" role="dialog" aria-modal="true" aria-labelledby="calendar-modal-title">
+        <div className="calendar-modal-heading"><div><p className="eyebrow">DAY DETAILS</p><h2 id="calendar-modal-title">{selected.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}</h2></div><button className="calendar-modal-close" onClick={closeDay} aria-label="Close day details">×</button></div>
+        <div className="calendar-modal-events">
+          {selectedEvents.length ? selectedEvents.map((event,index) => <article className="calendar-event-card" key={event.id || event.title + index}><span>{event.icon}</span><div><b>{event.title}</b><small>{event.time}</small>{event.detail && <p>{event.detail}</p>}</div></article>) : <p className="calendar-empty-note">No plans yet. Add something to this day!</p>}
+        </div>
+        {!addingEvent ? <button className="calendar-add-event" onClick={() => setAddingEvent(true)}><span>＋</span> Add another event</button> : <div className="calendar-add-form">
+          <h3>＋ New event</h3>
+          <label>Event name<input autoFocus value={draft.title} onChange={event => setDraft(old => ({ ...old, title: event.target.value }))} placeholder="What are we doing?" /></label>
+          <label>Time<input value={draft.time} onChange={event => setDraft(old => ({ ...old, time: event.target.value }))} placeholder="e.g. 10:00 AM or All day" /></label>
+          <label>Details<textarea rows="2" value={draft.detail} onChange={event => setDraft(old => ({ ...old, detail: event.target.value }))} placeholder="Add a note (optional)" /></label>
+          <label>Icon<select value={draft.icon} onChange={event => setDraft(old => ({ ...old, icon: event.target.value }))}>{["📌","🎉","🎒","🏫","🦷","🎨","⚽","🎵","🍽️","🎄","🤝","🚗","🏊","♟️"].map(icon => <option key={icon}>{icon}</option>)}</select></label>
+          <div className="calendar-form-actions"><button className="secondary-button" onClick={() => setAddingEvent(false)}>Cancel</button><button className="primary-button" onClick={saveEvent} disabled={!draft.title.trim()}>Save event ✓</button></div>
+        </div>}
+      </section>
+    </div>}
     <div className="day-progress" aria-label={`Today is ${Math.round(dayProgress)} percent remaining`}><div className="day-progress-label"><span>Today</span><small>Time left in the day</small></div><div className="day-progress-track"><span style={{ width: `${dayProgress}%` }} /></div></div>
   </>;
 }
