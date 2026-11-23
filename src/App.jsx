@@ -563,6 +563,12 @@ function FutureWorld({ markCompleted }) {
       ["What skills help?","Creativity, curiosity, logical thinking, patience and problem-solving."],
       ["Try it!","Imagine a game you would like to create. Draw the characters and write three instructions for what happens in your game."]
     ]},
+    {id:"web-designer",emoji:"🎨",title:"Web Designer",category:"Design & Technology",art:"programmer",sections:[
+      ["What does a web designer do?","Web designers plan how websites look and feel. They choose colors, pictures, words and layouts to make websites attractive and easy to use."],
+      ["Where do web designers work?","They may work in design studios, technology companies or from home, often together with programmers and other creative people."],
+      ["What skills help?","Creativity, curiosity, careful observation, communication and an eye for colors and shapes."],
+      ["Try it!","Design a homepage for an imaginary animal café. Draw its name, choose three colors and add buttons visitors could click."]
+    ]},
     {id:"chef",emoji:"👩‍🍳",title:"Chef",category:"Food & Hospitality",art:"chef",sections:[
       ["What does a chef do?","Chefs plan menus, prepare ingredients and cook meals for people to enjoy."],
       ["Where do chefs work?","Chefs work in restaurants, hotels, cafés, schools and other kitchens."],
@@ -758,6 +764,7 @@ function MyFeelings({ markCompleted }) {
 function Food() {
   const [carrotOpen, setCarrotOpen] = useState(false);
   const [broccoliOpen, setBroccoliOpen] = useState(false);
+  const [avocadoOpen, setAvocadoOpen] = useState(false);
   return <>
     <PageHeading eyebrow="FOOD" title="Eat a rainbow!" subtitle="Discover one ingredient at a time and learn how it helps your body." emoji="🌈" />
     <section className="panel" style={{display:"grid",gap:"1rem",marginBottom:"1.25rem"}}>
@@ -803,10 +810,31 @@ function Food() {
         </>}
       </button>
     </section>
+    <section className="panel" style={{display:"grid",gap:"1rem",marginBottom:"1.25rem"}}>
+      <div className="panel-heading"><div><p className="eyebrow">NEXT INGREDIENT</p><h2>🥑 Meet the avocado!</h2></div><span className="small-tag">WEEK 3</span></div>
+      <button type="button" onClick={()=>setAvocadoOpen(value=>!value)} aria-pressed={avocadoOpen} style={{width:"100%",maxWidth:"430px",minHeight:"260px",margin:"0 auto",padding:"1.4rem",border:"1px solid var(--border-color, #e5e7eb)",borderRadius:"18px",background:avocadoOpen?"#f0f8e9":"#f5faef",color:"#35502c",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:".8rem",textAlign:"center",cursor:"pointer",boxShadow:"0 4px 14px rgba(30,70,30,.07)"}}>
+        {!avocadoOpen ? <>
+          <span role="img" aria-label="Avocado" style={{fontSize:"5.5rem",lineHeight:1}}>🥑</span>
+          <strong style={{fontSize:"1.5rem"}}>Avocado</strong>
+          <span style={{fontWeight:700}}>Contains healthy fats that help your body grow 💚</span>
+          <small>Tap to discover what's inside ↻</small>
+        </> : <>
+          <strong style={{fontSize:"1.3rem"}}>What's inside an avocado?</strong>
+          <div style={{textAlign:"left",width:"100%",lineHeight:1.55,fontSize:".94rem"}}>
+            <p><b>Healthy unsaturated fats:</b> Give your body energy and help it use vitamins A, D, E and K.</p>
+            <p><b>Fiber:</b> Helps your digestion and keeps your tummy working well.</p>
+            <p><b>Potassium:</b> Helps your muscles and nerves work properly.</p>
+            <p><b>Folate (vitamin B9):</b> Helps your body make healthy new cells.</p>
+            <p><b>Did you know?</b> Avocados are fruits, even though we often eat them like vegetables!</p>
+          </div>
+          <small>Tap to turn back ↶</small>
+        </>}
+      </button>
+    </section>
     <section className="balanced-food-layout">
       <div className="balanced-plate-visual" role="img" aria-label="A balanced plate with vegetables, fruit, chicken, rice and potatoes">
         <div className="balanced-plate">
-          <div className="plate-food plate-vegetables"><span>🥦</span><span>🥕</span><span>🥬</span><span>🍅</span><span>🥒</span></div>
+          <div className="plate-food plate-vegetables"><span>🥦</span><span>🥕</span><span>🥬</span><span>🍅</span><span>🥒</span><span>🥑</span></div>
           <div className="plate-food plate-fruit"><span>🍓</span><span>🫐</span><span>🍊</span></div>
           <div className="plate-food plate-carbs"><span>🍚</span><span>🥔</span></div>
           <div className="plate-food plate-protein"><span>🍗</span><span>🥚</span></div>
