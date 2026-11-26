@@ -515,14 +515,48 @@ function MyAchievements() {
 }
 
 function Books() {
+  const [showVideoBooks, setShowVideoBooks] = useState(false);
+  if (showVideoBooks) return <VideoBooks onBack={() => setShowVideoBooks(false)} />;
   return <>
-    <PageHeading eyebrow="READ & EXPLORE" title="Books" subtitle="Open your collection of books." emoji="📚" />
+    <PageHeading eyebrow="READ & EXPLORE" title="Books" subtitle="Choose a book collection to explore." emoji="📚" />
     <section className="panel" style={{display:"grid",gap:"1rem"}}>
       <div className="panel-heading"><h2>📚 My Books</h2><span className="small-tag">READ & EXPLORE</span></div>
-      <a className="klaro-link-card" href="https://drive.google.com/drive/folders/13LyTEoCodeJidsxFAExiU6jzmsMMwrxv?usp=sharing" target="_blank" rel="noreferrer" style={{display:"grid",gap:".5rem"}}>
-        <span style={{fontSize:"2rem"}}>📖</span><b>Open book collection</b><small>Browse the books in your Google Drive folder.</small><em>Open books ↗</em>
-      </a>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,240px),1fr))",gap:"1rem"}}>
+        <a className="klaro-link-card" href="https://drive.google.com/drive/folders/13LyTEoCodeJidsxFAExiU6jzmsMMwrxv?usp=sharing" target="_blank" rel="noreferrer" style={{display:"grid",alignContent:"start",gap:".65rem",minHeight:"190px"}}>
+          <span style={{fontSize:"2.5rem"}}>📖</span><b>Open book collection</b><small>Browse the digital PDF books in our Google Drive collection.</small><em>Open books ↗</em>
+        </a>
+        <button type="button" className="klaro-link-card" onClick={() => setShowVideoBooks(true)} style={{display:"grid",alignContent:"start",gap:".65rem",minHeight:"190px",width:"100%",textAlign:"left",font:"inherit",cursor:"pointer",color:"inherit"}}>
+          <span style={{fontSize:"2.5rem"}}>🎬📚</span><b>Video Books</b><small>Watch and enjoy stories read aloud. Choose a story and press play.</small><em>Explore video books →</em>
+        </button>
+      </div>
     </section>
+  </>;
+}
+
+function VideoBooks({ onBack }) {
+  const books = [
+    { id:"robots",group:"Early Years",range:"Stories for Nursery and Reception",color:"#f5c84c",emoji:"🤖",title:"Robots, Robots Everywhere",author:"By Sue Fliess · Illustrated by Bob Staake",description:"A lively story full of robots helping with everyday tasks, inviting children to imagine what robots can do and how they might help us.",video:"wu9AHYjnrsk" },
+    { id:"chicken",group:"Years 1–2",range:"Stories for younger readers",color:"#77b96b",emoji:"🐔",title:"Chicken Clicking",author:"By Jeanne Willis · Illustrated by Tony Ross",description:"A chicken discovers online shopping and makes a new friend on the internet. A fun story that introduces online safety and the importance of being careful with strangers online.",video:"bRQgIbfGfTU" },
+    { id:"troll",group:"Years 3–4",range:"Stories to explore and discuss",color:"#76a9dc",emoji:"🐰",title:"Troll Stinks!",author:"By Jeanne Willis · Illustrated by Tony Ross",description:"Two young rabbits discover how easy it is to use a phone to send messages, but learn that online actions can hurt others. A story about kindness, cyberbullying and thinking before you post.",video:"3SBidapSdf0" },
+  ];
+  return <>
+    <div style={{display:"flex",alignItems:"center",gap:".8rem",marginBottom:"1.25rem"}}>
+      <button type="button" className="secondary-button" onClick={onBack}>← Back to Books</button>
+      <span style={{fontSize:"1.5rem"}}>🎬</span>
+    </div>
+    <PageHeading eyebrow="READ, WATCH & EXPLORE" title="Video Books" subtitle="Choose a story, get comfy and enjoy watching!" emoji="📚" />
+    <div style={{display:"grid",gap:"1.25rem"}}>
+      {books.map(book => <section className="panel" key={book.id} style={{display:"grid",gap:".85rem"}}>
+        <div style={{display:"flex",alignItems:"center",gap:".75rem"}}>
+          <span style={{fontSize:"1.8rem"}}>{book.emoji}</span>
+          <div><p className="eyebrow" style={{margin:"0 0 .2rem"}}>{book.group}</p><small>{book.range}</small></div>
+        </div>
+        <div style={{position:"relative",width:"100%",aspectRatio:"16 / 9",overflow:"hidden",borderRadius:"14px",background:"#17233b"}}>
+          <iframe src={`https://www.youtube-nocookie.com/embed/${book.video}?rel=0`} title={book.title} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen style={{position:"absolute",inset:0,width:"100%",height:"100%",border:0}} />
+        </div>
+        <div><h2 style={{margin:"0 0 .25rem"}}>{book.title}</h2><p style={{margin:"0 0 .55rem",fontSize:".9rem",fontWeight:600}}>{book.author}</p><p style={{margin:0,lineHeight:1.55}}>{book.description}</p></div>
+      </section>)}
+    </div>
   </>;
 }
 
