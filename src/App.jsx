@@ -46,7 +46,8 @@ function readSaved() {
 }
 
 function App() {
-  const [active, setActive] = useState("home");
+  const validPages = ["home", "school", "edugames", "books", "video-books", "achievements", "future", "food", "feelings", "coding", "math", "calendar", "stars"];
+  const [active, setActive] = useState(() => validPages.includes(window.location.hash.slice(1)) ? window.location.hash.slice(1) : "home");
   const [progress, setProgress] = useState(readSaved);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
@@ -57,6 +58,15 @@ function App() {
   useEffect(() => {
     localStorage.setItem("aisha-dashboard-progress", JSON.stringify(progress));
   }, [progress]);
+
+  useEffect(() => {
+    const syncPageFromUrl = () => {
+      const page = window.location.hash.slice(1);
+      setActive(validPages.includes(page) ? page : "home");
+    };
+    window.addEventListener("hashchange", syncPageFromUrl);
+    return () => window.removeEventListener("hashchange", syncPageFromUrl);
+  }, []);
 
   const question = questions[questionIndex];
   const earnedToday = progress.completed.includes("math-starter");
@@ -125,6 +135,7 @@ function App() {
 
   function openSection(id) {
     setActive(id);
+    if (window.location.hash !== `#${id}`) window.location.hash = id;
     if (id === "coding") setProgress(old => addStars(old, 1, "Coding Lab · opened"));
   }
 
@@ -163,7 +174,8 @@ function App() {
           {active === "home" && <Home setActive={openSection} stars={progress.stars} />}
           {active === "school" && <School />}
           {active === "edugames" && <EduGames />}
-          {active === "books" && <Books />}
+          {active === "books" && <Books onVideoBooks={() => openSection("video-books")} />}
+          {active === "video-books" && <VideoBooks onBack={() => openSection("books")} />}
           {active === "achievements" && <MyAchievements />}
           {active === "future" && <FutureWorld markCompleted={markCompleted} />}
           {active === "food" && <Food markCompleted={markCompleted} awardFoodQuizStars={awardFoodQuizStars} />}
@@ -513,9 +525,7 @@ function MyAchievements() {
   </>;
 }
 
-function Books() {
-  const [showVideoBooks, setShowVideoBooks] = useState(false);
-  if (showVideoBooks) return <VideoBooks onBack={() => setShowVideoBooks(false)} />;
+function Books({ onVideoBooks }) {
   return <>
     <PageHeading eyebrow="READ & EXPLORE" title="Books" subtitle="Choose a book collection to explore." emoji="📚" />
     <section className="panel" style={{display:"grid",gap:"1rem"}}>
@@ -524,7 +534,7 @@ function Books() {
         <a className="klaro-link-card" href="https://drive.google.com/drive/folders/13LyTEoCodeJidsxFAExiU6jzmsMMwrxv?usp=sharing" target="_blank" rel="noreferrer" style={{display:"grid",alignContent:"start",gap:".65rem",minHeight:"190px"}}>
           <span style={{fontSize:"2.5rem"}}>📖</span><b>Open book collection</b><small>Browse the digital PDF books in our Google Drive collection.</small><em>Open books ↗</em>
         </a>
-        <button type="button" className="klaro-link-card" onClick={() => setShowVideoBooks(true)} style={{display:"grid",alignContent:"start",gap:".65rem",minHeight:"190px",width:"100%",textAlign:"left",font:"inherit",cursor:"pointer",color:"inherit"}}>
+        <button type="button" className="klaro-link-card" onClick={onVideoBooks} style={{display:"grid",alignContent:"start",gap:".65rem",minHeight:"190px",width:"100%",textAlign:"left",font:"inherit",cursor:"pointer",color:"inherit"}}>
           <span style={{fontSize:"2.5rem"}}>🎬📚</span><b>Video Books</b><small>Watch and enjoy stories read aloud. Choose a story and press play.</small><em>Explore video books →</em>
         </button>
       </div>
@@ -537,7 +547,7 @@ function VideoBooks({ onBack }) {
     { id:"robots",group:"Early Years",range:"Stories for Nursery and Reception",color:"#f5c84c",emoji:"🤖",title:"Robots, Robots Everywhere",author:"By Sue Fliess · Illustrated by Bob Staake",description:"A lively story full of robots helping with everyday tasks, inviting children to imagine what robots can do and how they might help us.",video:"wu9AHYjnrsk" },
     { id:"chicken",group:"Years 1–2",range:"Stories for younger readers",color:"#77b96b",emoji:"🐔",title:"Chicken Clicking",author:"By Jeanne Willis · Illustrated by Tony Ross",description:"A chicken discovers online shopping and makes a new friend on the internet. A fun story that introduces online safety and the importance of being careful with strangers online.",video:"bRQgIbfGfTU" },
     { id:"troll",group:"Years 3–4",range:"Stories to explore and discuss",color:"#76a9dc",emoji:"🐰",title:"Troll Stinks!",author:"By Jeanne Willis · Illustrated by Tony Ross",description:"Two young rabbits discover how easy it is to use a phone to send messages, but learn that online actions can hurt others. A story about kindness, cyberbullying and thinking before you post.",video:"3SBidapSdf0" },
-    { id:"new-story",group:"More stories",range:"A story to watch and enjoy",color:"#b69bd8",emoji:"📖",title:"A new story",author:"",description:"Watch this story and enjoy!",video:"yzGKArL98a4" },
+    { id:"goldilocks",group:"Early Years",range:"A familiar fairy tale for young readers",color:"#b69bd8",emoji:"🐻",title:"Goldilocks and the Three Bears",author:"",description:"A curious girl enters the home of three bears and discovers their porridge, chairs and beds.",video:"yzGKArL98a4" },
   ];
   return <>
     <div style={{display:"flex",alignItems:"center",gap:".8rem",marginBottom:"1.25rem"}}>
