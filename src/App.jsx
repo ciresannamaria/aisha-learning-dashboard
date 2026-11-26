@@ -154,11 +154,9 @@ function App() {
       <div className="layout">
         <aside className="sidebar" aria-label="Main navigation">
           <p className="nav-caption">MY WORLD</p>
-          {sections.map((section) => (
-            <button key={section.id} className={`nav-button ${active === section.id ? "active" : ""}`} onClick={() => openSection(section.id)}>
-              <span>{section.icon}</span><span className="nav-label">{section.label}</span>{section.earnsStar && <span className="nav-star" aria-label="You can earn a star here">⭐</span>}
-            </button>
-          ))}
+          <button className={`nav-button ${active === "home" ? "active" : ""}`} onClick={() => openSection("home")}>
+            <span>🏡</span><span className="nav-label">Home</span>
+          </button>
         </aside>
 
         <main className="main-content">
@@ -350,6 +348,7 @@ function Home({ setActive, stars }) {
     { id: "edugames", icon: "🎮", title: "Edu Games", text: "Open KLARO and ANTON learning games.", color: "green" },
     { id: "books", icon: "📚", title: "Books", text: "Open your collection of books.", color: "purple" },
     { id: "achievements", icon: "🏆", title: "Achievements", text: "Celebrate the wonderful things I can do.", color: "peach" },
+    { id: "stars", icon: "⭐", title: "My Stars", text: "See your stars and special milestones.", color: "peach" },
   ];
   return <>
 
