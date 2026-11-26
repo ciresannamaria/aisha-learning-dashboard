@@ -549,6 +549,7 @@ function VideoBooks({ onBack }) {
     { id:"chicken",group:"Years 1–2",range:"Stories for younger readers",color:"#77b96b",emoji:"🐔",title:"Chicken Clicking",author:"By Jeanne Willis · Illustrated by Tony Ross",description:"A chicken discovers online shopping and makes a new friend on the internet. A fun story that introduces online safety and the importance of being careful with strangers online.",video:"bRQgIbfGfTU" },
     { id:"troll",group:"Years 3–4",range:"Stories to explore and discuss",color:"#76a9dc",emoji:"🐰",title:"Troll Stinks!",author:"By Jeanne Willis · Illustrated by Tony Ross",description:"Two young rabbits discover how easy it is to use a phone to send messages, but learn that online actions can hurt others. A story about kindness, cyberbullying and thinking before you post.",video:"3SBidapSdf0" },
     { id:"goldilocks",group:"Years 3–4",range:"Stories to explore and discuss",color:"#b69bd8",emoji:"🐻",title:"Goldilocks and the Three Bears",author:"",description:"A curious girl enters the home of three bears and discovers their porridge, chairs and beds.",video:"yzGKArL98a4" },
+    { id:"roxs-secret-code",group:"Years 3–4",range:"Stories to explore and discuss",color:"#76a9dc",emoji:"🔐",title:"Rox’s Secret Code",author:"By Mara Lecocq",description:"A story about Rox and a secret code.",video:"lEhXizCITgQ" },
   ];
   return <>
     <div style={{display:"flex",alignItems:"center",gap:".8rem",marginBottom:"1.25rem"}}>
