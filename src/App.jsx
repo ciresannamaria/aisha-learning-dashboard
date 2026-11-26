@@ -218,6 +218,11 @@ function Calendar() {
     if (date <= new Date(2026, 11, 13)) recurringSundayEvents.push({ date: key, time: "11:00 AM–12:00 PM", title: "Swimming club", detail: "Swimming course (last session: December 13, 2026).", icon: "🏊", color: "swimming" });
     recurringSundayEvents.push({ date: key, time: "2:30–4:30 PM", title: "Chess club", detail: "Chess club — time to practise moves and play!", icon: "♟️", color: "chess" });
   }
+  const thursdaySwimmingEvents = [];
+  for (let date = new Date(2026, 10, 26); date <= new Date(2027, 6, 15); date.setDate(date.getDate() + 7)) {
+    const key = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+    thursdaySwimmingEvents.push({ date: key, time: "12:00–2:00 PM", title: "Swimming lessons", detail: "Swimming lessons.", icon: "🏊", color: "swimming" });
+  }
   const events = [
     { date: "2026-11-07", time: "11:00 AM", title: "Meet our friends", detail: "Sushi together, then a playground visit.", icon: "🍣", color: "sushi" },
     { date: "2026-11-09", time: "5:30–7:00 PM", title: "Lanterns Exhibition", detail: "Aisha’s school lanterns exhibition.", icon: "🏮", color: "school" },
@@ -229,7 +234,7 @@ function Calendar() {
     { date: "2026-11-27", time: "During the school day", title: "Felting craft session", detail: "A special felting activity at school. Bring a clean metal tin can with a smooth, non-sharp edge.", icon: "🧶", color: "school" },
     { date: "2026-11-09", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
     { date: "2026-11-11", time: "All day", title: "No OGS", detail: "No after-school care today.", icon: "📌", color: "school" },
-    ...marketEvents, ...fridayBreakfastEvents, ...recurringSundayEvents, ...customEvents,
+    ...marketEvents, ...fridayBreakfastEvents, ...recurringSundayEvents, ...thursdaySwimmingEvents, ...customEvents,
   ];
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
