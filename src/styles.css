@@ -557,3 +557,10 @@ button{cursor:pointer}
 .calendar-form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:3px}
 .calendar-form-actions button:disabled{opacity:.45;cursor:not-allowed}
 @media(max-width:600px){.calendar-day-modal{padding:17px;border-radius:18px}.calendar-modal-heading h2{font-size:18px}.calendar-form-actions{flex-wrap:wrap}}
+
+
+/* Compact home navigation cards */
+.adventure-card{min-height:132px;padding:14px;border-radius:16px}
+.card-emoji{font-size:27px;margin-bottom:8px}
+.card-title{font-size:14px}
+@media (max-width: 900px){.adventure-card{min-height:120px;padding:13px}}
