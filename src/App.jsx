@@ -552,6 +552,7 @@ function VideoBooks({ onBack }) {
     { id:"algorithm",group:"Years 3–4",range:"Stories to explore and discuss",color:"#76a9dc",emoji:"🧩",title:"What’s an Algorithm?",author:"By Kaitlyn Siu and Marcelo Badari",description:"An introduction to algorithms and how step-by-step instructions help us solve problems and complete tasks.",video:"gTWAookwu6U" },
     { id:"goldilocks",group:"Years 3–4",range:"Stories to explore and discuss",color:"#b69bd8",emoji:"🐻",title:"Goldilocks and the Three Bears",author:"",description:"A curious girl enters the home of three bears and discovers their porridge, chairs and beds.",video:"yzGKArL98a4" },
     { id:"roxs-secret-code",group:"Years 3–4",range:"Stories to explore and discuss",color:"#76a9dc",emoji:"🔐",title:"Rox’s Secret Code",author:"By Mara Lecocq",description:"A story about Rox and a secret code.",video:"lEhXizCITgQ" },
+    { id:"hello-ruby-adventures",group:"Years 3–4",range:"Stories to explore and discuss",color:"#76a9dc",emoji:"💻",title:"Hello Ruby: Adventures in Coding",author:"By Linda Liukas",description:"Join Ruby on a playful adventure that introduces the ideas behind coding, computers and computational thinking.",video:"ZclTs81Zz2Y" },
   ];
   return <>
     <div style={{display:"flex",alignItems:"center",gap:".8rem",marginBottom:"1.25rem"}}>
